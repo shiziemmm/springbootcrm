@@ -1,6 +1,6 @@
 package com.trkj.crmproject.dao;
 
-import com.trkj.crmproject.entity.Product;
+import com.trkj.crmproject.entity.WarehouseInventory;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -8,9 +8,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  *  Mapper 接口
  * </p>
  *
- * @author zzl
+ * @author MarkerHub
  * @since 2021-11-06
  */
-public interface ProductMapper extends BaseMapper<Product> {
+public interface WarehouseInventoryDao extends BaseMapper<WarehouseInventory> {
 
 }

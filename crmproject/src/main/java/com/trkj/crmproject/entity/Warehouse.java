@@ -11,25 +11,20 @@ import lombok.EqualsAndHashCode;
  * 
  * </p>
  *
- * @author zzl
+ * @author MarkerHub
  * @since 2021-11-06
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class Warehouse implements Serializable {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * 仓库ID
      */
     @TableId(value = "wa_id", type = IdType.AUTO)
     private Integer waId;
-
-    /**
-     * 表ID
-     */
-    private Integer wiId;
 
     /**
      * 仓库名称
@@ -56,7 +51,7 @@ public class Warehouse implements Serializable {
     /**
      * 时效性
      */
-    private Integer waTimeliness;
+    private Boolean waTimeliness;
 
 
 }

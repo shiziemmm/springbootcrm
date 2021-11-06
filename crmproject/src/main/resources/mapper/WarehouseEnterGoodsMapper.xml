@@ -1,16 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.trkj.crmproject.dao.WarehouseEnterGoodsMapper">
-
-    <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.WarehouseEnterGoods">
-        <id column="weg_id" property="wegId" />
-        <result column="we_id" property="weId" />
-        <result column="pr_id" property="prId" />
-        <result column="weg_prname" property="wegPrname" />
-        <result column="weg_count" property="wegCount" />
-        <result column="weg_remark" property="wegRemark" />
-        <result column="weg_timeliness" property="wegTimeliness" />
-    </resultMap>
+<mapper namespace="com.trkj.crmproject.dao.WarehouseEnterGoodsDao">
 
 </mapper>

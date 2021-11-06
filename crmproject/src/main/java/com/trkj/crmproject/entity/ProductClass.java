@@ -11,14 +11,14 @@ import lombok.EqualsAndHashCode;
  * 
  * </p>
  *
- * @author zzl
+ * @author MarkerHub
  * @since 2021-11-06
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class ProductClass implements Serializable {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * 产品分类表
@@ -39,7 +39,7 @@ public class ProductClass implements Serializable {
     /**
      * 时效性
      */
-    private Integer pcTimeliness;
+    private Boolean pcTimeliness;
 
 
 }

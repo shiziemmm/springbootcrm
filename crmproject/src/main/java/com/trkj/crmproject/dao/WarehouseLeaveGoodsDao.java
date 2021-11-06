@@ -8,9 +8,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  *  Mapper 接口
  * </p>
  *
- * @author zzl
+ * @author MarkerHub
  * @since 2021-11-06
  */
-public interface WarehouseLeaveGoodsMapper extends BaseMapper<WarehouseLeaveGoods> {
+public interface WarehouseLeaveGoodsDao extends BaseMapper<WarehouseLeaveGoods> {
 
 }
