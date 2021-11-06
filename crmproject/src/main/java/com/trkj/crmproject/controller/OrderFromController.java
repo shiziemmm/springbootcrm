@@ -4,6 +4,7 @@ package com.trkj.crmproject.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -13,9 +14,14 @@ import org.springframework.stereotype.Controller;
  * @author zzl
  * @since 2021-11-06
  */
-@Controller
-@RequestMapping("/orderFrom")
+@RestController
+//@RequestMapping("/orderFrom")
 public class OrderFromController {
+
+    @RequestMapping("select")
+    public String selectAll(){
+        return "成功";
+    }
 
 }
 

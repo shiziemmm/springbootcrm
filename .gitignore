@@ -24,6 +24,7 @@ target/
 .idea/
 *.jar
 .rej
+.node_modules/
 
 
 
