@@ -3,19 +3,18 @@ package com.trkj.crmproject.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
  *  前端控制器
  * </p>
  *
- * @author zzl
+ * @author MarkerHub
  * @since 2021-11-06
  */
-@Controller
-@RequestMapping("/warehouseLeaveGoods")
+@RestController
+@RequestMapping("/warehouse-leave-goods")
 public class WarehouseLeaveGoodsController {
 
 }
-
