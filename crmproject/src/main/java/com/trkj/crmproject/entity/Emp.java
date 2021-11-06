@@ -25,6 +25,8 @@ public class Emp implements Serializable {
 
     private String empName;
 
+    private String empPass;
+
     private String empTel;
 
     private String empPosition;
