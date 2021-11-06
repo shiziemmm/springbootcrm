@@ -12,14 +12,14 @@ import lombok.EqualsAndHashCode;
  * 
  * </p>
  *
- * @author zzl
+ * @author MarkerHub
  * @since 2021-11-06
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class WarehouseEnter implements Serializable {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * 入库单ID
@@ -30,7 +30,7 @@ public class WarehouseEnter implements Serializable {
     /**
      * 仓库ID
      */
-    private Integer waId;
+    private Integer weWaId;
 
     /**
      * 主题
@@ -60,7 +60,7 @@ public class WarehouseEnter implements Serializable {
     /**
      * 时效性
      */
-    private Integer weTimeliness;
+    private Boolean weTimeliness;
 
 
 }
