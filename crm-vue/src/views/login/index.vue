@@ -106,7 +106,7 @@ export default {
         // 验证成功
         if (valid) {
           this.loading = true
-          // 派发到store的user/login action 
+          // 派发到store的user/login action
           this.$store.dispatch('user/login', this.loginForm).then(() => { // 登录成功
           // 路由到首页，指定query参数
             this.$router.push({ path: this.redirect || '/' })
