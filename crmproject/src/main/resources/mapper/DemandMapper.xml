@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.DemandMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.Demand">
+        <id column="de_id" property="deId" />
+        <result column="op_id" property="opId" />
+        <result column="de_theme" property="deTheme" />
+        <result column="de_record_time" property="deRecordTime" />
+        <result column="de_provider" property="deProvider" />
+        <result column="de_content" property="deContent" />
+        <result column="de_timeliness" property="deTimeliness" />
+        <result column="client_id" property="clientId" />
+        <result column="emp_id" property="empId" />
+    </resultMap>
+
+</mapper>

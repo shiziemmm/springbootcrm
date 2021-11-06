@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.ProductMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.Product">
+        <id column="pr_id" property="prId" />
+        <result column="qd_id" property="qdId" />
+        <result column="wi_id" property="wiId" />
+        <result column="pc_id" property="pcId" />
+        <result column="weg_id" property="wegId" />
+        <result column="pr_name" property="prName" />
+        <result column="pr_coding" property="prCoding" />
+        <result column="pr_state" property="prState" />
+        <result column="pr_unit" property="prUnit" />
+        <result column="pr_price" property="prPrice" />
+        <result column="pr_cost_price" property="prCostPrice" />
+        <result column="pr_model" property="prModel" />
+        <result column="pr_weight" property="prWeight" />
+        <result column="pr_outline" property="prOutline" />
+        <result column="pr_description" property="prDescription" />
+        <result column="pr_remark" property="prRemark" />
+        <result column="pr_timeliness" property="prTimeliness" />
+    </resultMap>
+
+</mapper>

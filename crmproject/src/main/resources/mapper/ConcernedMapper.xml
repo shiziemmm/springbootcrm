@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.ConcernedMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.Concerned">
+        <id column="con_id" property="conId" />
+        <result column="con_theme" property="conTheme" />
+        <result column="customer_name" property="customerName" />
+        <result column="con_linkman" property="conLinkman" />
+        <result column="con_tcon_time" property="conTconTime" />
+        <result column="con_executor" property="conExecutor" />
+        <result column="con_type" property="conType" />
+        <result column="con_content" property="conContent" />
+        <result column="con_feedback" property="conFeedback" />
+        <result column="con_remark" property="conRemark" />
+        <result column="con_agree" property="conAgree" />
+    </resultMap>
+
+</mapper>

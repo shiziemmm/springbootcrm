@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.WarehouseLeaveMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.WarehouseLeave">
+        <id column="wl_id" property="wlId" />
+        <result column="odr_id" property="odrId" />
+        <result column="wa_id" property="waId" />
+        <result column="ord_odr_id" property="ordOdrId" />
+        <result column="wl_theme" property="wlTheme" />
+        <result column="wl_state" property="wlState" />
+        <result column="wl_execute" property="wlExecute" />
+        <result column="wl_leavetime" property="wlLeavetime" />
+        <result column="wl_remark" property="wlRemark" />
+        <result column="wl_timeliness" property="wlTimeliness" />
+    </resultMap>
+
+</mapper>

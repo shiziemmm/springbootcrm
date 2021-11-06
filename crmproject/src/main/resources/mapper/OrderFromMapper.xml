@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.OrderFromMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.OrderFrom">
+        <id column="odr_id" property="odrId" />
+        <result column="odr_on" property="odrOn" />
+        <result column="odr_price" property="odrPrice" />
+        <result column="odr_out_price" property="odrOutPrice" />
+        <result column="customer_name" property="customerName" />
+        <result column="chance_name" property="chanceName" />
+        <result column="odr_date" property="odrDate" />
+        <result column="odr_out_date" property="odrOutDate" />
+        <result column="odr_addressee" property="odrAddressee" />
+        <result column="odr_addressee_telephone" property="odrAddresseeTelephone" />
+        <result column="odr_addressee_phone" property="odrAddresseePhone" />
+        <result column="odr_province" property="odrProvince" />
+        <result column="odr_city" property="odrCity" />
+        <result column="odr_address_type" property="odrAddressType" />
+        <result column="odr_addressee_site" property="odrAddresseeSite" />
+        <result column="odr_postcode" property="odrPostcode" />
+        <result column="odr_state" property="odrState" />
+        <result column="odr_freight" property="odrFreight" />
+        <result column="client_id" property="clientId" />
+        <result column="op_id" property="opId" />
+        <result column="linkman_id" property="linkmanId" />
+        <result column="odr_us_id" property="odrUsId" />
+    </resultMap>
+
+</mapper>

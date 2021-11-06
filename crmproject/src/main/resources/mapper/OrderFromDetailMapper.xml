@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.OrderFromDetailMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.OrderFromDetail">
+        <id column="odrdl_id" property="odrdlId" />
+        <result column="odr_id" property="odrId" />
+        <result column="pr_id" property="prId" />
+        <result column="odrdl_product_name" property="odrdlProductName" />
+        <result column="odrdl_unit_price" property="odrdlUnitPrice" />
+        <result column="odrdl_money" property="odrdlMoney" />
+        <result column="odrdl_count" property="odrdlCount" />
+        <result column="odrdl_discount" property="odrdlDiscount" />
+        <result column="odrdl_remark" property="odrdlRemark" />
+    </resultMap>
+
+</mapper>

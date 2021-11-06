@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.QuotationDetailsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.QuotationDetails">
+        <id column="qd_id" property="qdId" />
+        <result column="pr_id" property="prId" />
+        <result column="qu_id" property="quId" />
+        <result column="qd_quantity" property="qdQuantity" />
+        <result column="qd_pro_total_amount" property="qdProTotalAmount" />
+        <result column="qd_creation_time" property="qdCreationTime" />
+        <result column="qd_timeliness" property="qdTimeliness" />
+        <result column="emp_id" property="empId" />
+    </resultMap>
+
+</mapper>

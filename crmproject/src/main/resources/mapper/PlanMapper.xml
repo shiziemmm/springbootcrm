@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.PlanMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.Plan">
+        <id column="pla_id" property="plaId" />
+        <result column="odr_id" property="odrId" />
+        <result column="isu_id" property="isuId" />
+        <result column="futures_name" property="futuresName" />
+        <result column="principal" property="principal" />
+        <result column="payment" property="payment" />
+        <result column="pla_price" property="plaPrice" />
+        <result column="pla_time" property="plaTime" />
+        <result column="days_overdue" property="daysOverdue" />
+        <result column="pla_agree" property="plaAgree" />
+        <result column="customer_name" property="customerName" />
+    </resultMap>
+
+</mapper>

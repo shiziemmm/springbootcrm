@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.WarehouseEnterMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.WarehouseEnter">
+        <id column="we_id" property="weId" />
+        <result column="wa_id" property="waId" />
+        <result column="we_theme" property="weTheme" />
+        <result column="we_state" property="weState" />
+        <result column="we_name" property="weName" />
+        <result column="we_entertime" property="weEntertime" />
+        <result column="we_remark" property="weRemark" />
+        <result column="we_timeliness" property="weTimeliness" />
+    </resultMap>
+
+</mapper>

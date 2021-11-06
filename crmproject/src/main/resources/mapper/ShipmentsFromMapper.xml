@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.ShipmentsFromMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.ShipmentsFrom">
+        <id column="spt_id" property="sptId" />
+        <result column="odr_on" property="odrOn" />
+        <result column="spt_on" property="sptOn" />
+        <result column="spt_state" property="sptState" />
+        <result column="spt_date" property="sptDate" />
+        <result column="spt_logistics_company" property="sptLogisticsCompany" />
+        <result column="spt_logistics" property="sptLogistics" />
+        <result column="client_id" property="clientId" />
+    </resultMap>
+
+</mapper>

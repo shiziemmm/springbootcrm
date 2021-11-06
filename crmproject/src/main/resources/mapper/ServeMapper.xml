@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.ServeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.Serve">
+        <id column="ser_id" property="serId" />
+        <result column="ser_theme" property="serTheme" />
+        <result column="customer_name" property="customerName" />
+        <result column="ser_linkman" property="serLinkman" />
+        <result column="ser_executor" property="serExecutor" />
+        <result column="ser_type" property="serType" />
+        <result column="ser_content" property="serContent" />
+        <result column="ser_feedback" property="serFeedback" />
+        <result column="ser_agree" property="serAgree" />
+    </resultMap>
+
+</mapper>

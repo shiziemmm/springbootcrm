@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.ReturnedMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.Returned">
+        <id column="ret_id" property="retId" />
+        <result column="customer_name" property="customerName" />
+        <result column="order_number" property="orderNumber" />
+        <result column="isu_id" property="isuId" />
+        <result column="futures_name" property="futuresName" />
+        <result column="principal" property="principal" />
+        <result column="ret_price" property="retPrice" />
+        <result column="ret_time" property="retTime" />
+        <result column="ret_whether" property="retWhether" />
+        <result column="invoice" property="invoice" />
+        <result column="ret_agree" property="retAgree" />
+    </resultMap>
+
+</mapper>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.QaMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.Qa">
+        <id column="qa_id" property="qaId" />
+        <result column="call_centen_id" property="callCentenId" />
+        <result column="qa_problem" property="qaProblem" />
+        <result column="qa_explain" property="qaExplain" />
+        <result column="qa_internal_tip" property="qaInternalTip" />
+        <result column="qa_author" property="qaAuthor" />
+        <result column="qa_time" property="qaTime" />
+        <result column="qa_classify" property="qaClassify" />
+        <result column="qa_state" property="qaState" />
+    </resultMap>
+
+</mapper>

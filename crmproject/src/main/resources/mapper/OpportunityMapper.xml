@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.OpportunityMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.Opportunity">
+        <id column="op_id" property="opId" />
+        <result column="client_id" property="clientId" />
+        <result column="op_theme" property="opTheme" />
+        <result column="op_date" property="opDate" />
+        <result column="op_state" property="opState" />
+        <result column="op_type" property="opType" />
+        <result column="op_findtime" property="opFindtime" />
+        <result column="op_cu_source" property="opCuSource" />
+        <result column="op_provider" property="opProvider" />
+        <result column="op_cu_demand" property="opCuDemand" />
+        <result column="op_expected_signing_date" property="opExpectedSigningDate" />
+        <result column="op_possibility" property="opPossibility" />
+        <result column="op_expected_amount" property="opExpectedAmount" />
+        <result column="op_priority" property="opPriority" />
+        <result column="op_stage" property="opStage" />
+        <result column="op_stage_remarks" property="opStageRemarks" />
+        <result column="op_timeliness" property="opTimeliness" />
+        <result column="linkman_id" property="linkmanId" />
+        <result column="emp_id" property="empId" />
+        <result column="op_phase_stay" property="opPhaseStay" />
+    </resultMap>
+
+</mapper>

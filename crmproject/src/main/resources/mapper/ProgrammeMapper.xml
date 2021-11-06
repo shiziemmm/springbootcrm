@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.ProgrammeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.Programme">
+        <id column="pro_id" property="proId" />
+        <result column="op_id" property="opId" />
+        <result column="pro_theme" property="proTheme" />
+        <result column="pro_content" property="proContent" />
+        <result column="pro_customer_feedback" property="proCustomerFeedback" />
+        <result column="pro_record_time" property="proRecordTime" />
+        <result column="pro_timeliness" property="proTimeliness" />
+        <result column="emp_id" property="empId" />
+        <result column="client_id" property="clientId" />
+    </resultMap>
+
+</mapper>

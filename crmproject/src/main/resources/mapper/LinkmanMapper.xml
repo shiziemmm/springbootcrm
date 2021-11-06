@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.LinkmanMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.Linkman">
+        <id column="linkman_id" property="linkmanId" />
+        <result column="client_id" property="clientId" />
+        <result column="linkman_name" property="linkmanName" />
+        <result column="linkman_phone" property="linkmanPhone" />
+        <result column="linkman_position" property="linkmanPosition" />
+        <result column="linkman_sex" property="linkmanSex" />
+        <result column="linkman_remark" property="linkmanRemark" />
+    </resultMap>
+
+</mapper>

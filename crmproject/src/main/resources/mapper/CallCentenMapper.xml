@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.CallCentenMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.CallCenten">
+        <id column="call_centen_id" property="callCentenId" />
+        <result column="client_id" property="clientId" />
+        <result column="call_centen_theme" property="callCentenTheme" />
+        <result column="call_centen_type" property="callCentenType" />
+        <result column="call_centen_way" property="callCentenWay" />
+        <result column="call_centen_start_time" property="callCentenStartTime" />
+        <result column="call_centen_time" property="callCentenTime" />
+        <result column="call_centen_state" property="callCentenState" />
+        <result column="call_centen_executor" property="callCentenExecutor" />
+        <result column="call_centen_content" property="callCentenContent" />
+        <result column="call_centen_feedback" property="callCentenFeedback" />
+        <result column="call_centen_remark" property="callCentenRemark" />
+    </resultMap>
+
+</mapper>

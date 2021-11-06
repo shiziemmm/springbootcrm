@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.CustomerTransferMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.CustomerTransfer">
+        <id column="customer_transfer_id" property="customerTransferId" />
+        <result column="client_id" property="clientId" />
+        <result column="customer_transfer_old" property="customerTransferOld" />
+        <result column="customer_transfer_new" property="customerTransferNew" />
+        <result column="customer_transfer_remark" property="customerTransferRemark" />
+        <result column="customer_transfer_handlers" property="customerTransferHandlers" />
+        <result column="customer_transfer_time" property="customerTransferTime" />
+        <result column="customer_transfer_state" property="customerTransferState" />
+    </resultMap>
+
+</mapper>
