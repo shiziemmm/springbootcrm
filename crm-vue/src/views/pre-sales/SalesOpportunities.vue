@@ -171,7 +171,6 @@
 		methods:{
 			cli(){
 				console.log(this.drawer)
-        this.axios.
 			}
 		}
 	}
