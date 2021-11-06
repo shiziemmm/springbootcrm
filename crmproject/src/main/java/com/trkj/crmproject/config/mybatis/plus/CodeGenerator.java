@@ -54,11 +54,11 @@ public class CodeGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://rm-bp1tvrl98e40i934xjo.mysql.rds.aliyuncs.com:3306/ayun");
+        dsc.setUrl("jdbc:mysql://8.142.190.42:3306/crm-data");
         // dsc.setSchemaName("public");
-        dsc.setDriverName("com.mysql.cj.jdbc.Driver");
-        dsc.setUsername("root");
-        dsc.setPassword("Ab123456");
+        dsc.setDriverName("com.mysql.jdbc.Driver");
+        dsc.setUsername("my");
+        dsc.setPassword("123456");
         mpg.setDataSource(dsc);
 
         // 包配置
