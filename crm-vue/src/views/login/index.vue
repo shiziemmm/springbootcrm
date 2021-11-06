@@ -70,7 +70,7 @@ export default {
     return {
       loginForm: {
         username: 'admin',
-        password: '111111'
+        password: '123456'
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -107,9 +107,10 @@ export default {
         if (valid) {
           this.loading = true
           // 派发到store的user/login action
-          this.$store.dispatch('user/login', this.loginForm).then(() => { // 登录成功
+          this.$store.dispatch('user/login', this.loginForm).then((v) => { // 登录成功
+            console.log(v,'11111')
           // 路由到首页，指定query参数
-            this.$router.push({ path: this.redirect || '/' })
+          //   this.$router.push({ path: this.redirect || '/' })
             this.loading = false
           }).catch(() => {  //异常
             this.loading = false
