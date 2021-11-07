@@ -55,10 +55,29 @@
 export default {
     data(){
         return{
+            input:'',
             tableData:[],
+            selectParams:{},
         }
     },
     methods: {
+      init(){
+          this.axios.post('http://localhost:8188/product/findAll',this.selectParams).then(res=>{
+                this.tableData=res.data.data.records
+          })
+      },
+      checkChange(keyword){
+        this.selectParams.keyword=keyword;
+        this.init()
+      },
+      onPageSizeChange(pageSize){
+        this.selectParams.pageSize=pageSize;
+        this.init()
+      },
+      onPageChange(page){
+        this.selectParams.pageNum=page
+        this.init()
+      },
         // 新建产品
         handAdd(){
 
@@ -73,7 +92,9 @@ export default {
         }
     },
     created(){
-
+      this.selectParams.pageSize = 10
+      this.selectParams.pageNum = 1
+      this.init()
     }
 }
 </script>
@@ -95,7 +116,7 @@ export default {
 .app-button{
   position: absolute;
   right: 20px;
-  top: 30px;
+  top: 50px;
 }
 .dashboard-container{
   background: #efefef;

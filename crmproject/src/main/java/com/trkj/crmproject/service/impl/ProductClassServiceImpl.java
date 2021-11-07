@@ -4,6 +4,7 @@ import com.trkj.crmproject.entity.ProductClass;
 import com.trkj.crmproject.dao.ProductClassDao;
 import com.trkj.crmproject.service.ProductClassService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,5 +17,11 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ProductClassServiceImpl extends ServiceImpl<ProductClassDao, ProductClass> implements ProductClassService {
-
+    @Autowired
+    private ProductClassDao productClassDao;
+    @Override
+    public boolean add(ProductClass productClass) {
+        productClass.setPcTimeliness(true);
+        return save(productClass);
+    }
 }
