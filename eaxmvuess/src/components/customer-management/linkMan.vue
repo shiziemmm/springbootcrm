@@ -25,7 +25,7 @@
         <el-button icon="el-icon-search" circle style="margin-left: 10px"></el-button>
       </el-col>
       <el-col>
-        <el-button  type="info" plain style="width:160px;color: #2c3e50;float: right"><i class="el-icon-circle-plus-outline"></i>新建</el-button>
+        <el-button @click="dialogVisible = true" type="info" plain style="width:160px;color: #2c3e50;float: right"><i class="el-icon-circle-plus-outline"></i>新建</el-button>
       </el-col>
     </el-row>
 
@@ -37,29 +37,21 @@
         @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55"> </el-table-column>
 
-      <el-table-column prop="date" label="日期" sortable/>
+      <el-table-column prop="linkmanId" label="ID" sortable/>
 
-      <el-table-column prop="name" label="姓名" sortable/>
+      <el-table-column prop="linkmanName" label="姓名" sortable/>
 
-      <el-table-column prop="address" label="地址" show-overflow-tooltip sortable/>
+      <el-table-column prop="client.clientName" label="对应客户" show-overflow-tooltip sortable/>
+      <el-table-column prop="linkmanSex" label="性别" sortable/>
 
       <el-table-column  label="操作">
         <template  #default="scope">
-
-          <el-tooltip content="转公海" placement="top">
-            <el-button
-                icon="el-icon-data-line" size="mini"
-                @click="updateState(scope.row.registration.registrationNumber)"></el-button>
-          </el-tooltip>
-
           <el-tooltip content="编辑" placement="top">
-            <el-button
-                icon="el-icon-star-on" size="mini"></el-button>
+            <el-button @click="editTherapy(scope.row)" size="mini"></el-button>
           </el-tooltip>
 
           <el-tooltip content="删除" placement="top">
-            <el-button
-                icon="el-icon-star-on" size="mini"></el-button>
+            <el-button size="mini"></el-button>
           </el-tooltip>
 
         </template>
@@ -81,33 +73,48 @@
   </el-card>
 
     <el-dialog
-        title="客户"
+        title="联系人"
         v-model="dialogVisible"
-        width="60%"
-        :before-close="handleClose">
-      <el-form  status-icon  ref="form" label-width="100px" class="demo-ruleForm">
+        width="60%">
+      <el-form :model="linkman" status-icon  ref="form" label-width="100px" class="demo-ruleForm">
         <el-row>
           <el-col :span="10">
-            <el-form-item label="门诊号" prop="registrationNumber">
-              <el-input  :disabled="true"></el-input>
+            <el-form-item label="联系人名称" prop="registrationNumber">
+              <el-input v-model="linkman.linkmanName" ></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="10">
-            <el-form-item label="挂号日期" prop="registrationTime">
-              <el-date-picker
-
-                  type="datetime"
-                  placeholder="选择日期">
-              </el-date-picker>
+            <el-form-item label="联系人电话" prop="registrationTime">
+              <el-input  v-model="linkman.linkmanPhone"></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="10">
-            <el-form-item label="挂号类型" prop="registrationType">
-              <el-select  placeholder="请选择">
+            <el-form-item label="对应客户" prop="registrationType">
+              <el-select v-model="linkman.client.clientId" placeholder="请选择">
                 <el-option
-                    v-for="item in options"
+                    v-for="item in clientTableData"
+                    :key="item.clientId"
+                    :label="item.clientName"
+                    :value="item.clientId">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="10">
+            <el-form-item label="职位" prop="registrationName">
+              <el-input v-model="linkman.linkmanPosition"></el-input>
+            </el-form-item>
+          </el-col>
+
+
+          <el-col :span="10">
+            <el-form-item label="性别" prop="patientDataName">
+              <el-select v-model="linkman.linkmanSex" placeholder="请选择">
+                <el-option
+                    v-for="item in linkmanSex"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value">
@@ -117,32 +124,8 @@
           </el-col>
 
           <el-col :span="10">
-            <el-form-item label="经办人" prop="registrationName">
-              <el-input ></el-input>
-            </el-form-item>
-          </el-col>
-
-
-          <el-col :span="10">
-            <el-form-item label="病人姓名" prop="patientDataName">
-              <el-input  ></el-input>
-            </el-form-item>
-          </el-col>
-
-          <el-col :span="10">
-            <el-form-item label="身份证号码" prop="patientDataCard">
-              <el-input  ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="10">
-            <el-form-item label="病人电话" prop="patientDataPhone">
-              <el-input ></el-input>
-            </el-form-item>
-          </el-col>
-
-          <el-col :span="10">
-            <el-form-item label="病人性别" prop="patientDataSex">
-              <el-input ></el-input>
+            <el-form-item label="备注" prop="patientDataCard">
+              <el-input v-model="linkman.linkmanRemark"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -150,8 +133,8 @@
 
       <template #footer>
     <span class="dialog-footer">
-      <el-button >取 消</el-button>
-      <el-button type="primary">确 定</el-button>
+      <el-button @click="ClearFrom">取 消</el-button>
+      <el-button @click="saveLinkman" type="primary">确 定</el-button>
     </span>
       </template>
     </el-dialog>
@@ -167,44 +150,21 @@ export default {
       currentPage:1, //初始页
       pagesize:10,    //    每页的数据
       activeName: 'first',
-      tableData: [
-        {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          date: '2016-05-08',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          date: '2016-05-06',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          date: '2016-05-07',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }
-      ],
+      tableData:[],
+      clientTableData:[],
       multipleSelection: [],
+      linkman:{
+        linkmanId:'',
+        linkmanName:'',
+        linkmanPhone:'',
+        linkmanPosition:'',
+        linkmanSex:'',
+        linkmanRemark:'',
+        client:{
+          clientId:'',
+          clientName:''
+        },
+      },
       options: [
         {
           label: '性别',
@@ -220,10 +180,63 @@ export default {
           ]
         },
       ],
-      value: ''
+      value: '',
+      linkmanSex:[
+        {
+          value: '男',
+          label: '男'
+        },
+        {
+          value: '女',
+          label: '女'
+        }
+      ]
     }
   },
   methods: {
+    initData(){
+      this.axios.get("/find_linkman")
+          .then((v)=>{
+            this.tableData = v.data
+            console.log(v.data)
+          })
+    },
+    findLinkmanSex(linkmanSex){
+      this.axios.get("/find_linkman_sex",{params:{linkmanSex:linkmanSex}})
+          .then((v)=>{
+            console.log(v.data)
+          })
+    },
+    selectLinkman(){
+      this.axios.get("/select_linkman",this.linkman)
+          .then((v)=>{
+            console.log(v.data)
+          })
+    },
+    findClient(){
+      this.axios.get("/find_client").then((v)=>{
+        this.clientTableData=v.data
+      })
+    },
+    saveLinkman(){
+      this.axios.post("/save_linkman",this.linkman)
+          .then((v)=>{
+            this.initData()
+            this.dialogVisible=false;
+            console.log(v.data)
+          })
+    },
+    //回显弹出框
+    editTherapy(row){
+      this.linkman = Object.assign({}, row)
+      this.dialogVisible=true;
+    },
+    //清空弹框
+    ClearFrom(){
+      this.$refs['form'].resetFields()
+      this.linkman = this.$options.data().linkman
+      this.dialogVisible=false;
+    },
     handleClick(tab, event) {
       console.log(tab, event)
     },
@@ -239,17 +252,15 @@ export default {
       this.currentPage = currentPage;
       console.log(this.currentPage)  //点击第几页
     },
-    handleClose(done) {
-      this.$confirm('确认关闭？')
-          .then(_ => {
-            done();
-          })
-          .catch(_ => {});
-    },
     pageChange(p) {
       this.initData(p, this.pageSize)
     }
-  }
+  },
+  created() {
+    this.initData();
+    this.findClient();
+    // user:JSON.parse(localStorage.setItem("loginuser"))
+  },
 }
 </script>
 

@@ -1,6 +1,7 @@
 package com.trkj.crmproject.controller;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.trkj.crmproject.entity.Opportunity;
 import com.trkj.crmproject.service.OpportunityService;
 import com.trkj.crmproject.util.MyResult;
@@ -29,6 +30,11 @@ public class OpportunityController {
     public MyResult addOpp(@RequestBody Opportunity opportunity){
         System.out.println("数据："+opportunity);
         return MyResult.SUCCESS_Object(opportunityService.addOpp(opportunity));
+    }
+    @PostMapping("/selectlist")
+    public Page selectList(@RequestBody Opportunity opportunity){
+        System.out.println("selectlist数据："+opportunity);
+        return opportunityService.selectList(opportunity,new Page<>(opportunity.getPageNo(),opportunity.getPageSize()));
     }
 }
 

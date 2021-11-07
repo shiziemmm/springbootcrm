@@ -1,8 +1,11 @@
 package com.trkj.crmproject.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+import java.util.List;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -41,5 +44,6 @@ public class ProductClass implements Serializable {
      */
     private Boolean pcTimeliness;
 
-
+    @TableField(exist = false)
+    private List<Product> products;
 }

@@ -38,8 +38,6 @@ public class Warehouse implements Serializable {
 
     /**
      * 用途描述
-            用途描述
-            用途描述
      */
     private String waDescribes;
 

@@ -25,7 +25,7 @@
           <el-button icon="el-icon-search" circle style="margin-left: 10px"></el-button>
         </el-col>
         <el-col>
-          <el-button  type="info" plain style="width:160px;color: #2c3e50;float: right"><i class="el-icon-circle-plus-outline"></i>转移客户</el-button>
+          <el-button @click="dialogVisible = true" type="info" plain style="width:160px;color: #2c3e50;float: right"><i class="el-icon-circle-plus-outline"></i>转移客户</el-button>
         </el-col>
       </el-row>
 
@@ -37,31 +37,19 @@
           @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55"> </el-table-column>
 
-        <el-table-column prop="date" label="日期" sortable/>
+        <el-table-column prop="clientId" label="ID" sortable/>
 
-        <el-table-column prop="name" label="姓名" sortable/>
+        <el-table-column prop="clientName" label="名称" sortable/>
 
-        <el-table-column prop="address" label="地址" show-overflow-tooltip sortable/>
+        <el-table-column prop="clientTransfer" label="所有者" sortable/>
+
+        <el-table-column prop="clientRemark" label="备注" sortable/>
 
         <el-table-column  label="操作">
           <template  #default="scope">
-
-            <el-tooltip content="转公海" placement="top">
-              <el-button
-                  icon="el-icon-data-line" size="mini"
-                  @click="updateState(scope.row.registration.registrationNumber)"></el-button>
+            <el-tooltip content="转移" placement="top">
+              <el-button @click="editTherapy(scope.row)" size="mini"></el-button>
             </el-tooltip>
-
-            <el-tooltip content="编辑" placement="top">
-              <el-button
-                  icon="el-icon-star-on" size="mini"></el-button>
-            </el-tooltip>
-
-            <el-tooltip content="删除" placement="top">
-              <el-button
-                  icon="el-icon-star-on" size="mini"></el-button>
-            </el-tooltip>
-
           </template>
         </el-table-column>
       </el-table>
@@ -83,75 +71,19 @@
     <el-dialog
         title="客户"
         v-model="dialogVisible"
-        width="60%"
-        :before-close="handleClose">
-      <el-form  status-icon  ref="form" label-width="100px" class="demo-ruleForm">
-        <el-row>
-          <el-col :span="10">
-            <el-form-item label="门诊号" prop="registrationNumber">
-              <el-input  :disabled="true"></el-input>
-            </el-form-item>
-          </el-col>
-
-          <el-col :span="10">
-            <el-form-item label="挂号日期" prop="registrationTime">
-              <el-date-picker
-
-                  type="datetime"
-                  placeholder="选择日期">
-              </el-date-picker>
-            </el-form-item>
-          </el-col>
-
-          <el-col :span="10">
-            <el-form-item label="挂号类型" prop="registrationType">
-              <el-select  placeholder="请选择">
-                <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-
-          <el-col :span="10">
-            <el-form-item label="经办人" prop="registrationName">
-              <el-input ></el-input>
-            </el-form-item>
-          </el-col>
-
-
-          <el-col :span="10">
-            <el-form-item label="病人姓名" prop="patientDataName">
-              <el-input  ></el-input>
-            </el-form-item>
-          </el-col>
-
-          <el-col :span="10">
-            <el-form-item label="身份证号码" prop="patientDataCard">
-              <el-input  ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="10">
-            <el-form-item label="病人电话" prop="patientDataPhone">
-              <el-input ></el-input>
-            </el-form-item>
-          </el-col>
-
-          <el-col :span="10">
-            <el-form-item label="病人性别" prop="patientDataSex">
-              <el-input ></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
+        width="60%">
+      <el-row :model="client">
+        <el-col v-if="client.emp.empName != undefined">
+          <el-radio-group v-model="client.emp.empName">
+            <el-radio v-for="item in empTableData" :label="item.empName"></el-radio>
+          </el-radio-group>
+        </el-col>
+      </el-row>
 
       <template #footer>
     <span class="dialog-footer">
-      <el-button >取 消</el-button>
-      <el-button type="primary">确 定</el-button>
+      <el-button @click="ClearFrom">取 消</el-button>
+      <el-button @click="saveClient" type="primary">确 定</el-button>
     </span>
       </template>
     </el-dialog>
@@ -167,43 +99,28 @@ export default {
       currentPage:1, //初始页
       pagesize:10,    //    每页的数据
       activeName: 'first',
-      tableData: [
-        {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          date: '2016-05-08',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          date: '2016-05-06',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          date: '2016-05-07',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
+      tableData: [],
+      empTableData:[],
+      client:{
+        clientId:'',
+        clientName:'',
+        clientPhone:'',
+        clientTime:'',
+        clientSeas:'',
+        clientKind:'',
+        clientPeriod:'',
+        clientQualitative:'',
+        clientRank:'',
+        clientSigningDate:'',
+        clientContractAmount:'',
+        clientSource:'',
+        clientSite:'',
+        clientRemark:'',
+        emp:{
+          empId:'',
+          empName:''
         }
-      ],
+      },
       multipleSelection: [],
       options: [
         {
@@ -333,6 +250,41 @@ export default {
     }
   },
   methods: {
+    initData(){
+      this.axios.get("/find_by_client").then((v)=>{
+        this.tableData=v.data
+        console.log(v.data)
+      })
+    },
+    initData1(){
+      this.axios.get("/find_by_empName").then((v)=>{
+        this.empTableData=v.data
+        console.log(v.data)
+      })
+    },
+    //回显弹出框
+    editTherapy(row){
+      this.client = Object.assign({}, row)
+      this.dialogVisible=true;
+    },
+    //清空弹框
+    ClearFrom(){
+      this.client.emp.empName = ''
+      this.dialogVisible=false;
+    },
+    saveClient(){
+      console.log(this.client)
+      // this.axios.post("/save_client",this.client)
+      //     .then((v)=>{
+      //       this.dialogVisible = false
+      //       console.log(v.data)
+      //       this.initData()
+      //     })
+    },
+    handleSelectionChange(row){
+      this.client = row
+      console.log(row)
+    },
     handleClick(tab, event) {
       console.log(tab, event)
     },
@@ -348,17 +300,15 @@ export default {
       this.currentPage = currentPage;
       console.log(this.currentPage)  //点击第几页
     },
-    handleClose(done) {
-      this.$confirm('确认关闭？')
-          .then(_ => {
-            done();
-          })
-          .catch(_ => {});
-    },
     pageChange(p) {
       this.initData(p, this.pageSize)
     }
-  }
+  },
+  created() {
+    this.initData();
+    this.initData1();
+    // user:JSON.parse(localStorage.setItem("loginuser"))
+  },
 }
 </script>
 

@@ -2,6 +2,8 @@ package com.trkj.crmproject.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 import lombok.Data;
@@ -50,7 +52,7 @@ public class QuotationDetails implements Serializable {
     /**
      * 创建时间
      */
-    private LocalDateTime qdCreationTime;
+    private Timestamp qdCreationTime;
 
     /**
      * 时效性

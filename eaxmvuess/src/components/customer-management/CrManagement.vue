@@ -1,12 +1,12 @@
 <template>
   <div>
     <el-tabs v-model="activeName" @tab-click="handleClick" style="margin-left: 20px">
-      <el-tab-pane label="全部客户" name="first">
+      <el-tab-pane label="全部客户" name="">
         <el-card>
           <el-row>
             <el-col>
               <i class="el-icon-guide" style="font-size: 20px;"></i>
-              <el-select v-model="value" placeholder="请选择">
+              <el-select v-model="values" placeholder="请选择" @change="selectClient">
                 <el-option label="全部数据" value=""></el-option>
                 <el-option-group
                     v-for="group in options"
@@ -44,25 +44,22 @@
 
             <el-table-column prop="clientName" label="名称" sortable/>
 
-            <el-table-column prop="address" label="地址" show-overflow-tooltip sortable/>
+            <el-table-column prop="clientSite" label="地址" show-overflow-tooltip sortable/>
 
             <el-table-column  label="操作">
               <template  #default="scope">
 
                 <el-tooltip content="转公海" placement="top">
-                  <el-button
-                      icon="el-icon-data-line" size="mini"
-                      @click="updateState(scope.row.registration.registrationNumber)"></el-button>
+                  <el-button size="mini"
+                      @click="updateState(scope.row)"></el-button>
                 </el-tooltip>
 
                 <el-tooltip content="编辑" placement="top">
-                  <el-button
-                      icon="el-icon-star-on" size="mini"></el-button>
+                  <el-button size="mini" @click="editTherapy(scope.row)"></el-button>
                 </el-tooltip>
 
                 <el-tooltip content="删除" placement="top">
-                  <el-button
-                      icon="el-icon-star-on" size="mini"></el-button>
+                  <el-button size="mini"></el-button>
                 </el-tooltip>
 
               </template>
@@ -84,7 +81,7 @@
         </el-card>
 
       </el-tab-pane>
-      <el-tab-pane label="潜在客户" name="second">
+      <el-tab-pane label="潜在客户" name="潜在">
         <el-card>
           <el-row>
             <el-col>
@@ -123,29 +120,26 @@
               @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55"> </el-table-column>
 
-            <el-table-column prop="date" label="日期" sortable/>
+            <el-table-column prop="clientId" label="ID" sortable/>
 
-            <el-table-column prop="name" label="姓名" sortable/>
+            <el-table-column prop="clientName" label="名称" sortable/>
 
-            <el-table-column prop="address" label="地址" show-overflow-tooltip sortable/>
+            <el-table-column prop="clientSite" label="地址" show-overflow-tooltip sortable/>
 
             <el-table-column  label="操作">
               <template  #default="scope">
 
                 <el-tooltip content="转公海" placement="top">
-                  <el-button
-                      icon="el-icon-data-line" size="mini"
-                      @click="updateState(scope.row.registration.registrationNumber)"></el-button>
+                  <el-button size="mini"
+                             @click="updateState(scope.row)"></el-button>
                 </el-tooltip>
 
                 <el-tooltip content="编辑" placement="top">
-                  <el-button
-                      icon="el-icon-star-on" size="mini"></el-button>
+                  <el-button size="mini" @click="editTherapy(scope.row)"></el-button>
                 </el-tooltip>
 
                 <el-tooltip content="删除" placement="top">
-                  <el-button
-                      icon="el-icon-star-on" size="mini"></el-button>
+                  <el-button size="mini"></el-button>
                 </el-tooltip>
 
               </template>
@@ -166,7 +160,7 @@
           </div>
         </el-card>
       </el-tab-pane>
-      <el-tab-pane label="签约客户" name="third">
+      <el-tab-pane label="签约客户" name="签约">
         <el-card>
           <el-row>
             <el-col>
@@ -205,29 +199,26 @@
               @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55"> </el-table-column>
 
-            <el-table-column prop="date" label="日期" sortable/>
+            <el-table-column prop="clientId" label="ID" sortable/>
 
-            <el-table-column prop="name" label="姓名" sortable/>
+            <el-table-column prop="clientName" label="名称" sortable/>
 
-            <el-table-column prop="address" label="地址" show-overflow-tooltip sortable/>
+            <el-table-column prop="clientSite" label="地址" show-overflow-tooltip sortable/>
 
             <el-table-column  label="操作">
               <template  #default="scope">
 
                 <el-tooltip content="转公海" placement="top">
-                  <el-button
-                      icon="el-icon-data-line" size="mini"
-                      @click="updateState(scope.row.registration.registrationNumber)"></el-button>
+                  <el-button size="mini"
+                             @click="updateState(scope.row)"></el-button>
                 </el-tooltip>
 
                 <el-tooltip content="编辑" placement="top">
-                  <el-button
-                      icon="el-icon-star-on" size="mini"></el-button>
+                  <el-button size="mini" @click="editTherapy(scope.row)"></el-button>
                 </el-tooltip>
 
                 <el-tooltip content="删除" placement="top">
-                  <el-button
-                      icon="el-icon-star-on" size="mini"></el-button>
+                  <el-button size="mini"></el-button>
                 </el-tooltip>
 
               </template>
@@ -248,7 +239,7 @@
           </div>
         </el-card>
       </el-tab-pane>
-      <el-tab-pane label="重复购买" name="fourth">
+      <el-tab-pane label="重复购买" name="重复购买">
         <el-card>
           <el-row>
             <el-col>
@@ -287,29 +278,26 @@
               @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55"> </el-table-column>
 
-            <el-table-column prop="date" label="日期" sortable/>
+            <el-table-column prop="clientId" label="ID" sortable/>
 
-            <el-table-column prop="name" label="姓名" sortable/>
+            <el-table-column prop="clientName" label="名称" sortable/>
 
-            <el-table-column prop="address" label="地址" show-overflow-tooltip sortable/>
+            <el-table-column prop="clientSite" label="地址" show-overflow-tooltip sortable/>
 
             <el-table-column  label="操作">
               <template  #default="scope">
 
                 <el-tooltip content="转公海" placement="top">
-                  <el-button
-                      icon="el-icon-data-line" size="mini"
-                      @click="updateState(scope.row.registration.registrationNumber)"></el-button>
+                  <el-button size="mini"
+                             @click="updateState(scope.row)"></el-button>
                 </el-tooltip>
 
                 <el-tooltip content="编辑" placement="top">
-                  <el-button
-                      icon="el-icon-star-on" size="mini"></el-button>
+                  <el-button size="mini" @click="editTherapy(scope.row)"></el-button>
                 </el-tooltip>
 
                 <el-tooltip content="删除" placement="top">
-                  <el-button
-                      icon="el-icon-star-on" size="mini"></el-button>
+                  <el-button size="mini"></el-button>
                 </el-tooltip>
 
               </template>
@@ -330,7 +318,7 @@
           </div>
         </el-card>
       </el-tab-pane>
-      <el-tab-pane label="失效客户" name="five">
+      <el-tab-pane label="失效客户" name="失效">
         <el-card>
           <el-row>
             <el-col>
@@ -369,29 +357,26 @@
               @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55"> </el-table-column>
 
-            <el-table-column prop="date" label="日期" sortable/>
+            <el-table-column prop="clientId" label="ID" sortable/>
 
-            <el-table-column prop="name" label="姓名" sortable/>
+            <el-table-column prop="clientName" label="名称" sortable/>
 
-            <el-table-column prop="address" label="地址" show-overflow-tooltip sortable/>
+            <el-table-column prop="clientSite" label="地址" show-overflow-tooltip sortable/>
 
             <el-table-column  label="操作">
               <template  #default="scope">
 
                 <el-tooltip content="转公海" placement="top">
-                  <el-button
-                      icon="el-icon-data-line" size="mini"
-                      @click="updateState(scope.row.registration.registrationNumber)"></el-button>
+                  <el-button size="mini"
+                             @click="updateState(scope.row)"></el-button>
                 </el-tooltip>
 
                 <el-tooltip content="编辑" placement="top">
-                  <el-button
-                      icon="el-icon-star-on" size="mini"></el-button>
+                  <el-button size="mini" @click="editTherapy(scope.row)"></el-button>
                 </el-tooltip>
 
                 <el-tooltip content="删除" placement="top">
-                  <el-button
-                      icon="el-icon-star-on" size="mini"></el-button>
+                  <el-button size="mini"></el-button>
                 </el-tooltip>
 
               </template>
@@ -417,31 +402,37 @@
     <el-dialog
         title="客户"
         v-model="dialogVisible"
-        width="60%"
-        :before-close="handleClose">
-      <el-form  status-icon  ref="form" label-width="100px" class="demo-ruleForm">
+        width="60%">
+      <el-form :model="client" status-icon ref="client" label-width="100px" class="demo-ruleForm">
         <el-row>
           <el-col :span="10">
-            <el-form-item label="门诊号" prop="registrationNumber">
-              <el-input  :disabled="true"></el-input>
+            <el-form-item label="客户名称" prop="registrationNumber">
+              <el-input v-model="client.clientName"></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="10">
-            <el-form-item label="挂号日期" prop="registrationTime">
-              <el-date-picker
-
-                  type="datetime"
-                  placeholder="选择日期">
-              </el-date-picker>
+            <el-form-item label="客户手机号" prop="registrationName">
+              <el-input v-model="client.clientPhone"></el-input>
             </el-form-item>
           </el-col>
-
           <el-col :span="10">
-            <el-form-item label="挂号类型" prop="registrationType">
-              <el-select  placeholder="请选择">
+            <el-form-item label="客户种类" prop="registrationType">
+              <el-select v-model="client.clientKind" placeholder="请选择">
                 <el-option
-                    v-for="item in options"
+                    v-for="item in kind"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="客户生命周期" prop="registrationType">
+              <el-select v-model="client.clientPeriod" placeholder="请选择">
+                <el-option
+                    v-for="item in period"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value">
@@ -451,32 +442,72 @@
           </el-col>
 
           <el-col :span="10">
-            <el-form-item label="经办人" prop="registrationName">
-              <el-input ></el-input>
+            <el-form-item label="客户来源" prop="registrationName">
+              <el-select v-model="client.clientSource" placeholder="请选择">
+                <el-option
+                    v-for="item in source"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
 
 
           <el-col :span="10">
-            <el-form-item label="病人姓名" prop="patientDataName">
-              <el-input  ></el-input>
+            <el-form-item label="客户定性" prop="patientDataName">
+              <el-select v-model="client.clientQualitative" placeholder="请选择">
+                <el-option
+                    v-for="item in qualitative"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
 
           <el-col :span="10">
-            <el-form-item label="身份证号码" prop="patientDataCard">
-              <el-input  ></el-input>
+            <el-form-item label="客户定级" prop="patientDataCard">
+              <el-select v-model="client.clientRank" placeholder="请选择">
+                <el-option
+                    v-for="item in rank"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="10">
-            <el-form-item label="病人电话" prop="patientDataPhone">
-              <el-input ></el-input>
+            <el-form-item label="预计签约时间" prop="patientDataPhone">
+              <el-select v-model="client.clientSigningDate" placeholder="请选择">
+                <el-option
+                    v-for="item in signingDate"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
 
           <el-col :span="10">
-            <el-form-item label="病人性别" prop="patientDataSex">
-              <el-input ></el-input>
+            <el-form-item label="预计签约金额" prop="patientDataSex">
+              <el-input v-model="client.clientContractAmount"></el-input>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="10">
+            <el-form-item label="客户地址" prop="patientDataSex">
+              <el-input v-model="client.clientSite"></el-input>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="10">
+            <el-form-item label="备注" prop="patientDataSex">
+              <el-input v-model="client.clientRemark"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -484,8 +515,8 @@
 
       <template #footer>
     <span class="dialog-footer">
-      <el-button >取 消</el-button>
-      <el-button type="primary">确 定</el-button>
+      <el-button @click="ClearFrom">取 消</el-button>
+      <el-button @click="saveClient" type="primary">确 定</el-button>
     </span>
       </template>
     </el-dialog>
@@ -493,6 +524,8 @@
 </template>
 
 <script>
+import locale from "element-plus/lib/locale/lang/zh-cn";
+
 export default {
   name: 'CrManagement',
   data() {
@@ -500,7 +533,7 @@ export default {
       dialogVisible: false,
       currentPage:1, //初始页
       pagesize:10,    //    每页的数据
-      activeName: 'first',
+      activeName: '',
       tableData: [],
       multipleSelection: [],
       options: [
@@ -627,7 +660,136 @@ export default {
           ]
         },
       ],
-      value: ''
+      //客户种类
+      kind:[
+        {
+          value: '客户',
+          label: '客户'
+        },
+        {
+          value: '供应商',
+          label: '供应商'
+        },
+        {
+          value: '合作伙伴',
+          label: '合作伙伴'
+        },
+        {
+          value: '媒体',
+          label: '媒体'
+        }
+      ],
+      //客户生命周期
+      period:[
+        {
+          value: '潜在',
+          label: '潜在'
+        },
+        {
+          value: '签约',
+          label: '签约'
+        },
+        {
+          value: '重复购买',
+          label: '重复购买'
+        },
+        {
+          value: '失效',
+          label: '失效'
+        }
+      ],
+      //客户来源
+      source: [
+        {
+          value: '客户介绍',
+          label: '客户介绍'
+        },
+        {
+          value: '电话来访',
+          label: '电话来访'
+        },
+        {
+          value: '媒体宣传',
+          label: '媒体宣传'
+        },
+        {
+          value: '网站填表',
+          label: '网站填表'
+        },
+        {
+          value: '其他',
+          label: '其他'
+        }
+      ],
+      //预定签约时间
+      signingDate:[
+        {
+          value: '本周',
+          label: '本周'
+        },
+        {
+          value: '下周',
+          label: '下周'
+        },
+        {
+          value: '本月',
+          label: '本月'
+        },
+        {
+          value: '下月',
+          label: '下月'
+        }
+      ],
+      //定级
+      rank:[
+          {
+        value: '大单',
+        label: '大单'
+      },
+        {
+          value: '小单',
+          label: '小单'
+        },
+        {
+          value: '正常',
+          label: '正常'
+        }],
+      //定性
+      qualitative:[
+        {
+          value: '有价值',
+          label: '有价值'
+        },
+        {
+          value: '没价值',
+          label: '没价值'
+        },
+        {
+          value: '不确定',
+          label: '不确定'
+        }
+      ],
+      value: '',
+      values: '',
+      client:{
+        clientId:'',
+        clientName:'',
+        clientPhone:'',
+        clientTime:'',
+        clientSeas:'',
+        clientKind:'',
+        clientPeriod:'',
+        clientQualitative:'',
+        clientRank:'',
+        clientSigningDate:'',
+        clientContractAmount:'',
+        clientSource:'',
+        clientSite:'',
+        clientRemark:'',
+        // clientTransfer:'',
+        linkmen:[],
+        emp:{}
+      }
     }
   },
   methods: {
@@ -637,9 +799,47 @@ export default {
         console.log(v.data)
       })
     },
-    handleClick(tab, event) {
-      console.log(tab, event)
+    //回显弹出框
+    editTherapy(row){
+      this.client = Object.assign({}, row)
+      this.dialogVisible=true;
     },
+    //清空弹框
+    ClearFrom(){
+      this.$refs['client'].resetFields()
+      this.client = this.$options.data().client
+      this.dialogVisible=false;
+    },
+    saveClient(){
+      this.axios.post("/save_client",this.client)
+          .then((v)=>{
+            this.dialogVisible = false
+            console.log(v.data)
+            this.initData()
+          })
+    },
+    handleClick() {
+      console.log(this.activeName)
+      this.axios.get("/find_client_period",{params:{clientPeriod:this.activeName}})
+          .then((v)=>{
+            this.tableData = v.data
+          })
+    },
+    selectClient(values){
+      if (values == 0){
+        this.axios.get("/find_client").then((v)=>{
+          this.tableData=v.data
+        })
+      }else{
+        this.axios.get("/select_client",{params:{client:values}})
+            .then((v)=>{
+              this.tableData = v.data
+            })
+      }
+    },
+
+
+
     formatter(row, column) {
       return row.address
     },
@@ -652,19 +852,14 @@ export default {
       this.currentPage = currentPage;
       console.log(this.currentPage)  //点击第几页
     },
-    handleClose(done) {
-      this.$confirm('确认关闭？')
-          .then(_ => {
-            done();
-          })
-          .catch(_ => {});
-    },
+
     pageChange(p) {
       this.initData(p, this.pageSize)
     }
   },
   created() {
     this.initData();
+    // user:JSON.parse(localStorage.setItem("loginuser"))
   },
 }
 </script>

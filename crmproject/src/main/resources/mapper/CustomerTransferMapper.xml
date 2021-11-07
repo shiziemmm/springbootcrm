@@ -14,4 +14,34 @@
         <result column="customer_transfer_state" property="customerTransferState" />
     </resultMap>
 
+    <resultMap id="findByClient" type="com.trkj.crmproject.entity.Client" extends="com.trkj.crmproject.dao.ClientMapper.BaseResultMap">
+        <association property="emp" javaType="com.trkj.crmproject.entity.Emp">
+            <result column="emp_name" property="empName"/>
+        </association>
+    </resultMap>
+<!--查询客户转移-->
+    <select id="findByClient" resultMap="findByClient">
+        select * from client left join emp on client.client_transfer = emp.emp_name
+    </select>
+
+    <resultMap id="findByEmpName" type="com.trkj.crmproject.entity.Emp" extends="com.trkj.crmproject.dao.EmpMapper.BaseResultMap"></resultMap>
+<!--    查询用户-->
+    <select id="findByEmpName" resultMap="findByEmpName">
+        select * from emp
+    </select>
+
+<!--    转移客户-->
+    <update id="updateOld">
+        update client set client_transfer=#{clientTransfer} where client_id=#{clientId}
+    </update>
+<!--    新增转移记录-->
+    <insert id="addCustomer">
+        insert into customer_transfer (client_id,customer_transfer_old,
+                                       customer_transfer_new,customer_transfer_remark,
+                                       customer_transfer_handlers,customer_transfer_time)
+                                        values
+                                        (#{clientId},#{customerTransferOld},
+                                         #{customerTransferNew},#{customerTransferRemark},
+                                         #{customerTransferHandlers},#{customerTransferTime})
+    </insert>
 </mapper>

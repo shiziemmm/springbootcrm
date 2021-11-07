@@ -1,7 +1,10 @@
 package com.trkj.crmproject.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 import lombok.Data;
@@ -55,12 +58,16 @@ public class CustomerTransfer implements Serializable {
     /**
      * 操作时间
      */
-    private LocalDateTime customerTransferTime;
+    private Timestamp customerTransferTime;
 
     /**
      * 转移状态
      */
     private Integer customerTransferState;
 
-
+    /**
+     * 客户的所有者
+     */
+    @TableField(exist = false)
+    private Client client;
 }

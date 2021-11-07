@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.trkj.crmproject.dao.WarehouseInventoryDao">
-
+    <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.WarehouseInventory">
+        <id column="wi_id" jdbcType="INTEGER" property="wiId" />
+        <result column="wi_wa_id" jdbcType="INTEGER" property="wiWaId" />
+        <result column="wi_pr_id" jdbcType="INTEGER" property="wiPrId" />
+        <result column="wi_waname" jdbcType="VARCHAR" property="wiWaname" />
+        <result column="wi_prname" jdbcType="VARCHAR" property="wiPrname" />
+        <result column="wi_count" jdbcType="INTEGER" property="wiCount" />
+        <result column="wi_timeliness" jdbcType="BOOLEAN" property="wiTimeliness" />
+    </resultMap>
+    <sql id="Base_Column_List">
+    wi_id, wi_wa_id, wi_pr_id, wi_waname, wi_prname, wi_count, wi_timeliness
+  </sql>
+    <select id="selectList" resultType="map">
+        select e.wi_id id,e.wi_count wicount,l.pr_name prname,l.pr_id prid,t.wa_name waname,t.wa_id waid
+        from warehouse_inventory e left join product l on e.wi_pr_id=l.pr_id
+        left join warehouse t on e.wi_wa_id=t.wa_id
+        ${ew.customSqlSegment}
+    </select>
 </mapper>

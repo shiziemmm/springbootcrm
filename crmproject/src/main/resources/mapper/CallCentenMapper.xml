@@ -18,4 +18,50 @@
         <result column="call_centen_remark" property="callCentenRemark" />
     </resultMap>
 
+    <resultMap id="findByClient" type="com.trkj.crmproject.entity.CallCenten" extends="BaseResultMap">
+        <association property="client" javaType="com.trkj.crmproject.entity.Client"></association>
+    </resultMap>
+
+<!--    查询所有客户服务-->
+    <select id="findCallCenten" resultMap="BaseResultMap">
+        select * from call_centen
+    </select>
+<!--    根据服务主题查询-->
+    <select id="findCallCentenTheme" resultMap="BaseResultMap">
+        select * from call_centen left join client call_centen.client_id = client.client_id
+        where call_centen.call_centen_theme=#{callCentenTheme}
+    </select>
+<!--    高级查询（id、对应客户、主题、服务类型、服务方式、花费时间、执行人、状态、时间）-->
+    <select id="selectCallCenten" resultMap="BaseResultMap">
+        select * from call_centne left join client call_centen.client_id = client.client_id
+        <where>
+            <if test="callCentenTheme != null and callCentenTheme != ''">
+                and call_centen_theme=#{callCentenTheme}
+            </if>
+        </where>
+    </select>
+
+<!--    新增客户服务-->
+    <insert id="addCallCenten">
+        insert into call_centen (client_id,call_centen_theme,call_centen_type,
+                                 call_centen_way,call_centen_start_time,call_centen_time,
+                                 call_centen_state,call_centen_executor,call_centen_content,
+                                 call_centen_feedback,call_centen_remark)
+                                 values
+                                 (#{clientId},#{callCentenTheme},#{callCentenType},
+                                  #{callCentenWay},#{callCentenStartTime},#{callCentenTime},
+                                  #{callCentenState},#{callCentenExecutor},#{callCentenContent},
+                                  #{callCentenFeedback},#{callCentenRemark})
+    </insert>
+
+<!--    修改客户服务-->
+    <update id="updateCallCenten">
+        update call_centen set call_centen_theme=#{callCentenTheme},call_centen_type=#{callCentenType},
+                               call_centen_way=#{callCentenWay},call_centen_start_time=#{callCentenStartTime},
+                               call_centen_time=#{callCentenTime},call_centen_state=#{callCentenState},
+                               call_centen_executor=#{callCentenExecutor},call_centen_content=#{callCentenContent},
+                               call_centen_feedback=#{callCentenFeedback},call_centen_remark=#{callCentenRemark}
+        where call_centen_id = #{callCentenId}
+    </update>
+
 </mapper>

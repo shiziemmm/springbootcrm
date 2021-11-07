@@ -1,7 +1,11 @@
 package com.trkj.crmproject.service;
 
+import com.trkj.crmproject.entity.Client;
 import com.trkj.crmproject.entity.CustomerTransfer;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.trkj.crmproject.entity.Emp;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +17,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface CustomerTransferService extends IService<CustomerTransfer> {
 
+    public List<CustomerTransfer> findByClient();
+
+    public List<Emp> findByEmpName();
+
+    public void updateOld(Client client);
 }

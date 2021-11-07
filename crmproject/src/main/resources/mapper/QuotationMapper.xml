@@ -16,6 +16,7 @@
         <result column="qu_timeliness" property="quTimeliness" />
         <result column="emp_id" property="empId" />
         <result column="client_id" property="clientId" />
+        <result column="qu_no" property="quNo" />
     </resultMap>
 
 </mapper>
