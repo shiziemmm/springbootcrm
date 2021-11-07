@@ -7,23 +7,23 @@
             CRM客户关系管理系统
           </router-link>
         </el-col>
-<!--        <el-col :span="3">-->
-<!--          <el-form style="line-height: 40px; margin-left: 100px;">-->
-<!--            <el-form-item label="">-->
-<!--              							<el-avatar shape="square" style="margin-top: 5px" :size="30" :src="squareUrl"></el-avatar>-->
-<!--              <el-dropdown>-->
-<!--                  <span class="el-dropdown-link" style="font-size: 18px;color: #303133">-->
-<!--                   {{token.list.sname}}<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>-->
-<!--                       </span>-->
-<!--                <template #dropdown>-->
-<!--                  <el-dropdown-menu>-->
-<!--                    <el-dropdown-item @click="signout">切换用户</el-dropdown-item>-->
-<!--                  </el-dropdown-menu>-->
-<!--                </template>-->
-<!--              </el-dropdown>-->
-<!--            </el-form-item>-->
-<!--          </el-form>-->
-<!--        </el-col>-->
+        <el-col :span="3">
+          <el-form style="line-height: 40px; margin-left: 20px;font-size: 12px">
+            <el-form-item label="">
+              <!--							<el-avatar shape="square" style="margin-top: 5px" :size="30" :src="squareUrl"></el-avatar>-->
+              <el-dropdown>
+                  <span class="el-dropdown-link" style="font-size: 18px;color: #303133">
+                   当前登录人：{{token.empName}}<i class="el-icon-arrow-down el-icon--right"></i>
+                       </span>
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item @click="signout">切换用户</el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
+            </el-form-item>
+          </el-form>
+        </el-col>
       </el-row>
     </el-header>
     <el-container style="max-height: 100%;overflow: hidden;">
@@ -121,29 +121,7 @@
 export default {
   data(){
     return{
-      ptName:'',
-      patientBaseArr:[],
-      qm:"",
-      patientBase:{
-        ptNo:'',
-        ptInDate:'',
-        ptName:'',
-        ptSex:'',
-        ptAge:'',
-        ptBirthDate:'',
-        ptHome:'',
-        ptIphone:'',
-        ptUnit:'',
-        ptSbph:'',
-        ptZd:'',
-        ptWstext:'',
-        rtId:'',
-        ptCxr:'',
-        ptTbr:'',
-        ptHcqm:''
-      },
-      relationArr:[],
-      ptIsShow:false,//是否显示弹框
+      token:''
     }
   },
   methods:{
@@ -152,6 +130,8 @@ export default {
     },
   },
   created(){
+    this.token=this.$store.state.token
+    console.log(this.token,'2222')
   }
 }
 </script>
