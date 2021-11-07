@@ -1,6 +1,7 @@
 package com.trkj.crmproject.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import lombok.Data;
@@ -56,5 +57,9 @@ public class Linkman implements Serializable {
      */
     private String linkmanRemark;
 
-
+    /**
+     * 联系人对应的客户
+     */
+    @TableField(exist = false)
+    private Client client;
 }

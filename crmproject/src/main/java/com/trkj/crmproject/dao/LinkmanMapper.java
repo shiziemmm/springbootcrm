@@ -16,4 +16,14 @@ import java.util.List;
 public interface LinkmanMapper extends BaseMapper<Linkman> {
     List<Linkman> selectByClientId(Integer ClientId);
 
+    public List<Linkman> findLinkman();
+
+    public List<Linkman> findLinkmanSex(String linkmanSex);
+
+    public List<Linkman> selectLinkman(Linkman linkman);
+
+    public void addLinkman(Linkman linkman);
+
+    public void updateLinkman(Linkman linkman);
+
 }

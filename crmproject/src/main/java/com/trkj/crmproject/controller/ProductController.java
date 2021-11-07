@@ -4,10 +4,12 @@ package com.trkj.crmproject.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.trkj.crmproject.entity.Product;
 import com.trkj.crmproject.service.ProductService;
+import com.trkj.crmproject.util.IdWorker;
 import com.trkj.crmproject.util.MyResult;
 import com.trkj.crmproject.util.ResultVoUtil;
 import com.trkj.crmproject.vo.ResultVo;
 import com.trkj.crmproject.vo.SearchListVo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -26,12 +28,15 @@ import java.util.List;
 public class ProductController {
     @Resource
     private ProductService productService;
-
+    @Resource
+    private IdWorker idWorker;
     /**
      * 新增产品
      */
     @PostMapping("/add")
     public MyResult add(@RequestBody Product product){
+        product.setPrTimeliness(true);
+        product.setPrCoding(idWorker.nextId()+"");
         return MyResult.SUCCESS_Object(productService.save(product));
     }
     /**
@@ -79,4 +84,5 @@ public class ProductController {
         List<Product> all = productService.findAll();
         return ResultVoUtil.success(all);
     }
+
 }

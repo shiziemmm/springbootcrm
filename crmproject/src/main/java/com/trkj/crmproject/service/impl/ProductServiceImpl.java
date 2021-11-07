@@ -36,7 +36,9 @@ public class ProductServiceImpl extends ServiceImpl<ProductDao, Product> impleme
         Page<Product> page=new Page<>(vo.getPageNum(),vo.getPageSize());
         QueryWrapper<Product> wrapper=new QueryWrapper<>();
         if (vo.getKeyword()!=null){
-            wrapper.like("CONCAT(pr_coding,pr_name,pr_model)",vo.getKeyword());
+            wrapper.like("pr_coding",vo.getKeyword())
+            .or().like("pr_name",vo.getKeyword())
+            .or().like("pr_model",vo.getKeyword());
         }
         wrapper.eq("pr_timeliness",1);
         IPage<Product> productIPage = productDao.selectList(page, wrapper);

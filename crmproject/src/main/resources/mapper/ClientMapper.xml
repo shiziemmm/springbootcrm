@@ -20,6 +20,7 @@
         <result column="client_remark" property="clientRemark" />
         <result column="client_transfer" property="clientTransfer" />
     </resultMap>
+
     <resultMap id="selectByName" type="com.trkj.crmproject.entity.Client">
         <id column="client_id" property="clientId" />
         <result column="client_name" property="clientName" />
@@ -94,32 +95,35 @@
 
 <!--   新增客户-->
     <insert id="addClient">
-        insert into client (client_name,client_phone,
+        insert into client (client_id,client_name,client_phone,
                             client_time,client_seas,
                             client_kind,client_period,
                             client_qualitative,client_rank,
                             client_signing_date,client_contract_amount,
                             client_source,client_site,
-                            client_remark,client_transfer)
+                            client_remark
+                            ,client_transfer
+                            )
                             values
-                            (#{clientName},#{clientPhone},
+                            (#{clientId},#{clientName},#{clientPhone},
                              #{clientTime},#{clientSeas},
                              #{clientKind},#{clientPeriod},
                              #{clientQualitative},#{clientRank},
                              #{clientSigningDate},#{clientContractAmount},
                              #{clientSource},#{clientSite},
-                             #{clientRemark},#{clientTransfer})
+                             #{clientRemark}
+                             ,#{clientTransfer}
+                             )
     </insert>
 
 <!--    修改客户-->
     <update id="updateClient">
         update client set client_name=#{clientName},client_phone=#{clientPhone},
-                          client_time=#{clientTime},client_seas=#{clientSeas},
                           client_kind=#{clientKind},client_period=#{clientPeriod},
                           client_qualitative=#{clientQualitative},client_rank=#{clientRank},
                           client_signing_date=#{clientSigningDate},client_contract_amount=#{clientContractAmount},
                           client_source=#{clientSource},client_site=#{clientSite},
-                          client_remark=#{clientRemark},client_transfer=#{clientTransfer}
+                          client_remark=#{clientRemark}
         where client_id=#{clientId}
     </update>
 

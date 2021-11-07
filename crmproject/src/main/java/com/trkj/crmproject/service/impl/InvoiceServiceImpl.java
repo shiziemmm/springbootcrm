@@ -4,6 +4,8 @@ import com.trkj.crmproject.entity.Invoice;
 import com.trkj.crmproject.dao.InvoiceMapper;
 import com.trkj.crmproject.service.InvoiceService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.trkj.crmproject.util.MyResult;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,5 +18,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class InvoiceServiceImpl extends ServiceImpl<InvoiceMapper, Invoice> implements InvoiceService {
+    @Autowired
+    InvoiceMapper invoiceMapper;
+
+
+    public MyResult select(){
+        return MyResult.SUCCESS_DATA(invoiceMapper.selectList(null));
+    }
 
 }

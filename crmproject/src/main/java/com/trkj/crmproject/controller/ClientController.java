@@ -2,16 +2,11 @@ package com.trkj.crmproject.controller;
 
 import com.trkj.crmproject.entity.Client;
 import com.trkj.crmproject.service.ClientService;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
 import com.trkj.crmproject.util.MyResult;
-import org.springframework.web.bind.annotation.PostMapping;
-
-import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * <p>
@@ -22,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @since 2021-11-06
  */
 @RestController
-@RequestMapping("/client")
+//@RequestMapping("/client")
 public class ClientController {
     @Resource
     ClientService clientService;
@@ -34,12 +29,29 @@ public class ClientController {
 
     @RequestMapping("/find_client_period")
     public List<Client> findClientPeriod(String clientPeriod){
+        System.out.println(clientPeriod);
         return clientService.findClientPeriod(clientPeriod);
     }
 
     @RequestMapping("/find_client_name")
     public List<Client> findClientName(String clientName) {
         return clientService.findClientName(clientName);
+    }
+
+    @RequestMapping("/select_client")
+    public List<Client> selectClient(Client client){
+        System.out.println(client);
+        return clientService.selectClient(client);
+    }
+
+    @PostMapping("/save_client")
+    public void saveClient(@RequestBody Client client){
+        clientService.saveClient(client);
+    }
+
+    @RequestMapping("/update_client_seas")
+    public void updateClientSeas(Integer clientId,String clientSeas) {
+        clientService.updateClientSeas(clientId, clientSeas);
     }
 
     @PostMapping("/selectbyname")

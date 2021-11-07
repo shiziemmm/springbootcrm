@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -45,7 +48,11 @@ public class ClientServiceImpl extends ServiceImpl<ClientMapper, Client> impleme
     }
 
     public void saveClient(Client client){
-        if (client.getClientId()==null||client.getClientId().equals("")){
+        if (client.getClientId() == null || client.getClientId().equals("")){
+            client.setClientTime(new Timestamp(new Date().getTime()));
+            client.setClientSeas(0);
+            client.setClientTransfer("nmsl");
+            System.out.println(client);
             clientMapper.addClient(client);
         }else{
             clientMapper.updateClient(client);

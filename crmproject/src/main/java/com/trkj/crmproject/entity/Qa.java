@@ -2,6 +2,8 @@ package com.trkj.crmproject.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 import lombok.Data;
@@ -55,7 +57,7 @@ public class Qa implements Serializable {
     /**
      * 创建时间
      */
-    private LocalDateTime qaTime;
+    private Timestamp qaTime;
 
     /**
      * 分类
