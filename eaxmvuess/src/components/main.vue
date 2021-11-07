@@ -130,7 +130,7 @@ export default {
     },
   },
   created(){
-    this.token=this.$store.state.token
+    this.token=JSON.parse(localStorage.getItem("loginuser"))
     console.log(this.token,'2222')
   }
 }

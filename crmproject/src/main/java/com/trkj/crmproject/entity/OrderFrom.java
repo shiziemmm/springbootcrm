@@ -146,6 +146,10 @@ public class OrderFrom implements Serializable {
      * 订单备注
      */
     private String odrRemark;
+    /**
+     * 回款金额
+     */
+    private Double odrReturnPrice;
 
     //关系
 

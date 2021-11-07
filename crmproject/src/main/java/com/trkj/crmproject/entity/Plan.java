@@ -2,6 +2,8 @@ package com.trkj.crmproject.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 import lombok.Data;
@@ -31,19 +33,9 @@ public class Plan implements Serializable {
      * 订单编号（外键字段链接订单表）
 
      */
-    private Integer odrId;
+    private String odrId;
 
-    /**
-     * 回款期次编号（外链接回款期次编号）
 
-     */
-    private Integer isuId;
-
-    /**
-     * 期次名称（由回款期次名称和选中第几期回款拼接）
-
-     */
-    private String futuresName;
 
     /**
      * 负责人
@@ -67,13 +59,9 @@ public class Plan implements Serializable {
      * 计划回款日期
 
      */
-    private LocalDateTime plaTime;
+    private Timestamp plaTime;
 
-    /**
-     * 逾期天数（后一次回款时间不得与前一次回款时间超过30天）
 
-     */
-    private String daysOverdue;
 
     /**
      * 是否删除（0：删除1：未删）
@@ -86,6 +74,10 @@ public class Plan implements Serializable {
 
      */
     private String customerName;
+
+    private String plaWhether;
+
+    private String invoice;
 
 
 }

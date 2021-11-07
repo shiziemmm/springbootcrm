@@ -18,16 +18,16 @@
         </el-form-item>
       </el-form>
 
-      <!--					<el-dialog-->
-      <!--					  title="温馨提示"-->
-      <!--					  :visible.sync="dialogVisible"-->
-      <!--            modelVa="dialogVisible"-->
-      <!--					  width="30%"  :before-close="handleClose">-->
-      <!--					  <span>请输入账号和密码</span>-->
-      <!--					  <span slot="footer" class="dialog-footer">-->
-      <!--					    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>-->
-      <!--					  </span>-->
-      <!--			</el-dialog>-->
+<!--      					<el-dialog-->
+<!--      					  title="温馨提示"-->
+<!--      					 v-model="dialogVisible"-->
+<!--                  modelVa="dialogVisible"-->
+<!--      					  width="30%"  :before-close="handleClose">-->
+<!--      					  <span>请输入账号和密码</span>-->
+<!--      					  <span slot="footer" class="dialog-footer">-->
+<!--      					    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>-->
+<!--      					  </span>-->
+<!--      			</el-dialog>-->
     </div>
   </div>
 </template>
@@ -69,7 +69,7 @@ export default{
             console.log(v)
             if(v.data.code==200){
               this.$store.state.token =v.data.obj[0];
-              this.$store.commit("initMenu",v.data.obj[0])
+              this.$store.commit("login",v.data.obj[0])
               sessionStorage.setItem("token",JSON.stringify(v.data.obj[0]))
               console.log(this.$store.state.token)
               this.$router.push('/home')
@@ -85,6 +85,19 @@ export default{
       })
     }
 
+  },
+  created() {
+    //清空sessionStorage
+    this.$store.state.token = ''
+    sessionStorage.removeItem("token")
+    this.axios.interceptors.request.use((config)=>{
+      if(this.$store.state.token.empId===null||this.$store.state.token.empId===undefined){
+        this.$router.push('/')
+      }else{
+        this.$router.push('/home')
+      }
+      return config;
+    });
   }
 }
 </script>

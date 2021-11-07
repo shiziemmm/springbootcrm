@@ -45,7 +45,7 @@ public class Returned implements Serializable {
     /**
      * 回款期次编号（外链接回款期次编号）
      */
-    private Integer isuId;
+    private String isuId;
 
     /**
      * 期次名称（由回款期次名称和选中第几期回款拼接）
@@ -89,5 +89,8 @@ public class Returned implements Serializable {
      */
     private Boolean retAgree;
 
-
+    /**
+     * 备注
+     */
+    private String beizhu;
 }
