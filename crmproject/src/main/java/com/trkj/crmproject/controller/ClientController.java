@@ -1,26 +1,17 @@
 package com.trkj.crmproject.controller;
 
-
-<<<<<<< HEAD
 import com.trkj.crmproject.entity.Client;
 import com.trkj.crmproject.service.ClientService;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.List;
-import com.trkj.crmproject.service.ClientService;
 import com.trkj.crmproject.util.MyResult;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -35,8 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ClientController {
     @Resource
     ClientService clientService;
-    @Autowired
-    private ClientService clientService;
 
     @RequestMapping("/find_client")
     public List<Client> findClient(){
@@ -53,11 +42,11 @@ public class ClientController {
         return clientService.findClientName(clientName);
     }
 
-        @PostMapping("/selectbyname")
-        public MyResult selectByName(@RequestParam(value = "clientName",required = false) String clientName) {
+    @PostMapping("/selectbyname")
+    public MyResult selectByName(@RequestParam(value = "clientName",required = false) String clientName) {
             System.out.println("获取的名字：" + clientName);
             return MyResult.SUCCESS_DATA(clientService.selectByName(clientName));
-        }
+    }
 
 }
 
