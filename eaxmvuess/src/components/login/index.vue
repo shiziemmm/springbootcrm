@@ -12,7 +12,7 @@
         <el-form-item>
           <el-row>
             <el-col style="margin-top: 15px"  :span="24">
-              <el-button  type="primary"   >登录</el-button>
+              <el-button  type="primary"   @click="onSubmit('form')">登录</el-button>
             </el-col>
           </el-row>
         </el-form-item>
@@ -42,7 +42,6 @@ export default{
         userPassword:''
       },
       form: {
-        uId:0,
         uName:'',
         uPswd:'',
       },
@@ -63,6 +62,28 @@ export default{
     }
   },
   methods: {
+    onSubmit(formName){
+      this.$refs[formName].validate(valid =>{
+        if(valid){
+          this.axios.post("/user/login",this.form).then((v)=>{
+            console.log(v)
+            if(v.data.code==200){
+              this.$store.state.token =v.data.obj[0];
+              this.$store.commit("initMenu",v.data.obj[0])
+              sessionStorage.setItem("token",JSON.stringify(v.data.obj[0]))
+              console.log(this.$store.state.token)
+              this.$router.push('/home')
+            }else{
+              this.form={
+                uName:'',
+                uPswd:''
+              }
+              alert("请重新登录")
+            }
+          }).catch()
+        }
+      })
+    }
 
   }
 }
