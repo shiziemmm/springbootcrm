@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务实现类
@@ -23,5 +25,10 @@ public class ProductClassServiceImpl extends ServiceImpl<ProductClassDao, Produc
     public boolean add(ProductClass productClass) {
         productClass.setPcTimeliness(true);
         return save(productClass);
+    }
+
+    @Override
+    public List<ProductClass> findAnPr() {
+        return productClassDao.findAnPr();
     }
 }

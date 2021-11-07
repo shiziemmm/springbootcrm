@@ -173,14 +173,14 @@ const routes = [
             //仓库管理
 
             {
-                path: '/warehouse-1',
-                name: 'Warehouse-1',
+                path: '/enter',
+                name: 'Enter',
                 component: () => import('/src/components/storage/access/enter/index.vue'),
                 meta: {title: '入库', icon: 'el-icon-s-help'},
             },
             {
-                path: '/warehouse-2',
-                name: 'Warehouse-2',
+                path: '/putup',
+                name: 'Putup',
                 component: () => import('/src/components/storage/access/putup/index.vue'),
                 meta: {title: '出库', icon: 'el-icon-s-help'},
             },
@@ -206,7 +206,7 @@ const routes = [
                 path: '/product-class',
                 name: 'Product-class',
                 component: () => import('/src/components/storage/product-class/index.vue'),
-                meta: {title: '分类', icon: 'el-icon-s-help'},
+                meta: {title: '产品分类', icon: 'el-icon-s-help'},
             }
         ]
     }
