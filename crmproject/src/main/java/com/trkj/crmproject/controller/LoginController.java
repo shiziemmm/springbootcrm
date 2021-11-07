@@ -24,11 +24,13 @@ public class LoginController {
     public MyResult login(@RequestBody Map params) {
 //        return userService.login(params);
         System.err.println(params);
-        System.err.println(params.get("username"));
+        System.err.println(params.get("uName"));
         Emp e=new Emp();
-        e.setEmpName(params.get("username").toString());
-        e.setEmpPass(params.get("password").toString());
+        e.setEmpName(params.get("uName").toString());
+        e.setEmpPass(params.get("uPswd").toString());
+        System.err.println(e);
         MyResult login = service.login(e);
+        System.err.println(login);
         return login;
     }
 

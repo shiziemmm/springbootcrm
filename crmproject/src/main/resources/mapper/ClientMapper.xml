@@ -20,5 +20,111 @@
         <result column="client_remark" property="clientRemark" />
         <result column="client_transfer" property="clientTransfer" />
     </resultMap>
+    <resultMap id="selectByName" type="com.trkj.crmproject.entity.Client">
+        <id column="client_id" property="clientId" />
+        <result column="client_name" property="clientName" />
+        <collection property="linkmen" ofType="com.trkj.crmproject.entity.Linkman"
+                    select="com.trkj.crmproject.dao.LinkmanMapper.selectByClientId"
+                    column="client_id"/>
+    </resultMap>
+    <select id="selectByName" resultMap="selectByName">
+        select client_id,client_name from client 
+        <where>
+            <if test="clientName!=null and clientName!=''">
+                client_name like concat('%',#{clientName},'%')
+            </if>
+        </where>
+    </select>
 
+<!--    查询所有客户数据-->
+    <select id="findClient" resultMap="BaseResultMap">
+        select * from client
+    </select>
+    
+<!--    根据客户生命周期查询-->
+    <select id="findClientPeriod" resultMap="BaseResultMap">
+        select * from client where client_period=#{clientPeriod}
+    </select>
+<!--    根据客户名称查询-->
+    <select id="findClientName" resultMap="BaseResultMap">
+        select * from client where client_name=#{clientName}
+    </select>
+<!--    高级查询（创建时间、预计签约金额、所有者、备注没上）-->
+    <select id="selectClient" resultMap="BaseResultMap">
+        select * from client
+        <where>
+            <if test="clientId !=null and clientId !=''">
+                and client_id=#{clientId}
+            </if>
+            <if test="clientName !=null and clientName !=''">
+                and client_name=#{clientName}
+            </if>
+            <if test="clientPhone !=null and clientPhone !=''">
+                and client_phone=#{clientPhone}
+            </if>
+            <if test="clientPhone !=null and clientPhone !=''">
+                and client_phone=#{clientPhone}
+            </if>
+            <if test="clientSeas !=null and clientSeas !=''">
+                and client_seas=#{clientSeas}
+            </if>
+            <if test="clientKind !=null and clientKind !=''">
+                and client_kind=#{clientKind}
+            </if>
+            <if test="clientPeriod !=null and clientPeriod !=''">
+                and client_period=#{clientPeriod}
+            </if>
+            <if test="clientQualitative !=null and clientQualitative !=''">
+                and client_qualitative=#{clientQualitative}
+            </if>
+            <if test="clientRank !=null and clientRank !=''">
+                and client_rank=#{clientRank}
+            </if>
+            <if test="clientSigningDate !=null and clientSigningDate !=''">
+                and client_signing_date=#{clientSigningDate}
+            </if>
+            <if test="clientSource !=null and clientSource !=''">
+                and client_source=#{clientSource}
+            </if>
+            <if test="clientSite !=null and clientSite !=''">
+                and client_site=#{clientSite}
+            </if>
+        </where>
+    </select>
+
+<!--   新增客户-->
+    <insert id="addClient">
+        insert into client (client_name,client_phone,
+                            client_time,client_seas,
+                            client_kind,client_period,
+                            client_qualitative,client_rank,
+                            client_signing_date,client_contract_amount,
+                            client_source,client_site,
+                            client_remark,client_transfer)
+                            values
+                            (#{clientName},#{clientPhone},
+                             #{clientTime},#{clientSeas},
+                             #{clientKind},#{clientPeriod},
+                             #{clientQualitative},#{clientRank},
+                             #{clientSigningDate},#{clientContractAmount},
+                             #{clientSource},#{clientSite},
+                             #{clientRemark},#{clientTransfer})
+    </insert>
+
+<!--    修改客户-->
+    <update id="updateClient">
+        update client set client_name=#{clientName},client_phone=#{clientPhone},
+                          client_time=#{clientTime},client_seas=#{clientSeas},
+                          client_kind=#{clientKind},client_period=#{clientPeriod},
+                          client_qualitative=#{clientQualitative},client_rank=#{clientRank},
+                          client_signing_date=#{clientSigningDate},client_contract_amount=#{clientContractAmount},
+                          client_source=#{clientSource},client_site=#{clientSite},
+                          client_remark=#{clientRemark},client_transfer=#{clientTransfer}
+        where client_id=#{clientId}
+    </update>
+
+<!--    转公海-->
+    <update id="updateClientSeas">
+        update client set client_seas = #{clientSeas} where client_id=#{clientId}
+    </update>
 </mapper>

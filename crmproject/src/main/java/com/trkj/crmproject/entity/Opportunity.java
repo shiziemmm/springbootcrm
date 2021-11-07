@@ -2,8 +2,11 @@ package com.trkj.crmproject.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
+
 import java.io.Serializable;
+import java.sql.Timestamp;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -40,7 +43,8 @@ public class Opportunity implements Serializable {
     /**
      * 更新日期
      */
-    private LocalDateTime opDate;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    private Timestamp opDate;
 
     /**
      * 状态
@@ -55,7 +59,8 @@ public class Opportunity implements Serializable {
     /**
      * 发现时间
      */
-    private LocalDateTime opFindtime;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+    private Timestamp opFindtime;
 
     /**
      * 客户来源
@@ -75,7 +80,8 @@ public class Opportunity implements Serializable {
     /**
      * 预期签单日期
      */
-    private LocalDateTime opExpectedSigningDate;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+    private Timestamp opExpectedSigningDate;
 
     /**
      * 可能性

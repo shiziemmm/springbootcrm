@@ -12,5 +12,8 @@
         <result column="linkman_sex" property="linkmanSex" />
         <result column="linkman_remark" property="linkmanRemark" />
     </resultMap>
+    <select id="selectByClientId" resultType="com.trkj.crmproject.entity.Linkman">
+        select linkman_id,linkman_name,linkman_phone from linkman where client_id=#{ClientId}
+    </select>
 
 </mapper>

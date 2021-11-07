@@ -1,7 +1,10 @@
 package com.trkj.crmproject.service;
 
+import com.trkj.crmproject.entity.Client;
 import com.trkj.crmproject.entity.OrderFrom;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface OrderFromService extends IService<OrderFrom> {
 
+    List<Client> selectByName(String name);
+
+    boolean addOrder(OrderFrom orderFrom);
 }
