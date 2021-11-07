@@ -16,7 +16,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author zzl
@@ -162,11 +162,6 @@ public class OrderFrom implements Serializable {
      * 外连接  连接报价编号
      */
     private Integer quId;
-
-    /**
-     * 回款金额
-     */
-    private Double odrReturnPrice;
 
     //关系
 
