@@ -1,9 +1,12 @@
 package com.trkj.crmproject.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.List;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -129,5 +132,26 @@ public class OrderFrom implements Serializable {
      */
     private Integer odrUsId;
 
+    /**
+     * 订单主题
+     */
+    private  String odrName;
 
+    /**
+     * 订单发货状态
+     */
+    private String odrShipmentsState;
+
+    /**
+     * 订单备注
+     */
+    private String odrRemark;
+
+    //关系
+
+    @TableField(exist = false)
+    private Client client;//客户对象
+    @TableField(exist = false)
+    private List<OrderFromDetail> orderFromDetail;//订单详情表
+    
 }

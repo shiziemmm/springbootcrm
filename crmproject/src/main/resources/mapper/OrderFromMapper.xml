@@ -26,6 +26,9 @@
         <result column="op_id" property="opId" />
         <result column="linkman_id" property="linkmanId" />
         <result column="odr_us_id" property="odrUsId" />
+        <result column="odr_name" property="odrName"/>
+        <result column="odr_shipments_state" property="odrShipmentsState"/>
+        <result column="odr_remark" property="odrRemark"/>
     </resultMap>
 
 </mapper>

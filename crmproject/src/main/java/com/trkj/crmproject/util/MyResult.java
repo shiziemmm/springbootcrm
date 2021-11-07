@@ -15,6 +15,7 @@ public class MyResult implements Serializable{
 	private List<?> data;
 	//响应到前台的对象数据（单条）
 	private Object obj;
+
 	
 	/**
 	  * 成功。没有携带响应数据，仅仅只是告诉前端，数据成功了（一般用于更新、删除等操作）
@@ -89,6 +90,19 @@ public class MyResult implements Serializable{
 	public void setData(List<?> data) {
 		this.data = data;
 	}
-	
-	
+
+	public MyResult(Integer code, String msg, List<?> data) {
+		this.code = code;
+		this.msg = msg;
+		this.data = data;
+	}
+
+	@Override
+	public String toString() {
+		return "MyResult{" +
+				"code=" + code +
+				", msg='" + msg + '\'' +
+				'}';
+	}
+
 }
