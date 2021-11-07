@@ -62,7 +62,7 @@ public class Invoice implements Serializable {
      * 是否回款(0:已回1：未回)
 
      */
-    private Integer invWhether;
+    private String invWhether;
 
     /**
      * 负责人

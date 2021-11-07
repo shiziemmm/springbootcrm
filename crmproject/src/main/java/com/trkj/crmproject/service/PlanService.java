@@ -2,6 +2,7 @@ package com.trkj.crmproject.service;
 
 import com.trkj.crmproject.entity.Plan;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.trkj.crmproject.util.MyResult;
 
 /**
  * <p>
@@ -12,5 +13,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2021-11-06
  */
 public interface PlanService extends IService<Plan> {
+    MyResult planlist();
+    int addplan(Plan plan);
+    int delet(Integer id);
+    int upd(Plan plan);
+    MyResult state(String value);
 
 }
