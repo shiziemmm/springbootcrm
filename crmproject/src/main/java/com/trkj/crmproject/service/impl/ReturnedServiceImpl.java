@@ -1,7 +1,10 @@
 package com.trkj.crmproject.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.trkj.crmproject.dao.EmpMapper;
+import com.trkj.crmproject.dao.OrderFromMapper;
 import com.trkj.crmproject.entity.Emp;
+import com.trkj.crmproject.entity.OrderFrom;
 import com.trkj.crmproject.entity.Returned;
 import com.trkj.crmproject.dao.ReturnedMapper;
 import com.trkj.crmproject.service.ReturnedService;
@@ -28,6 +31,13 @@ import java.util.List;
 public class ReturnedServiceImpl extends ServiceImpl<ReturnedMapper, Returned> implements ReturnedService {
     @Autowired
     ReturnedMapper returnedMapper;
+
+    @Autowired
+    EmpMapper empMapper;
+
+
+    @Autowired
+    OrderFromMapper orderFromMapper;
 
     public MyResult returneds(){
         List<Returned> returneds = returnedMapper.selectList(null);
@@ -88,4 +98,20 @@ public class ReturnedServiceImpl extends ServiceImpl<ReturnedMapper, Returned> i
         }
     }
 
+    public List<Emp> emp(){
+        return empMapper.selectList(null);
+    }
+
+    public List<OrderFrom> select(){
+        return orderFromMapper.selectList(null);
+    }
+    public int insert(Returned returned){
+        return returnedMapper.insert(returned);
+    }
+    public int upa(Returned returned){
+        return returnedMapper.updateById(returned);
+    }
+    public int delete(Integer reId){
+        return returnedMapper.deleteById(reId);
+    }
 }

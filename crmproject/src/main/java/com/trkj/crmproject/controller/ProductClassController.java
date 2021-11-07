@@ -53,7 +53,7 @@ public class ProductClassController {
      * 根据id查询产品类别
      * @return
      */
-    @GetMapping("find/{id}")
+    @GetMapping("/find/{id}")
     public MyResult find(@PathVariable("id") String id){
         ProductClass productClass = productClassService.getById(id);
         return MyResult.SUCCESS_Object(productClass);
@@ -62,9 +62,17 @@ public class ProductClassController {
      * 查询全部产品类别
      * @return
      */
-    @GetMapping("findAll")
+    @GetMapping("/findAll")
     public ResultVo findAll(){
         List<ProductClass> all = productClassService.list();
+        return ResultVoUtil.success(all);
+    }
+    /**
+     * 查询全部类别and产品
+     */
+    @GetMapping("/findJoin")
+    public ResultVo findJoin(){
+        List<ProductClass> all = productClassService.findAnPr();
         return ResultVoUtil.success(all);
     }
 }

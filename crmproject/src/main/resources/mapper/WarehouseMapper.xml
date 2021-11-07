@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.trkj.crmproject.dao.WarehouseDao">
-
+    <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.Warehouse">
+        <id column="wa_id" jdbcType="INTEGER" property="waId" />
+        <result column="wa_name" jdbcType="VARCHAR" property="waName" />
+        <result column="wa_location" jdbcType="VARCHAR" property="waLocation" />
+        <result column="wa_describes" jdbcType="VARCHAR" property="waDescribes" />
+        <result column="wa_state" jdbcType="INTEGER" property="waState" />
+        <result column="wa_timeliness" jdbcType="BOOLEAN" property="waTimeliness" />
+    </resultMap>
+    <sql id="Base_Column_List">
+    wa_id, wa_name, wa_location, wa_describes, wa_state, wa_timeliness
+   </sql>
+    <select id="selectList" resultType="com.trkj.crmproject.entity.Warehouse">
+        select <include refid="Base_Column_List"></include>
+        from warehouse ${ew.customSqlSegment}
+    </select>
 </mapper>

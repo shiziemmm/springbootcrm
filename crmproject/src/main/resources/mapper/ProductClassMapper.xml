@@ -1,5 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.trkj.crmproject.dao.ProductClassDao">
-
+    <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.ProductClass">
+        <id column="pc_id" jdbcType="INTEGER" property="pcId" />
+        <result column="pc_pid" jdbcType="INTEGER" property="pcPid" />
+        <result column="pc_name" jdbcType="VARCHAR" property="pcName" />
+        <result column="pc_timeliness" jdbcType="BOOLEAN" property="pcTimeliness" />
+    </resultMap>
+    <resultMap id="BaseResultMap2" type="com.trkj.crmproject.entity.ProductClass" extends="BaseResultMap">
+        <collection property="products" ofType="com.trkj.crmproject.entity.Product">
+            <id column="pr_id" jdbcType="INTEGER" property="prId" />
+            <result column="pr_pc_id" jdbcType="INTEGER" property="prPcId" />
+            <result column="pr_name" jdbcType="VARCHAR" property="prName" />
+            <result column="pr_coding" jdbcType="VARCHAR" property="prCoding" />
+            <result column="pr_state" jdbcType="INTEGER" property="prState" />
+            <result column="pr_unit" jdbcType="VARCHAR" property="prUnit" />
+            <result column="pr_price" jdbcType="DOUBLE" property="prPrice" />
+            <result column="pr_cost_price" jdbcType="DOUBLE" property="prCostPrice" />
+            <result column="pr_model" jdbcType="VARCHAR" property="prModel" />
+            <result column="pr_weight" jdbcType="INTEGER" property="prWeight" />
+            <result column="pr_outline" jdbcType="VARCHAR" property="prOutline" />
+            <result column="pr_description" jdbcType="VARCHAR" property="prDescription" />
+            <result column="pr_remark" jdbcType="VARCHAR" property="prRemark" />
+            <result column="pr_timeliness" jdbcType="BOOLEAN" property="prTimeliness" />
+        </collection>
+    </resultMap>
+    <sql id="Base_Column_List">
+    e.pc_id, e.pc_pid, e.pc_name, e.pc_timeliness
+  </sql>
+    <sql id="Base_Column_List2">
+    l.pr_id, l.pr_pc_id, l.pr_name, l.pr_coding, l.pr_state, l.pr_unit, l.pr_price, l.pr_cost_price,
+    l.pr_model, l.pr_weight, l.pr_outline, l.pr_description, l.pr_remark, l.pr_timeliness
+   </sql>
+    <select id="findAnPr" resultMap="BaseResultMap2">
+        select <include refid="Base_Column_List"></include>, <include refid="Base_Column_List2"></include>
+        from product_class e left join product l on e.pc_id=l.pr_pc_id where l.pr_state=0
+    </select>
 </mapper>

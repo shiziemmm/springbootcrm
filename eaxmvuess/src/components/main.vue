@@ -97,10 +97,10 @@
             <el-menu-item-group >
               <el-menu-item @click="pushUrl('/warehouse-1')" index="5-1">仓库</el-menu-item>
               <el-menu-item @click="pushUrl('/warehouse-2')" index="5-2">库存</el-menu-item>
-              <el-menu-item @click="pushUrl('/warehouse-2')" index="5-3">出库</el-menu-item>
-              <el-menu-item @click="pushUrl('/warehouse-1')" index="5-4">入库</el-menu-item>
+              <el-menu-item @click="pushUrl('/putup')" index="5-3">出库</el-menu-item>
+              <el-menu-item @click="pushUrl('/enter')" index="5-4">入库</el-menu-item>
               <el-menu-item @click="pushUrl('/product-1')" index="5-5">产品</el-menu-item>
-              <el-menu-item @click="pushUrl('/product-class')" index="5-6">分类</el-menu-item>
+              <el-menu-item @click="pushUrl('/product-class')" index="5-6">产品分类</el-menu-item>
             </el-menu-item-group>
           </el-sub-menu>
         </el-menu>
@@ -130,7 +130,7 @@ export default {
     },
   },
   created(){
-    this.token=this.$store.state.token
+    this.token=JSON.parse(localStorage.getItem("loginuser"))
     console.log(this.token,'2222')
   }
 }
