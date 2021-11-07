@@ -20,5 +20,20 @@
         <result column="client_remark" property="clientRemark" />
         <result column="client_transfer" property="clientTransfer" />
     </resultMap>
+    <resultMap id="selectByName" type="com.trkj.crmproject.entity.Client">
+        <id column="client_id" property="clientId" />
+        <result column="client_name" property="clientName" />
+        <collection property="linkmen" ofType="com.trkj.crmproject.entity.Linkman"
+                    select="com.trkj.crmproject.dao.LinkmanMapper.selectByClientId"
+                    column="client_id"/>
+    </resultMap>
+    <select id="selectByName" resultMap="selectByName">
+        select client_id,client_name from client 
+        <where>
+            <if test="clientName!=null and clientName!=''">
+                client_name like concat('%',#{clientName},'%')
+            </if>
+        </where>
+    </select>
 
 </mapper>
