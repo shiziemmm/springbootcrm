@@ -15,4 +15,49 @@
         <result column="qa_state" property="qaState" />
     </resultMap>
 
+<!--    查询QA库所有数据-->
+    <select id="findQa" resultMap="BaseResultMap">
+        select * from qa
+    </select>
+<!--    根据问题进行查询-->
+    <select id="findQaProblem" resultMap="BaseResultMap">
+        select * from qa where qa_pronlem=#{qaProblem}
+    </select>
+<!--    根据分类进行查询-->
+    <select id="" resultMap="BaseResultMap">
+        select * from qa where qa_classify=#{qaClassify}
+    </select>
+<!--    高级检索-->
+    <select id="selectQa" resultMap="BaseResultMap">
+        select * from qa
+        <where>
+            <if test="qaProblem != null and qaProblem !=''">
+               and qa_pronlem=#{qaProblem}
+            </if>
+            <if test="qaAuthor != null and qaAuthor !=''">
+                and qa_author = #{qaAuthor}
+            </if>
+            <if test="qaClassify != null and qaClassify !=''">
+                and qa_classify=#{qaClassify}
+            </if>
+            <if test="qaState != null and qaState !=''">
+                and qa_state=#{qaState}
+            </if>
+        </where>
+    </select>
+
+<!--    新增QA库-->
+    <insert id="addQa">
+        insert into qa (qa_problem,qa_explain,qa_internal_tip,qa_author,qa_time,qa_classify,qa_state)
+                        values
+                        (#(qaProblem),#(qaExplain),#(qaInternalTip),#(qaAuthor),#(qaTime),#(qaClassify),#(qaState))
+    </insert>
+<!--    修改QA库-->
+    <update id="updateQa">
+        update qa set qa_problem=#(qaProblem),qa_explain=#(qaExplain),
+                      qa_internal_tip=#(qaInternalTip),qa_author=#(qaAuthor),
+                      qa_time=#(qaTime),qa_classify=#(qaClassify),qa_state#(qaState)
+                where qa_id=#{qaId}
+    </update>
+
 </mapper>
