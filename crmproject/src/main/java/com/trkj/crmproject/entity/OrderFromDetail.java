@@ -1,6 +1,7 @@
 package com.trkj.crmproject.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import lombok.Data;
@@ -30,6 +31,11 @@ public class OrderFromDetail implements Serializable {
      * 外连接 连接订单编号
      */
     private Integer odrId;
+
+    /**
+     * 订单号
+     */
+    private String odrOn;
 
     /**
      * 产品ID
@@ -65,6 +71,12 @@ public class OrderFromDetail implements Serializable {
      * 备注
      */
     private String odrdlRemark;
+
+    //关系
+    @TableField
+    private Product product;//商品对象
+    @TableField
+    private OrderFrom orderFrom;//订单对象
 
 
 }

@@ -1,12 +1,11 @@
 <template>
 
   <!--新增订单弹框-->
-  <!--=============================================选择住院申请病人弹框===================================-->
-  <el-dialog width="65%" title="新建订单信息" @close="closeHspApply" v-model="isShowOrder">
-      <el-form :model="baseInfo"  >
+  <el-dialog width="55%" title="新建订单信息" @close="closeOrder" v-model="isShowOrder">
+      <el-form ref="orderRef" :rules="orderRules" :model="orderObj"  >
         <el-row>
           <el-col :offset="1" :span="22">
-            <el-form-item prop="name" label="订单主题：" label-width="100px" >
+            <el-form-item prop="odrName" label="订单主题：" label-width="120px" >
               <el-input size="medium" v-model="orderObj.odrName"></el-input>
             </el-form-item>
           </el-col>
@@ -14,54 +13,23 @@
 
         <el-row>
           <el-col :offset="1" :span="10">
-            <el-form-item prop="name" label="对应客户：" label-width="100px" >
-              <el-input size="medium" disabled v-model="baseInfo"></el-input>
+            <el-form-item prop="customerName" label="对应客户：" label-width="120px" >
+              <el-input size="medium" disabled v-model="orderObj.customerName"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :offset="1" :span="9">
-            <el-form-item prop="medium" label="查找客户：" label-width="100px" >
-<!--              <el-select @click="clientArrFun"-->
-<!--                  v-model="orderObj.clientId"-->
-<!--                  filterable-->
-<!--                  remote-->
-<!--                  placeholder="客户名称"-->
-<!--                  :remote-method="clientArrFun"-->
-<!--                  :loading="loading"-->
-<!--              >-->
-<!--                <el-option-->
-<!--                    v-for="cli in clientArr"-->
-<!--                    :key="cli.clientId"-->
-<!--                    :label="cli.clientName"-->
-<!--                    :value="cli.clientId"-->
-<!--                >-->
-<!--                </el-option>-->
-<!--              </el-select>-->
-
-              <el-autocomplete
-                  v-model="orderObj.clientId"
-                  :fetch-suggestions="clientArrFun"
-                  placeholder="客户名称"
-                  @select="clientArrFun"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="1" >
-            <el-button  size="medium" @click="clientArrFun"  type="primary" >搜索</el-button>
-          </el-col>
-        </el-row>
-
-        <el-row>
           <el-col :offset="1" :span="10">
-            <el-form-item prop="name" label="订单号：" label-width="100px" >
-              <el-input size="medium" disabled v-model="orderObj.odrOn"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :offset="1" :span="11">
-            <el-form-item prop="medium" label="我方签约人：" label-width="100px" >
-              <el-select v-model="orderObj.odrUsId" @change="changeOdrUs" placeholder="请选择">
-                <el-option v-for="ks in ksArr"
-                           :label="ks.ksName"
-                           :value="ks.ksId">
+            <el-form-item prop="medium" label="查找客户：" label-width="120px" >
+              <el-select @change="clientObjChange" filterable
+                  v-model="clientObj"
+                  clearable value-key="clientId"
+                  placeholder="客户名称"
+              >
+                <el-option
+                    v-for="cli in clientArr"
+                    :key="cli.clientId"
+                    :label="cli.clientName"
+                    :value="cli"
+                >
                 </el-option>
               </el-select>
             </el-form-item>
@@ -70,13 +38,36 @@
 
         <el-row>
           <el-col :offset="1" :span="10">
-            <el-form-item prop="name" label="最晚发货日期：" label-width="110px" >
-              <el-input size="medium" v-model="baseInfo"></el-input>
+            <el-form-item prop="name" label="订单号：" label-width="120px" >
+              <el-input size="medium" disabled v-model="orderObj.odrOn"></el-input>
             </el-form-item>
           </el-col>
           <el-col :offset="1" :span="11">
-            <el-form-item prop="medium" label="执行状态：" label-width="100px" >
-              <el-radio-group v-model="orderObj.odrState"  @change="selectPharmacyDoctorKs">
+            <el-form-item prop="odrUsId" label="我方签约人：" label-width="120px" >
+              <el-select v-model="orderObj.odrUsId" @change="changeOdrUs" placeholder="请选择">
+                <el-option v-for="ar in empArr"
+                           :label="ar.empName"
+                           :value="ar.empId">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row>
+          <el-col :offset="1" :span="10">
+            <el-form-item prop="odrOutDate" label="最晚发货日期:" label-width="120px" >
+              <el-date-picker  v-model="orderObj.odrOutDate"
+                              type="date"
+                              size="small"
+                              value-format="YYYY-MM-DD"
+                              placeholder="日期">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :offset="1" :span="11">
+            <el-form-item prop="medium" label="执行状态：" label-width="120px" >
+              <el-radio-group v-model="orderObj.odrState" >
                 <el-radio :label="1">执行</el-radio>
                 <el-radio :label="2">结束</el-radio>
                 <el-radio :label="3">意外终止</el-radio>
@@ -92,12 +83,12 @@
 
         <el-row>
           <el-col :offset="1" :span="10">
-            <el-form-item prop="name" label="收货人姓名：" label-width="100px" >
+            <el-form-item prop="odrAddressee" label="收货人姓名：" label-width="120px" >
               <el-input size="medium" v-model="orderObj.odrAddressee"></el-input>
             </el-form-item>
           </el-col>
           <el-col :offset="1" :span="11">
-            <el-form-item prop="name" label="收货人电话：" label-width="100px" >
+            <el-form-item prop="odrAddresseePhone" label="收货人电话：" label-width="120px" >
               <el-input size="medium" v-model="orderObj.odrAddresseePhone"></el-input>
             </el-form-item>
           </el-col>
@@ -105,7 +96,7 @@
 
         <el-row>
         <el-col :offset="1" :span="22">
-          <el-form-item prop="name" label="收货地址：" label-width="100px" >
+          <el-form-item prop="odrProvince" label="收货地址：" label-width="120px" >
             <el-cascader style="width: 100%;" size="large"  :options="citys" v-model="selectedOptions"
                          @change="cityChange" >
             </el-cascader>
@@ -115,7 +106,7 @@
 
         <el-row>
           <el-col :offset="1" :span="22">
-            <el-form-item prop="name" label="详细地址：" label-width="100px" >
+            <el-form-item prop="odrCity" label="详细地址：" label-width="120px" >
               <el-input v-model="orderObj.odrCity" property="详情地址"/>
             </el-form-item>
           </el-col>
@@ -123,7 +114,7 @@
 
         <el-row>
           <el-col :offset="1" :span="22">
-            <el-form-item prop="name" label="备注：" label-width="100px" >
+            <el-form-item label="备注：" label-width="120px" >
               <el-input type="textarea" v-model="orderObj.odrRemark" property="订单备注"/>
             </el-form-item>
           </el-col>
@@ -149,28 +140,36 @@
 
     </el-dialog>
 
+  <el-row style="padding: 10px 0px">
+    <el-col :offset="12" :span="4"><span style="font-weight: 900;font-size: 18px">订单管理</span></el-col>
+  </el-row>
+
   <el-row style="padding: 15px 0px">
 
-    <el-col :offset="4" :span="4">
-      <el-input @blur="initChangeBedRecord" size="mini"  placeholder="根据客户名称或者负责人搜索"></el-input>
+    <el-col :offset="2" :span="4">
+      <el-input @blur="initChangeBedRecord" size="mini" v-model="SelectWhere.searchLike"  placeholder="根据客户名称或者负责人搜索"></el-input>
     </el-col>
     <el-col :span="1" >
-      <el-button  size="mini"   type="primary" >搜索</el-button>
+      <el-button  size="mini" @click="initOrder"  type="primary" >搜索</el-button>
     </el-col>
 
 
-    <el-col :offset="1"  :span="8">
-      &nbsp;<span style="font-size: 12px;">操作日期：</span>&nbsp;
+    <el-col :offset="1"  :span="10">
+      &nbsp;<span style="font-size: 12px;">最晚发货日期：</span>&nbsp;
 
-      <el-date-picker @change="initChangeBedRecord" style="width: 130px"
+      <el-date-picker @change="initOrder" style="width: 160px"
                       type="date"
                       size="mini"
+                      value-format="YYYY-MM-DD"
+                      v-model="SelectWhere.startDate"
                       placeholder="日期">
       </el-date-picker>
       &nbsp;<span style="font-size: 12px;">至</span>&nbsp;
-      <el-date-picker @change="initChangeBedRecord" style="width: 130px"
+      <el-date-picker @change="initChangeBedRecord" style="width: 160px"
                       type="date"
                       size="mini"
+                      value-format="YYYY-MM-DD"
+                      v-model="SelectWhere.endDate"
                       placeholder="日期">
       </el-date-picker>
     </el-col>
@@ -186,20 +185,42 @@
   <!--查看病历表格-->
   <el-row>
     <el-col>
-      <el-table :data="orderArr" height="460" size="mini">
-        <el-table-column prop="odrOn" label="订单号" />
+      <el-table :data="orderArr.slice((orderCurrent-1)*orderSize,orderCurrent*orderSize)" height="460" size="mini">
+        <el-table-column prop="odrOn" width="100px"  label="订单号" />
         <el-table-column prop="odrName" label="订单主题" />
         <el-table-column prop="odrCount" label="产品数量" />
         <el-table-column prop="customerName" label="对应客户" />
         <el-table-column prop="odrPrice" label="订单总额" />
-        <el-table-column prop="odrOutPrice" label="发货金额" />
-        <el-table-column prop="hk" label="回款金额" />
-        <el-table-column prop="odrState" label="订单状态" />
+        <el-table-column prop="odrOutPrice"  label="发货金额" />
+        <el-table-column prop="odrReturnPrice" label="回款金额"/> >
+        <el-table-column label="订单状态" >
+          <template #default="obj">
+            {{obj.row.odrState == 1 ? '执行中' : obj.row.odrState == 2 ? '结束' : '意外终止'}}
+          </template>
+        </el-table-column>
         <el-table-column prop="odrShipmentsState" label="发货状态" />
-        <el-table-column prop="empName" label="所有者" />
-        <el-table-column prop="odrDate" label="生成时间" />
-        <el-table-column prop="odrOutDate" label="最晚发货日期" />
+        <el-table-column prop="emp.empName" label="所有者" />
+        <el-table-column prop="odrDate" width="150px" label="生成时间" />
+        <el-table-column prop="odrOutDate" width="100px" label="最晚发货日期" />
+        <el-table-column width="150px" label="操作">
+          <template #default="obj">
+            <el-button size="mini" @click="addProduct(obj.row)" type="text">添加产品</el-button>
+            <el-button type="text" size="mini">取消订单</el-button>
+          </template>
+        </el-table-column>
       </el-table>
+
+      <!--分页插件-->
+      <el-pagination
+          style="text-align: center;"
+          @size-change="orderSizeChange"
+          @current-change="orderCurrentChange"
+          :current-page="orderCurrent"
+          :page-sizes="[2,4,6,8,10]"
+          :page-size="orderSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="orderArr.length">
+      </el-pagination>
     </el-col>
   </el-row>
 </template>
@@ -214,6 +235,24 @@ export default {
 
   data() {
     return {
+      orderRules: {//非空校验
+        odrName:[{required:true,message:"主题不能为空",trigger:'change'}],//主题名称
+        customerName:[{required:true,message:"客户名称不能空！",trigger:'change'}],//对应客户名称
+        odrOutDate:[{required:true,message:"请选择最晚发货日期",trigger:'change'}],//订单最晚发货时间
+        odrAddressee:[{required:true,message:"收件人姓名不能为空",trigger:'change'}],//收件人姓名
+        odrAddresseePhone:[{required:true,message:"收货人电话不能为空",trigger:'change'}],//收件人电话
+        odrProvince:[{required:true,message:"地址不能为空",trigger:'change'}],//省区
+        odrCity:[{required:true,message:"详细地址不能为空",trigger:'change'}],//城市
+      },
+
+      //======================查询条件数据
+      SelectWhere:{
+        startDate:'',//开始日期
+        endDate:'',//结束日期
+        searchLike:'',//模糊搜索
+        doctorType:2,//类型
+      },
+
       //显示添加订单弹框
       isShowOrder:false,
 
@@ -236,7 +275,7 @@ export default {
         odrCity:'',//城市
         odrAddressType:'',//地址类型
         odrPostcode:'',//邮编
-        odrState:'',//状态(实行中、结束、意外终止)
+        odrState:1,//状态(实行中、结束、意外终止)
         odrFreight:'',//运费
         odrRemark:'',//订单备注
         clientId:'',//外连接 连接客户表
@@ -245,23 +284,47 @@ export default {
         odrUsId:'',//订单签约人
       },
       clientArr:[],//客户数组
+      clientObj:{},//客户对象
       clientName:'',//查询客户名称
 
       orderArr:[],//订单数组
       addtions: {},//地址
       citys:regionData,
       selectedOptions: ["", "", ""],
+
+      empArr:[],//员工集合
+
+
+      //分页
+      orderCurrent:1,//住院登记分页当前页
+      orderSize:8,//住院登记分页页大小
     }
   },
   methods: {
+    //初始化
+    initOrder(){
+      this.axios.post("/orderFrom/selectOrderByTj",this.SelectWhere).then((v)=>{
+          console.log(v.data.data)
+          this.orderArr = v.data.data;
+      })
+    },
+    addProduct(obj){
+        sessionStorage.setItem('oederObj',JSON.stringify(obj))
+        // sessionStorage.setItem('odrOn',obj);
+        this.$router.push('/addProduct');
+    },
+
     //打开添加订单弹框
     openOrder(){
       this.isShowOrder = true;
       this.orderObj.odrOn = Math.round(Math.random()*99999999999);//随机生成数
+      this.clientArrFun();
+      this.empArrFun();
     },
     //关闭添加订单弹框
     closeOrder(){
       this.isShowOrder = false;
+      this.selectedOptions =  ["", "", ""];
       this.orderObj = {
         odrId:'',//订单编号
             odrOn:'',//订单号
@@ -280,7 +343,7 @@ export default {
             odrCity:'',//城市
             odrAddressType:'',//地址类型
             odrPostcode:'',//邮编
-            odrState:'',//状态(实行中、结束、意外终止)
+            odrState:1,//状态(实行中、结束、意外终止)
             odrFreight:'',//运费
             odrRemark:'',//订单备注
             clientId:'',//外连接 连接客户表
@@ -291,11 +354,16 @@ export default {
     },
     //添加订单弹框
     addOrder(){
-      this.axios.post("/orderFrom/addOrder",this.orderObj).then((v)=>{
-        if(v.data){
-          this.closeOrder();//关闭弹框
+      this.$refs['orderRef'].validate((valid) => {
+        if(valid){
+          this.axios.post("/orderFrom/addOrder",this.orderObj).then((v)=>{
+            if(v.data){
+              this.closeOrder();//关闭弹框
+              this.initOrder();
+            }
+          })
         }
-      })
+      });
     },
 
     cityChange(placedz) { //地址联动
@@ -313,20 +381,42 @@ export default {
       // }
     },
 
-    clientArrFun(str,cb){
-      console.log(str);
+    clientArrFun(){
       // this.orderObj.clientId = '';
-      this.axios({url:'orderFrom/selectByCliName',params:{name:str}}).then((v)=>{
+      this.axios({url:'orderFrom/selectByCliName',params:{name:''}}).then((v)=>{
         console.log(v.data)
-        // this.clientArr = v.data;
-
+        this.clientArr = v.data.data;
       })
-      cb(["ss","sasfdas"]);
-    }
+    },
+
+    //客户改变是调用
+    clientObjChange(){
+        console.log(this.clientObj)
+        this.orderObj.customerName = this.clientObj.clientName;
+    },
+
+    empArrFun(){
+      this.axios({url:'/emp/selectEmpAll'}).then((v)=>{
+        this.empArr = v.data.data;
+      });
+    },
+
+
+
+    //========================分页方法
+    // 住院登记size变了调用
+    orderSizeChange: function(size) {
+      this.orderSize = size;
+    },
+    //住院登记Current变了调用
+    orderCurrentChange: function(currentPage) {
+      this.orderCurrent = currentPage;
+    },
   },
 
 
   created() {
+    this.initOrder();//初始化
   }
 }
 </script>

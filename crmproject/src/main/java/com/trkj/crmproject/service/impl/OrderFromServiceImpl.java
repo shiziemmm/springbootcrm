@@ -5,10 +5,13 @@ import com.trkj.crmproject.dao.ClientMapper;
 import com.trkj.crmproject.entity.Client;
 import com.trkj.crmproject.entity.OrderFrom;
 import com.trkj.crmproject.dao.OrderFromMapper;
+import com.trkj.crmproject.entity.OrderFromDetail;
+import com.trkj.crmproject.entity.Vo.SelectWhere;
 import com.trkj.crmproject.service.OrderFromService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +24,7 @@ import java.util.List;
  * @since 2021-11-06
  */
 @Service
+@Transactional
 public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom> implements OrderFromService {
 
     @Autowired
@@ -49,5 +53,12 @@ public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom
        }
        return false;
    }
+
+    /**
+     * 多条件查询订单
+     */
+   public List<OrderFrom> selectOrderByTj(SelectWhere selectWhere){
+        return orderFromMapper.selectOrderByTj(selectWhere);
+    }
 
 }

@@ -4,6 +4,8 @@ import com.trkj.crmproject.entity.Emp;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.trkj.crmproject.util.MyResult;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -15,5 +17,8 @@ import com.trkj.crmproject.util.MyResult;
 
 public interface EmpService extends IService<Emp> {
  MyResult login(Emp e);
+
+ List<Emp> selectList();
+
 
 }

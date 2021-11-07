@@ -4,7 +4,9 @@ package com.trkj.crmproject.controller;
 import com.alibaba.fastjson.JSON;
 import com.trkj.crmproject.entity.Client;
 import com.trkj.crmproject.entity.OrderFrom;
+import com.trkj.crmproject.entity.Vo.SelectWhere;
 import com.trkj.crmproject.service.OrderFromService;
+import com.trkj.crmproject.util.MyResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,9 +38,9 @@ public class OrderFromController {
      * @return
      */
     @RequestMapping("selectByCliName")
-    public List<Client> selectByCliName(String name){
+    public MyResult selectByCliName(String name){
         System.out.println(name);
-        return orderFromService.selectByName(name);
+        return MyResult.SUCCESS_DATA(orderFromService.selectByName(name));
     }
 
     /**
@@ -50,6 +52,16 @@ public class OrderFromController {
         OrderFrom orderFrom = JSON.parseObject(str, OrderFrom.class);
         System.err.println(orderFrom);
         return orderFromService.addOrder(orderFrom);
+    }
+
+
+    /**
+     * 多条件查询订单
+     */
+    @RequestMapping("selectOrderByTj")
+    public MyResult selectOrderByTj(@RequestBody SelectWhere selectWhere){
+        System.err.println(selectWhere);
+        return MyResult.SUCCESS_DATA(orderFromService.selectOrderByTj(selectWhere));
     }
 }
 

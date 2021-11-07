@@ -3,10 +3,14 @@ package com.trkj.crmproject.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.models.auth.In;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -55,12 +59,14 @@ public class OrderFrom implements Serializable {
     /**
      * 订单生成日期
      */
-    private LocalDateTime odrDate;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss",timezone="Asia/Shanghai")//将数据库的类型返回成指定类型
+    private Timestamp odrDate;
 
     /**
      * 订单最晚发货时间
      */
-    private LocalDateTime odrOutDate;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone="Asia/Shanghai")//将数据库的类型返回成指定类型
+    private Timestamp odrOutDate;
 
     /**
      * 收件人姓名
@@ -142,16 +148,41 @@ public class OrderFrom implements Serializable {
      */
     private String odrShipmentsState;
 
+
     /**
      * 订单备注
      */
     private String odrRemark;
+
+    /**
+     * 外连接  连接报价编号
+     */
+    private Integer quId;
+
+    /**
+     * 回款金额
+     */
+    private Double odrReturnPrice;
 
     //关系
 
     @TableField(exist = false)
     private Client client;//客户对象
     @TableField(exist = false)
-    private List<OrderFromDetail> orderFromDetail;//订单详情表
-    
+    private List<OrderFromDetail> orderFromDetail = null;//订单详情表
+    @TableField(exist = false)
+    private Quotation quotation;//报价对象
+    @TableField(exist = false)
+    private Emp emp;//员工对象
+
+    private Integer odrCount;//产品数量
+
+    public OrderFrom() {
+    }
+
+    public OrderFrom(Integer odrId, Double odrPrice, int odrCount) {
+        this.odrId = odrId;
+        this.odrPrice = odrPrice;
+        this.odrCount = odrCount;
+    }
 }

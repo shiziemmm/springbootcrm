@@ -29,6 +29,41 @@
         <result column="odr_name" property="odrName"/>
         <result column="odr_shipments_state" property="odrShipmentsState"/>
         <result column="odr_remark" property="odrRemark"/>
+        <result property="odrCount" column="odr_count"/>
+        <result property="odrReturnPrice" column="odr_return_price"/>
     </resultMap>
 
+    <resultMap id="ordMap" type="com.trkj.crmproject.entity.OrderFrom" extends="BaseResultMap">
+
+        <association property="client" resultMap="com.trkj.crmproject.dao.ClientMapper.BaseResultMap"></association>
+        <association property="emp" resultMap="com.trkj.crmproject.dao.EmpMapper.BaseResultMap"/>
+        <association property="quotation" resultMap="com.trkj.crmproject.dao.QuotationMapper.BaseResultMap"/>
+        <collection property="orderFromDetail" resultMap="com.trkj.crmproject.dao.OrderFromDetailMapper.BaseResultMap"/>
+    </resultMap>
+
+
+    <select id="selectOrderByTj" resultMap="ordMap">
+        select * from selectorder
+        <where>
+
+            <if test="(startDate != null) and (endDate != null)">
+                and (DATE_FORMAT(odr_out_date,'%Y-%m-%d') between DATE_FORMAT(#{startDate},'%Y-%m-%d') and DATE_FORMAT(#{endDate},'%Y-%m-%d') or DATE_FORMAT(odr_out_date,'%Y-%m-%d') between DATE_FORMAT(#{endDate},'%Y-%m-%d') and  DATE_FORMAT(#{startDate},'%Y-%m-%d'))
+            </if>
+
+            <if test="(startDate != null) and (endDate == null)">
+                and DATE_FORMAT(odr_out_date,'%Y-%m-%d') = DATE_FORMAT(#{startDate},'%Y-%m-%d')
+            </if>
+
+            <if test="(startDate == null) and (endDate != null)">
+                and DATE_FORMAT(odr_out_date,'%Y-%m-%d') = DATE_FORMAT(#{endDate},'%Y-%m-%d')
+            </if>
+
+            <if test="searchLike != null and searchLike != ''">
+                and emp_name like '%${searchLike}%' or odr_name like '%${searchLike}%'
+            </if>
+
+        </where>
+
+
+    </select>
 </mapper>

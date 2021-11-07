@@ -13,6 +13,12 @@ const routes = [
         meta:'登入'
     },
     {
+        name:'AddProduct',
+        path:'/addProduct',
+        component:()=>import("/src/components/in-sale/AddProduct.vue"),
+        meta:'添加产品'
+    },
+    {
         name: 'Home',
         path: '/home',//默认路径，登入就进来
         component: () => import("/src/components/main.vue"),

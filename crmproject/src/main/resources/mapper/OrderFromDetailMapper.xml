@@ -13,6 +13,11 @@
         <result column="odrdl_count" property="odrdlCount" />
         <result column="odrdl_discount" property="odrdlDiscount" />
         <result column="odrdl_remark" property="odrdlRemark" />
+        <result column="odr_on" property="odrOn"/>
+    </resultMap>
+
+    <resultMap id="odrdMap" type="com.trkj.crmproject.entity.OrderFromDetail" extends="BaseResultMap">
+<!--        <association property="product" resultMap="com.trkj.crmproject.dao.ProductDao.BaseResultMap"/>-->
     </resultMap>
 
 </mapper>
