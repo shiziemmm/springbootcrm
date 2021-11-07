@@ -15,6 +15,7 @@ import java.util.List;
  */
 public interface ClientService extends IService<Client> {
 
+
     public List<Client> findClient();
 
     public List<Client> findClientPeriod(String clientPeriod);
@@ -26,4 +27,7 @@ public interface ClientService extends IService<Client> {
     public void saveClient(Client client);
 
     public void updateClientSeas(Integer clientId,String clientSeas);
+
+    List<Client> selectByName(String clientName);
+
 }

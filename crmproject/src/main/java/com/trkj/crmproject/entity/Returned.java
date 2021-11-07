@@ -2,8 +2,12 @@ package com.trkj.crmproject.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.Date;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -65,19 +69,19 @@ public class Returned implements Serializable {
      * 回款日期
 
      */
-    private LocalDateTime retTime;
+    private Timestamp retTime;
 
     /**
-     * 是否回款(0:已回1：未回)
+     * 是否回款
 
      */
-    private Integer retWhether;
+    private String retWhether;
 
     /**
-     * 已开发票（1：已开2：未开3：不需要）
+     * 已开发票
 
      */
-    private Integer invoice;
+    private String invoice;
 
     /**
      * 是否删除（0：删除1：未删）

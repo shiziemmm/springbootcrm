@@ -14,6 +14,7 @@ import java.util.List;
  * @since 2021-11-06
  */
 public interface ClientMapper extends BaseMapper<Client> {
+    List<Client> selectByName(String clientName);
 
     public List<Client> findClient();
 

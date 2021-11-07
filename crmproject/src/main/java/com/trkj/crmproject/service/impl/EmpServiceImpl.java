@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.trkj.crmproject.util.MyResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ import java.util.List;
  * @since 2021-11-06
  */
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp> implements EmpService {
     @Autowired
     EmpMapper empMapper;
@@ -29,9 +31,14 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp> implements EmpSe
         List<Emp> userList =
                 empMapper.selectList(queryWrapper);
         MyResult s=new MyResult();
-        s.setCode(200);
-        s.setObj(userList);
-        s.setMsg("登录成功");
+        if(userList.size()>0){
+            s.setCode(200);
+            s.setObj(userList);
+            s.setMsg("登录成功");
+        }else{
+            s.setCode(404);
+            s.setMsg("登录成功");
+        }
         return s;
     }
 

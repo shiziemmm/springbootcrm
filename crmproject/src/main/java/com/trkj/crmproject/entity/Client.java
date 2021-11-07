@@ -1,9 +1,13 @@
 package com.trkj.crmproject.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -17,6 +21,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
+@JsonIgnoreProperties(value = {"handler"})
 public class Client implements Serializable {
 
     private static final long serialVersionUID=1L;
@@ -97,5 +102,9 @@ public class Client implements Serializable {
      */
     private String clientTransfer;
 
-
+    /**
+     * 客户下的联系人
+     */
+    @TableField(exist = false)
+    private List<Linkman> linkmen;
 }

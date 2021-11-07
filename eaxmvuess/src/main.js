@@ -4,7 +4,7 @@ import App from './App.vue'
 //导包axios--------------------------------
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-
+import store from './components/store/index'
 
 //引入路由--------------------------------
 import router from './router/index.js'
@@ -25,5 +25,6 @@ axios.defaults.timeout = 5000;
 createApp(App)
     .use(VueAxios,axios)
     .use(router)
+    .use(store)
     .use(ElementUI,{locale})
     .mount('#app')

@@ -4,7 +4,11 @@ import com.trkj.crmproject.entity.Client;
 import com.trkj.crmproject.dao.ClientMapper;
 import com.trkj.crmproject.service.ClientService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -18,9 +22,11 @@ import java.util.List;
  * @since 2021-11-06
  */
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class ClientServiceImpl extends ServiceImpl<ClientMapper, Client> implements ClientService {
     @Resource
     ClientMapper clientMapper;
+
 
     public List<Client> findClient(){
         return clientMapper.findClient();
@@ -47,7 +53,13 @@ public class ClientServiceImpl extends ServiceImpl<ClientMapper, Client> impleme
     }
 
 
-    public void updateClientSeas(Integer clientId,String clientSeas){
-        clientMapper.updateClientSeas(clientId,clientSeas);
+    public void updateClientSeas(Integer clientId,String clientSeas) {
+        clientMapper.updateClientSeas(clientId, clientSeas);
+
+    }
+
+    @Override
+    public List<Client> selectByName(String clientName) {
+        return clientMapper.selectByName(clientName);
     }
 }
