@@ -4,7 +4,10 @@ import com.trkj.crmproject.entity.QuotationDetails;
 import com.trkj.crmproject.dao.QuotationDetailsMapper;
 import com.trkj.crmproject.service.QuotationDetailsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -17,4 +20,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class QuotationDetailsServiceImpl extends ServiceImpl<QuotationDetailsMapper, QuotationDetails> implements QuotationDetailsService {
 
+    @Override
+    public Boolean addDetails(List<QuotationDetails> quotationDetails) {
+        return saveBatch(quotationDetails);
+    }
 }

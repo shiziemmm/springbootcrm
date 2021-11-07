@@ -1,9 +1,14 @@
 package com.trkj.crmproject.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -45,7 +50,8 @@ public class Quotation implements Serializable {
     /**
      * 日期
      */
-    private LocalDateTime quData;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+    private Timestamp quData;
 
     /**
      * 报价总金额
@@ -81,6 +87,30 @@ public class Quotation implements Serializable {
      * 客户id
      */
     private Integer clientId;
+
+    /**
+     * 报价单号
+     */
+    private String quNo;
+
+    /**
+     * 对应客户
+     */
+    @TableField(exist = false)
+    private Client client;
+
+    /**
+     * 报价人
+     */
+    @TableField(exist = false)
+    private Emp emp;
+
+    /**
+     * 对应机会
+     */
+    @TableField(exist = false)
+    private Opportunity opportunity;
+
 
 
 }

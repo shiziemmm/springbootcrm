@@ -59,6 +59,12 @@ const routes = [
                 component: () => import('/src/components/pre-sales/SalesOpportunities.vue'),
                 meta: { title: '销售机会', icon: 'dashboard' }
             },
+			{
+			    path: '/quotation',
+			    name: 'Quotation',
+			    component: () => import('/src/components/pre-sales/Quotation.vue'),
+			    meta: { title: '报价', icon: 'dashboard' }
+			},
             {
                 path: '/salesOpportunitiesDetails',
                 name: 'SalesOpportunitiesDetails',

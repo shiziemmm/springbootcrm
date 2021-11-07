@@ -1,6 +1,7 @@
 package com.trkj.crmproject.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 
 import java.io.Serializable;
@@ -43,7 +44,7 @@ public class Opportunity implements Serializable {
     /**
      * 更新日期
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Timestamp opDate;
 
     /**
@@ -128,5 +129,50 @@ public class Opportunity implements Serializable {
      */
     private Integer opPhaseStay;
 
+    /**
+     * 对应客户
+     */
+    @TableField(exist = false)
+    private Client client;
+
+    /**
+     * 客户联系人
+     */
+    @TableField(exist = false)
+    private Linkman linkman;
+
+    /**
+     * 临时字段，用来存储状态和阶段的值去后台查询
+     */
+    @TableField(exist = false)
+    private String stateStage;
+    /**
+     * 负责人信息
+     */
+    @TableField(exist = false)
+    private Emp emp;
+
+    /**
+     * 临时字段，存储当前页码数
+     */
+    @TableField(exist = false)
+    private Integer pageNo;
+
+    /**
+     * 临时字段，存储当前页的条数
+     */
+    @TableField(exist = false)
+    private Integer pageSize;
+
+    /**
+     * 临时字段，存储查询框的查询类别内容
+     */
+    @TableField(exist = false)
+    private String selectType;
+    /**
+     * 临时字段，存储查询框的查询类别
+     */
+    @TableField(exist = false)
+    private String selectTypes;
 
 }

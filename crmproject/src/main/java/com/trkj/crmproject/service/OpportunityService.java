@@ -1,7 +1,10 @@
 package com.trkj.crmproject.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.trkj.crmproject.entity.Opportunity;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface OpportunityService extends IService<Opportunity> {
     Boolean addOpp(Opportunity opportunity);
+    Page<Opportunity> selectList(Opportunity opportunity, Page<Opportunity> page);
 }

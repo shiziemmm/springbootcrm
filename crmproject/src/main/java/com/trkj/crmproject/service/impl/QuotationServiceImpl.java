@@ -17,4 +17,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class QuotationServiceImpl extends ServiceImpl<QuotationMapper, Quotation> implements QuotationService {
 
+    @Override
+    public Integer addQuotation(Quotation quotation) {
+        Integer id=-1;
+        if(!"".equals(quotation.getQuTheme()) && quotation.getQuTheme()!=null){
+            Boolean op=save(quotation);
+            if(op){
+                id=quotation.getQuId();
+                return id;
+            }
+        }
+        return id;
+    }
 }

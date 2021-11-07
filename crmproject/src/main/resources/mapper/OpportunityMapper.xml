@@ -25,5 +25,50 @@
         <result column="emp_id" property="empId" />
         <result column="op_phase_stay" property="opPhaseStay" />
     </resultMap>
+    <resultMap id="selectList" type="com.trkj.crmproject.entity.Opportunity" extends="BaseResultMap">
+        <association property="client">
+            <id column="client_id" property="clientId" />
+            <result column="client_name" property="clientName" />
+            <collection property="linkmen" ofType="com.trkj.crmproject.entity.Linkman"
+                        select="com.trkj.crmproject.dao.LinkmanMapper.selectByClientId"
+                        column="client_id"/>
+        </association>
+        <association property="emp">
+            <id column="emp_id" property="empId" />
+            <result column="emp_name" property="empName" />
+            <result column="emp_tel" property="empTel" />
+        </association>
+        <association property="linkman">
+            <id column="linkman_id" property="linkmanId" />
+            <result column="client_id" property="clientId" />
+            <result column="linkman_name" property="linkmanName" />
+            <result column="linkman_phone" property="linkmanPhone" />
+        </association>
+    </resultMap>
+    <select id="selectMore" resultMap="selectList">
+        select * from selectopp opp
+        <where>
+            <if test="opportunity!=null">
+                <if test="opportunity.stateStage!=null">
+                    and opp.op_state like concat('%',#{opportunity.stateStage},'%') or
+                    opp.op_stage like concat('%',#{opportunity.stateStage},'%')
+                </if>
+                <if test="opportunity.selectTypes!=null and opportunity.selectTypes!='' and opportunity.selectType!=null and opportunity.selectType!=''">
+                    <choose>
+                        <when test="opportunity.selectTypes=='机会主题'">
+                            and opp.op_theme like concat('%',#{opportunity.selectType},'%')
+                        </when>
+                        <when test="opportunity.selectTypes=='客户名'">
+                            and opp.client_name like concat('%',#{opportunity.selectType},'%')
+                        </when>
+                        <when test="opportunity.selectTypes=='负责人'">
+                            and opp.emp_name like concat('%',#{opportunity.selectType},'%')
+                        </when>
+                    </choose>
+                </if>
+            </if>
+        </where>
+    </select>
+
 
 </mapper>
