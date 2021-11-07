@@ -24,7 +24,7 @@
         select * from qa where qa_pronlem=#{qaProblem}
     </select>
 <!--    根据分类进行查询-->
-    <select id="" resultMap="BaseResultMap">
+    <select id="findQaClassify" resultMap="BaseResultMap">
         select * from qa where qa_classify=#{qaClassify}
     </select>
 <!--    高级检索-->
@@ -50,13 +50,13 @@
     <insert id="addQa">
         insert into qa (qa_problem,qa_explain,qa_internal_tip,qa_author,qa_time,qa_classify,qa_state)
                         values
-                        (#(qaProblem),#(qaExplain),#(qaInternalTip),#(qaAuthor),#(qaTime),#(qaClassify),#(qaState))
+                        (#{qaProblem},#{qaExplain},#{qaInternalTip},#{qaAuthor},#{qaTime},#{qaClassify},#{qaState})
     </insert>
 <!--    修改QA库-->
     <update id="updateQa">
-        update qa set qa_problem=#(qaProblem),qa_explain=#(qaExplain),
-                      qa_internal_tip=#(qaInternalTip),qa_author=#(qaAuthor),
-                      qa_time=#(qaTime),qa_classify=#(qaClassify),qa_state#(qaState)
+        update qa set qa_problem=#{qaProblem},qa_explain=#{qaExplain},
+                      qa_internal_tip=#{qaInternalTip},qa_author=#{qaAuthor},
+                      qa_time=#{qaTime},qa_classify=#{qaClassify},qa_state=#{qaState}
                 where qa_id=#{qaId}
     </update>
 

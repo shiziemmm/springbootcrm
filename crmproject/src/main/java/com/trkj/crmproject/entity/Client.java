@@ -3,6 +3,8 @@ package com.trkj.crmproject.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 import java.util.List;
@@ -45,7 +47,7 @@ public class Client implements Serializable {
     /**
      * 客户创建时间
      */
-    private LocalDateTime clientTime;
+    private Timestamp clientTime;
 
     /**
      * 公海客户
@@ -107,4 +109,10 @@ public class Client implements Serializable {
      */
     @TableField(exist = false)
     private List<Linkman> linkmen;
+
+    /**
+     * 客户的所有者
+     */
+    @TableField(exist = false)
+    private Emp emp;
 }

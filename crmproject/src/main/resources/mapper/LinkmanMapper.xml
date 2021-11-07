@@ -16,4 +16,51 @@
         select linkman_id,linkman_name,linkman_phone from linkman where client_id=#{ClientId}
     </select>
 
+
+    <resultMap id="findByClient" type="com.trkj.crmproject.entity.Linkman" extends="BaseResultMap">
+        <association property="client" javaType="com.trkj.crmproject.entity.Client">
+            <id column="client_id" property="clientId" />
+            <result column="client_name" property="clientName" />
+        </association>
+    </resultMap>
+<!--    查询所有联系人-->
+    <select id="findLinkman" resultMap="findByClient">
+        select * from linkman left join client on linkman.client_id=client.client_id
+    </select>
+
+<!--    根据性别查询联系人-->
+    <select id="findLinkmanSex" resultMap="findByClient">
+        select * from linkman left join client on linkman.client_id=client.client_id where linkman_sex=#{linkmanSex}
+    </select>
+
+<!--    高级查询-->
+    <select id="selectLinkman" resultMap="findByClient">
+        select * from linkman left join client on linkman.client_id=client.client_id
+            <where>
+                <if test="linkmanId != null and linkmanId != ''">
+                    and linkman_id=#{linkmanId}
+                </if>
+                <if test="linkmanName != null and linkmanName != ''">
+                    and linkman_name=#{linkmanName}
+                </if>
+                <if test="linkmanPhone != null and linkmanPhone != ''">
+                    and linkman_phone=#{linkmanPhone}
+                </if>
+            </where>
+    </select>
+
+<!--    新增联系人-->
+    <insert id="addLinkman">
+        insert into linkman (linkman_id,client_id,linkman_name,linkman_phone,linkman_position,linkman_sex,linkman_remark)
+        values (#{linkmanId},#{clientId},#{linkmanName},#{linkmanPhone},#{linkmanPosition},#{linkmanSex},#{linkmanRemark})
+    </insert>
+
+<!--    修改联系人-->
+    <update id="updateLinkman">
+        update linkman set linkman_name=#{linkmanName},linkman_phone=#{linkmanPhone},
+                           linkman_position=#{linkmanPosition},linkman_sex=#{linkmanSex},
+                           linkman_remark=#{linkmanRemark}
+        where linkman_id=#{linkmanId}
+    </update>
+
 </mapper>

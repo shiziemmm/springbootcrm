@@ -1,7 +1,10 @@
 package com.trkj.crmproject.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 import lombok.Data;
@@ -50,7 +53,7 @@ public class CallCenten implements Serializable {
     /**
      * 开始时间
      */
-    private LocalDateTime callCentenStartTime;
+    private Timestamp callCentenStartTime;
 
     /**
      * 花费时间
@@ -82,5 +85,9 @@ public class CallCenten implements Serializable {
      */
     private String callCentenRemark;
 
-
+    /**
+     * 客户的所有者
+     */
+    @TableField(exist = false)
+    private Client client;
 }

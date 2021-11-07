@@ -35,31 +35,50 @@
           tooltip-effect="dark"
           style="width: 100%"
           @selection-change="handleSelectionChange">
-        <el-table-column type="selection" width="55"> </el-table-column>
+        <el-table-column type="selection" width="40"> </el-table-column>
 
-        <el-table-column prop="date" label="日期" sortable/>
+        <el-table-column prop="callCentenId" label="序号" sortable/>
 
-        <el-table-column prop="name" label="姓名" sortable/>
+        <el-table-column prop="callCentenTheme" label="主题"/>
 
-        <el-table-column prop="address" label="地址" show-overflow-tooltip sortable/>
+        <el-table-column prop="clientId" label="对应客户"/>
+
+        <el-table-column prop="callCentenType" label="服务类型"/>
+
+        <el-table-column prop="callCentenWay" label="服务方式"/>
+
+        <el-table-column prop="callCentenStartTime" label="开始日期" :formatter="dateformat" sortable/>
+
+        <el-table-column prop="callCentenExecutor" label="执行人"/>
+
+        <el-table-column prop="callCentenTime" label="花费时间"/>
+
+        <el-table-column prop="callCentenState" label="状态">
+          <template #default="scope">
+            <template v-if="scope.row.callCentenState =='0'">
+              无需处理
+            </template>
+            <template v-if="scope.row.callCentenState =='1'">
+              未处理
+            </template>
+            <template v-if="scope.row.callCentenState =='2'">
+              处理中
+            </template>
+            <template v-if="scope.row.callCentenState =='3'">
+              处理完成
+            </template>
+          </template>
+        </el-table-column>
 
         <el-table-column  label="操作">
           <template  #default="scope">
 
-            <el-tooltip content="转公海" placement="top">
-              <el-button
-                  icon="el-icon-data-line" size="mini"
-                  @click="updateState(scope.row.registration.registrationNumber)"></el-button>
-            </el-tooltip>
-
             <el-tooltip content="编辑" placement="top">
-              <el-button
-                  icon="el-icon-star-on" size="mini"></el-button>
+              <el-button @click="editTherapy(scope.row)" size="mini">编辑</el-button>
             </el-tooltip>
 
             <el-tooltip content="删除" placement="top">
-              <el-button
-                  icon="el-icon-star-on" size="mini"></el-button>
+              <el-button size="mini">删除</el-button>
             </el-tooltip>
 
           </template>
@@ -81,22 +100,39 @@
     </el-card>
 
     <el-dialog
-        title="客户"
+        title="客户服务"
         v-model="dialogVisible"
-        width="60%"
-        :before-close="handleClose">
-      <el-form  status-icon  ref="form" label-width="100px" class="demo-ruleForm">
+        width="60%">
+      <el-form :model="callCenten" status-icon  ref="callCenten" label-width="100px" class="demo-ruleForm">
         <el-row>
-          <el-col :span="10">
-            <el-form-item label="门诊号" prop="registrationNumber">
-              <el-input  :disabled="true"></el-input>
+          <el-col>
+            <el-form-item label="主题" prop="callCentenTheme" >
+              <el-input v-model="callCenten.callCentenTheme" ></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="10">
-            <el-form-item label="挂号日期" prop="registrationTime">
-              <el-date-picker
+            <el-form-item label="对应客户" prop="registrationNumber">
+              <el-input  v-model="callCenten.clientId"></el-input>
+            </el-form-item>
+          </el-col>
 
+          <el-col :span="10">
+            <el-form-item label="服务类型" prop="callCentenType">
+              <el-input  v-model="callCenten.callCentenType"></el-input>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="10">
+            <el-form-item label="服务方式" prop="callCentenWay">
+              <el-input v-model="callCenten.callCentenWay" ></el-input>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="10">
+            <el-form-item label="开始时间" prop="callCentenStartTime">
+              <el-date-picker
+                  v-model="callCenten.callCentenStartTime"
                   type="datetime"
                   placeholder="选择日期">
               </el-date-picker>
@@ -104,8 +140,8 @@
           </el-col>
 
           <el-col :span="10">
-            <el-form-item label="挂号类型" prop="registrationType">
-              <el-select  placeholder="请选择">
+            <el-form-item label="花费时间" prop="callCentenTime">
+              <el-select v-model="callCenten.callCentenTime" placeholder="请选择">
                 <el-option
                     v-for="item in options"
                     :key="item.value"
@@ -116,42 +152,55 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="10">
-            <el-form-item label="经办人" prop="registrationName">
-              <el-input ></el-input>
-            </el-form-item>
-          </el-col>
-
-
-          <el-col :span="10">
-            <el-form-item label="病人姓名" prop="patientDataName">
-              <el-input  ></el-input>
-            </el-form-item>
-          </el-col>
-
-          <el-col :span="10">
-            <el-form-item label="身份证号码" prop="patientDataCard">
-              <el-input  ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="10">
-            <el-form-item label="病人电话" prop="patientDataPhone">
-              <el-input ></el-input>
+          <el-col>
+            <el-form-item label="状态" prop="callCentenState">
+              <el-radio-group v-model="callCenten.callCentenState">
+                <el-radio label="0">无需处理</el-radio>
+                <el-radio label="1">未处理</el-radio>
+                <el-radio label="2">处理中</el-radio>
+                <el-radio label="3">处理完成</el-radio>
+              </el-radio-group>
             </el-form-item>
           </el-col>
 
           <el-col :span="10">
-            <el-form-item label="病人性别" prop="patientDataSex">
-              <el-input ></el-input>
+            <el-form-item label="执行人" prop="callCentenExecutor">
+              <el-select v-model="callCenten.callCentenExecutor" placeholder="请选择">
+                <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
+
+          <el-col>
+            <el-form-item label="服务内容" prop="callCentenContent">
+              <el-input  v-model="callCenten.callCentenContent"></el-input>
+            </el-form-item>
+          </el-col>
+
+          <el-col>
+            <el-form-item label="客户反馈" prop="callCentenFeedback">
+              <el-input  v-model="callCenten.callCentenFeedback"></el-input>
+            </el-form-item>
+          </el-col>
+
+          <el-col>
+            <el-form-item label="备注" prop="callCentenRemark">
+              <el-input v-model="callCenten.callCentenRemark"></el-input>
+            </el-form-item>
+          </el-col>
+
         </el-row>
       </el-form>
 
       <template #footer>
     <span class="dialog-footer">
-      <el-button >取 消</el-button>
-      <el-button type="primary">确 定</el-button>
+      <el-button @click="ClearFrom">取 消</el-button>
+      <el-button @click="saveCustomer" type="primary">确 定</el-button>
     </span>
       </template>
     </el-dialog>
@@ -159,6 +208,8 @@
 </template>
 
 <script>
+import moment from "moment";
+
 export default {
   name: 'CustomerService',
   data() {
@@ -167,43 +218,7 @@ export default {
       currentPage:1, //初始页
       pagesize:10,    //    每页的数据
       activeName: 'first',
-      tableData: [
-        {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          date: '2016-05-08',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          date: '2016-05-06',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          date: '2016-05-07',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }
-      ],
+      tableData: [],
       multipleSelection: [],
       options: [
         {
@@ -289,10 +304,60 @@ export default {
           ]
         },
       ],
-      value: ''
+      value: '',
+      callCenten:{
+        callCentenId:'',
+        clientId:'',
+        callCentenTheme:'',
+        callCentenType:'',
+        callCentenWay:'',
+        callCentenStartTime:'',
+        callCentenTime:'',
+        callCentenState:'',
+        callCentenExecutor:'',
+        callCentenContent:'',
+        callCentenFeedback:'',
+        callCentenRemark:'',
+        client:{
+          clientId:'',
+          clientName:'',
+        }
+      }
     }
   },
   methods: {
+    initData(){
+      this.axios.get("/find_call_centen").then((v)=>{
+        this.tableData=v.data
+        console.log(v.data)
+      })
+    },
+    //回显弹出框
+    editTherapy(row){
+      this.callCenten = Object.assign({}, row)
+      this.dialogVisible=true;
+    },
+    //清空弹框
+    ClearFrom(){
+      this.$refs['callCenten'].resetFields()
+      this.callCenten = this.$options.data().callCenten
+      this.dialogVisible=false;
+    },
+    saveCustomer(){
+      this.axios.post("/save_call_centen",this.callCenten)
+          .then((v)=>{
+            this.dialogVisible = false
+            console.log(v.data)
+            this.initData()
+          })
+    },
+    dateformat(row , column){
+      const data = row[column.property]
+      if (data == undefined){
+        return
+      }
+      return moment(data).format("yyyy-MM-DD HH:mm:ss")
+    },
     handleClick(tab, event) {
       console.log(tab, event)
     },
@@ -308,16 +373,13 @@ export default {
       this.currentPage = currentPage;
       console.log(this.currentPage)  //点击第几页
     },
-    handleClose(done) {
-      this.$confirm('确认关闭？')
-          .then(_ => {
-            done();
-          })
-          .catch(_ => {});
-    },
     pageChange(p) {
       this.initData(p, this.pageSize)
     }
+  },
+  created() {
+    this.initData();
+    // user:JSON.parse(localStorage.setItem("loginuser"))
   }
 }
 </script>
