@@ -28,9 +28,9 @@
         select * from linkman left join client on linkman.client_id=client.client_id
     </select>
 
-<!--    根据性别查询联系人-->
-    <select id="findLinkmanSex" resultMap="findByClient">
-        select * from linkman left join client on linkman.client_id=client.client_id where linkman_sex=#{linkmanSex}
+<!--    根据姓名查询联系人-->
+    <select id="findLinkmanName" resultMap="findByClient">
+        select * from linkman left join client on linkman.client_id=client.client_id where linkman_name like '%${linkmanName}%'
     </select>
 
 <!--    高级查询-->

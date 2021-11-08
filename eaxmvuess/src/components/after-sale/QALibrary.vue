@@ -22,10 +22,10 @@
           </el-select>
           <i class="el-icon-search" style="margin-left: 10px;font-size: 20px"></i>
           <el-input v-model="inputs" placeholder="请根据问题查询" style="width: 200px"></el-input>
-          <el-button icon="el-icon-search" circle style="margin-left: 10px"></el-button>
+          <el-button style="margin-left: 10px" @click="findQaProblem(inputs)">搜索</el-button>
         </el-col>
         <el-col>
-          <el-button @click="dialogVisible = true" type="info" plain style="width:160px;color: #2c3e50;float: right"><i class="el-icon-circle-plus-outline"></i>新建</el-button>
+          <el-button @click="openDog()" type="info" plain style="width:160px;color: #2c3e50;float: right"><i class="el-icon-circle-plus-outline"></i>新建</el-button>
         </el-col>
       </el-row>
 
@@ -33,8 +33,7 @@
           ref="multipleTable"
           :data="tableData"
           tooltip-effect="dark"
-          style="width: 100%"
-          @selection-change="handleSelectionChange">
+          style="width: 100%">
         <el-table-column type="selection" width="55"> </el-table-column>
 
         <el-table-column prop="qaId" label="序号" sortable/>
@@ -51,14 +50,7 @@
 
         <el-table-column  label="操作">
           <template  #default="scope">
-            <el-tooltip content="编辑" placement="top">
-              <el-button @click="editTherapy(scope.row)" size="mini"></el-button>
-            </el-tooltip>
-
-            <el-tooltip content="删除" placement="top">
-              <el-button size="mini"></el-button>
-            </el-tooltip>
-
+              <el-button @click="editTherapy(scope.row)" size="mini">编辑</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -81,27 +73,27 @@
         title="QA库"
         v-model="dialogVisible"
         width="60%">
-      <el-form :model="qa" status-icon ref="qa" label-width="100px" class="demo-ruleForm">
+      <el-form :model="qa" status-icon ref="qa" :rules="rules" label-width="100px" class="demo-ruleForm">
         <el-row>
           <el-col :span="10">
-            <el-form-item label="问题" prop="registrationNumber">
+            <el-form-item label="问题" prop="qaProblem">
               <el-input type="textarea" :rows="2" placeholder="请输入内容" v-model="qa.qaProblem"></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="10">
-            <el-form-item label="答案" prop="registrationName">
+            <el-form-item label="答案" prop="qaExplain">
               <el-input type="textarea" :rows="2" placeholder="请输入内容" v-model="qa.qaExplain"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="10">
-            <el-form-item label="内部提示" prop="registrationName">
+            <el-form-item label="内部提示" prop="qaInternalTip">
               <el-input type="textarea" :rows="2" placeholder="请输入内容" v-model="qa.qaInternalTip"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="10">
-            <el-form-item label="作者" prop="registrationType">
-              <el-select v-model="qa.qaAuthor" placeholder="请选择">
+            <el-form-item label="作者" prop="qaAuthor">
+              <el-select v-model="qa.qaAuthor" placeholder="请选择" disabled>
                 <el-option
                     v-for="item in qaAuthor"
                     :key="item.empId"
@@ -112,17 +104,17 @@
             </el-form-item>
           </el-col>
           <el-col :span="10">
-            <el-form-item label="创建时间" prop="registrationType">
+            <el-form-item label="创建时间" prop="qaTime" >
               <el-date-picker
                   v-model="qa.qaTime"
                   type="datetime"
-                  placeholder="选择日期">
+                  placeholder="选择日期" disabled>
               </el-date-picker>
             </el-form-item>
           </el-col>
 
           <el-col :span="10">
-            <el-form-item label="分类" prop="registrationName">
+            <el-form-item label="分类" prop="qaClassify">
               <el-select v-model="qa.qaClassify" placeholder="请选择">
                 <el-option
                     v-for="item in options"
@@ -135,7 +127,7 @@
           </el-col>
 
           <el-col :span="10">
-            <el-form-item label="状态" prop="patientDataSex">
+            <el-form-item label="状态" prop="qaState">
               <el-select v-model="qa.qaState" placeholder="请选择">
                 <el-option
                     v-for="item in qaState"
@@ -170,7 +162,6 @@ export default {
       currentPage:1, //初始页
       pagesize:10,    //    每页的数据
       activeName: 'first',
-
       qa:{
         qaId:'',
         callCentenId:'',
@@ -210,21 +201,54 @@ export default {
       ],
       qaAuthor: [],
       value: '',
-
+      inputs:'',
+      rules: {
+        qaProblem: [
+          { required: true, message: '请输入活动名称', trigger: 'blur' },
+          {
+            min: 3,
+            max: 5,
+            message: '长度在 3 到 20 个字符',
+            trigger: 'blur',
+          },
+        ],
+        qaExplain: [
+          { required: true, message: '请输入活动名称', trigger: 'blur' },
+          {
+            min: 3,
+            max: 5,
+            message: '长度在 3 到 20 个字符',
+            trigger: 'blur',
+          },
+        ],
+        qaInternalTip: [
+          { required: true, message: '请输入活动名称', trigger: 'blur' },
+          {
+            min: 3,
+            max: 5,
+            message: '长度在 3 到 20 个字符',
+            trigger: 'blur',
+          },
+        ],
+      },
     }
   },
   methods: {
     initData(){
       this.axios.get("/find_qa").then((v)=>{
         this.tableData=v.data
-        console.log(v.data)
       })
     },
     initData1(){
       this.axios.get("/find_by_empName").then((v)=>{
         this.qaAuthor=v.data
-        console.log(v.data)
       })
+    },
+    //打开弹出框
+    openDog(){
+      this.token = JSON.parse(localStorage.getItem("loginuser"))
+      this.qa.qaAuthor = this.token.empName
+      this.dialogVisible = true
     },
     //回显弹出框
     editTherapy(row){
@@ -237,13 +261,26 @@ export default {
       this.qa = this.$options.data().qa
       this.dialogVisible=false;
     },
-    saveQa(){
-      this.axios.post("/save_qa",this.qa)
+    //模糊查询
+    findQaProblem(inputs){
+      this.axios.get("/find_qa_problem",{params:{qaProblem:inputs}})
           .then((v)=>{
-            this.dialogVisible = false
-            console.log(v.data)
-            this.initData()
+            this.tableData=v.data
           })
+    },
+    saveQa(){
+      this.$refs["qa"].validate((v)=>{
+        if(v){
+          this.axios.post("/save_qa",this.qa)
+              .then((v)=>{
+                this.dialogVisible = false
+                this.$message("操作成功")
+                this.initData()
+              })
+        }else{
+          return false
+        }
+      })
     },
     dateformat(row , column){
       const data = row[column.property]
@@ -276,7 +313,15 @@ export default {
     },
     pageChange(p) {
       this.initData(p, this.pageSize)
-    }
+    },
+    //默认选中当前时间
+    getDataTime(){
+      this.qa.qaTime = new Date();
+    },
+  },
+  mounted() {
+    let that = this;
+    that.getDataTime()
   },
   created() {
     this.initData();

@@ -21,7 +21,7 @@
     </select>
 <!--    根据问题进行查询-->
     <select id="findQaProblem" resultMap="BaseResultMap">
-        select * from qa where qa_pronlem=#{qaProblem}
+        select * from qa where qa_problem like '%${qaProblem}%'
     </select>
 <!--    根据分类进行查询-->
     <select id="findQaClassify" resultMap="BaseResultMap">
