@@ -816,19 +816,19 @@ export default {
   },
   methods: {
     initData(){
-      this.axios.get("/find_client").then((v)=>{
+      this.axios.get("client/find_client").then((v)=>{
         this.tableData=v.data
       })
     },
     findClientName(inputs){
-      this.axios.get("/find_client_name",{params:{clientName:inputs}})
+      this.axios.get("client/find_client_name",{params:{clientName:inputs}})
           .then((v)=>{
             this.tableData = v.data
           })
     },
     //转公海
     updateState(row){
-      this.axios.get("/update_client_seas",{params:{clientId:row}})
+      this.axios.get("client/update_client_seas",{params:{clientId:row}})
           .then((v)=>{
             this.initData()
             this.$message("客户转为公海客户")
@@ -836,7 +836,7 @@ export default {
     },
     //转普通
     updateState1(row){
-      this.axios.get("/update_client_seas1",{params:{clientId:row}})
+      this.axios.get("client/update_client_seas1",{params:{clientId:row}})
           .then((v)=>{
             this.initData()
             this.$message("公海客户转为普通客户")
@@ -856,7 +856,7 @@ export default {
     saveClient(){
       this.$refs["client"].validate((v)=>{
         if(v){
-          this.axios.post("/save_client",this.client)
+          this.axios.post("client/save_client",this.client)
               .then((v)=>{
                 this.dialogVisible = false
                 this.$message("操作成功")
@@ -869,18 +869,18 @@ export default {
     },
     handleClick() {
       console.log(this.activeName)
-      this.axios.get("/find_client_period",{params:{clientPeriod:this.activeName}})
+      this.axios.get("client/find_client_period",{params:{clientPeriod:this.activeName}})
           .then((v)=>{
             this.tableData = v.data
           })
     },
     selectClient(values){
       if (values == null){
-        this.axios.get("/find_client").then((v)=>{
+        this.axios.get("client/find_client").then((v)=>{
           this.tableData=v.data
         })
       }else{
-        this.axios.get("/select_client",{params:{client:values}})
+        this.axios.get("client/select_client",{params:{client:values}})
             .then((v)=>{
               this.tableData = v.data
             })

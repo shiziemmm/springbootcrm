@@ -55,8 +55,6 @@
             </template>
             <el-menu-item-group >
               <el-menu-item @click="pushUrl('/salesOpportunities')" index="2-1">销售机会</el-menu-item>
-              <el-menu-item @click="pushUrl('/customerDemand')" index="2-2">客户需求</el-menu-item>
-              <el-menu-item @click="pushUrl('/solution')" index="2-3">解决方案</el-menu-item>
               <el-menu-item @click="pushUrl('/PriceSheet')" index="2-4">报价</el-menu-item>
               <el-menu-item @click="pushUrl('/priceSheetDetails')" index="2-5">报价明细</el-menu-item>
             </el-menu-item-group>
@@ -94,7 +92,6 @@
               <span>仓库管理</span>
             </template>
             <el-menu-item-group >
-              <el-menu-item @click="pushUrl('/warehouse-1')" index="5-1">仓库</el-menu-item>
               <el-menu-item @click="pushUrl('/warehouse-2')" index="5-2">库存</el-menu-item>
               <el-menu-item @click="pushUrl('/putup')" index="5-3">出库</el-menu-item>
               <el-menu-item @click="pushUrl('/enter')" index="5-4">入库</el-menu-item>

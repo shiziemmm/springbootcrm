@@ -250,7 +250,7 @@ export default {
           })
     },
     findClient(){
-      this.axios.get("/find_client").then((v)=>{
+      this.axios.get("client/find_client").then((v)=>{
         this.clientTableData=v.data
       })
     },
