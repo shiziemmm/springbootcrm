@@ -16,6 +16,10 @@ import java.util.List;
 public interface ClientMapper extends BaseMapper<Client> {
     List<Client> selectByName(String clientName);
 
+    /**
+     * 查询所有数据
+     * @return
+     */
     public List<Client> findClient();
 
     public List<Client> findClientPeriod(String clientPeriod);
@@ -28,5 +32,7 @@ public interface ClientMapper extends BaseMapper<Client> {
 
     public void updateClient(Client client);
 
-    public void updateClientSeas(Integer clientId,String clientSeas);
+    public void updateClientSeas(Integer clientId);
+
+    public void updateClientSeas1(Integer clientId);
 }

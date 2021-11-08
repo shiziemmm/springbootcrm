@@ -19,7 +19,13 @@ public interface CustomerTransferMapper extends BaseMapper<CustomerTransfer> {
 
     public List<CustomerTransfer> findByClient();
 
+    public List<CustomerTransfer> findByClientName(String clientName);
+
     public List<Emp> findByEmpName();
+
+    public List<CustomerTransfer> findOld(String customerTransferOld);
+
+    public List<CustomerTransfer> findNew(String customerTransferNew);
 
     public void updateOld(Client client);
 

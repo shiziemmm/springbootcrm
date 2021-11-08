@@ -22,4 +22,6 @@ public interface CallCentenService extends IService<CallCenten> {
 
     public void saveCallCenten(CallCenten callCenten);
 
+    public void addCallCentenQa(CallCenten callCenten);
+
 }

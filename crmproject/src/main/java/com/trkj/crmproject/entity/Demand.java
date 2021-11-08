@@ -1,9 +1,14 @@
 package com.trkj.crmproject.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -40,7 +45,8 @@ public class Demand implements Serializable {
     /**
      * 记录时间
      */
-    private LocalDateTime deRecordTime;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+    private Timestamp deRecordTime;
 
     /**
      * 需求提供人
@@ -66,6 +72,17 @@ public class Demand implements Serializable {
      * 记录人
      */
     private Integer empId;
+
+    /**
+     * 对应客户
+     */
+    @TableField(exist = false)
+    private Client client;
+    /**
+     * 对应机会
+     */
+    @TableField(exist = false)
+    private Opportunity opportunity;
 
 
 }

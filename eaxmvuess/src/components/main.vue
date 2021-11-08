@@ -110,7 +110,7 @@
       <el-main style="padding: 0px 20px; color: #333;background-color: #E9EEF3">
         <crumb></crumb>
         <div class="works">
-          <router-view></router-view>
+          <router-view v-if="isRouterAlive"></router-view>
         </div>
       </el-main>
     </el-container>
@@ -121,13 +121,32 @@
 export default {
   data(){
     return{
-      token:''
+      token:'',
+	  isRouterAlive:true,
     }
+  },
+  provide(){
+	return{
+		reload:this.reload
+	}
   },
   methods:{
     pushUrl(path){
       this.$router.push(path);
     },
+
+	reload(){
+		this.isRouterAlive=false
+		this.$nextTick(()=>{
+			this.isRouterAlive=true
+		})
+	},
+
+    signout(){
+      window.localStorage.clear()
+      this.$router.push('/')
+    }
+
   },
   created(){
     this.token=JSON.parse(localStorage.getItem("loginuser"))

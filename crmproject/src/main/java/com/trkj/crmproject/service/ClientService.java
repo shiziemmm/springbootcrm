@@ -26,7 +26,9 @@ public interface ClientService extends IService<Client> {
 
     public void saveClient(Client client);
 
-    public void updateClientSeas(Integer clientId,String clientSeas);
+    public void updateClientSeas(Integer clientId);
+
+    public void updateClientSeas1(Integer clientId);
 
     List<Client> selectByName(String clientName);
 

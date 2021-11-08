@@ -2,6 +2,8 @@ package com.trkj.crmproject.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 import lombok.Data;
@@ -44,7 +46,7 @@ public class Invoice implements Serializable {
      * 开票日期
 
      */
-    private LocalDateTime invTime;
+    private Timestamp invTime;
 
     /**
      * 票据类型

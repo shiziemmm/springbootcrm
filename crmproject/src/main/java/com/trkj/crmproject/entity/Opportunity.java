@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -174,5 +175,23 @@ public class Opportunity implements Serializable {
      */
     @TableField(exist = false)
     private String selectTypes;
+
+    /**
+     * 多方，对应的报价
+     */
+    @TableField(exist = false)
+    private List<Quotation> quotations;
+
+    /**
+     * 多方，对应的需求
+     */
+    @TableField(exist = false)
+    private List<Demand> demands;
+
+    /**
+     * 多方，对应的解决方案
+     */
+    @TableField(exist = false)
+    private List<Programme> programmes;
 
 }

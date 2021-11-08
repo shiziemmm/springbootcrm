@@ -2,6 +2,8 @@ package com.trkj.crmproject.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 import lombok.Data;
@@ -62,7 +64,7 @@ public class Complaint implements Serializable {
      * 投诉日期
 
      */
-    private LocalDateTime comTime;
+    private Timestamp comTime;
 
     /**
      * 花费时间
@@ -107,6 +109,7 @@ public class Complaint implements Serializable {
 
      */
     private Integer comAgree;
+
 
 
 }

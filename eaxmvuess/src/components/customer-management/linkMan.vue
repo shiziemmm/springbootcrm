@@ -22,7 +22,7 @@
         </el-select>
         <i class="el-icon-search" style="margin-left: 10px;font-size: 20px"></i>
         <el-input v-model="inputs" placeholder="请根据联系人姓名查询" style="width: 200px"></el-input>
-        <el-button icon="el-icon-search" circle style="margin-left: 10px"></el-button>
+        <el-button style="margin-left: 10px" @click="findLinkmanName(inputs)">搜索</el-button>
       </el-col>
       <el-col>
         <el-button @click="dialogVisible = true" type="info" plain style="width:160px;color: #2c3e50;float: right"><i class="el-icon-circle-plus-outline"></i>新建</el-button>
@@ -46,14 +46,7 @@
 
       <el-table-column  label="操作">
         <template  #default="scope">
-          <el-tooltip content="编辑" placement="top">
-            <el-button @click="editTherapy(scope.row)" size="mini"></el-button>
-          </el-tooltip>
-
-          <el-tooltip content="删除" placement="top">
-            <el-button size="mini"></el-button>
-          </el-tooltip>
-
+            <el-button @click="editTherapy(scope.row)" size="mini">编辑</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -76,23 +69,23 @@
         title="联系人"
         v-model="dialogVisible"
         width="60%">
-      <el-form :model="linkman" status-icon  ref="form" label-width="100px" class="demo-ruleForm">
+      <el-form :model="linkman" status-icon  ref="linkman" :rules="rules" label-width="100px" class="demo-ruleForm">
         <el-row>
           <el-col :span="10">
-            <el-form-item label="联系人名称" prop="registrationNumber">
+            <el-form-item label="联系人名称" prop="linkmanName">
               <el-input v-model="linkman.linkmanName" ></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="10">
-            <el-form-item label="联系人电话" prop="registrationTime">
+            <el-form-item label="联系人电话" prop="linkmanPhone">
               <el-input  v-model="linkman.linkmanPhone"></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="10">
-            <el-form-item label="对应客户" prop="registrationType">
-              <el-select v-model="linkman.client.clientId" placeholder="请选择">
+            <el-form-item label="对应客户" prop="clientId">
+              <el-select v-model="linkman.client.clientId" placeholder="请选择" :disabled="disabled">
                 <el-option
                     v-for="item in clientTableData"
                     :key="item.clientId"
@@ -104,14 +97,14 @@
           </el-col>
 
           <el-col :span="10">
-            <el-form-item label="职位" prop="registrationName">
+            <el-form-item label="职位" prop="linkmanPosition">
               <el-input v-model="linkman.linkmanPosition"></el-input>
             </el-form-item>
           </el-col>
 
 
           <el-col :span="10">
-            <el-form-item label="性别" prop="patientDataName">
+            <el-form-item label="性别" prop="linkmanSex">
               <el-select v-model="linkman.linkmanSex" placeholder="请选择">
                 <el-option
                     v-for="item in linkmanSex"
@@ -124,7 +117,7 @@
           </el-col>
 
           <el-col :span="10">
-            <el-form-item label="备注" prop="patientDataCard">
+            <el-form-item label="备注" prop="linkmanRemark">
               <el-input v-model="linkman.linkmanRemark"></el-input>
             </el-form-item>
           </el-col>
@@ -150,6 +143,7 @@ export default {
       currentPage:1, //初始页
       pagesize:10,    //    每页的数据
       activeName: 'first',
+      disabled:false,
       tableData:[],
       clientTableData:[],
       multipleSelection: [],
@@ -190,7 +184,50 @@ export default {
           value: '女',
           label: '女'
         }
-      ]
+      ],
+      inputs:'',
+
+      rules: {
+        linkmanName: [
+          { required: true, message: '请输入联系人名称', trigger: 'blur' },
+          {
+            min: 3,
+            max: 5,
+            message: '长度在 3 到 5 个字符',
+            trigger: 'blur',
+          },
+        ],
+        linkmanPhone: [
+          { required: true, message: '请输入联系人电话', trigger: 'blur' },
+          {
+            min: 11,
+            max: 11,
+            message: '长度为11个字符',
+            trigger: 'blur',
+          },
+        ],
+        clientId: [
+          { required: true, message: '请输入对应客户', trigger: 'blur' },
+          {
+            min: 3,
+            max: 5,
+            message: '长度在 3 到 5 个字符',
+            trigger: 'blur',
+          },
+        ],
+        linkmanPosition: [
+          { required: true, message: '请输入职位', trigger: 'blur' },
+          {
+            min: 2,
+            max: 5,
+            message: '长度在 2 到 5 个字符',
+            trigger: 'blur',
+          },
+        ],
+        linkmanSex: [
+          { required: true, message: '请选择性别', trigger: 'change' },
+        ]
+      },
     }
   },
   methods: {
@@ -198,13 +235,12 @@ export default {
       this.axios.get("/find_linkman")
           .then((v)=>{
             this.tableData = v.data
-            console.log(v.data)
           })
     },
-    findLinkmanSex(linkmanSex){
-      this.axios.get("/find_linkman_sex",{params:{linkmanSex:linkmanSex}})
+    findLinkmanName(inputs){
+      this.axios.get("/find_linkman_name",{params:{linkmanName:inputs}})
           .then((v)=>{
-            console.log(v.data)
+            this.tableData = v.data
           })
     },
     selectLinkman(){
@@ -219,22 +255,30 @@ export default {
       })
     },
     saveLinkman(){
-      this.axios.post("/save_linkman",this.linkman)
-          .then((v)=>{
-            this.initData()
-            this.dialogVisible=false;
-            console.log(v.data)
-          })
+      this.$refs["linkman"].validate((v)=>{
+        if(v){
+          this.axios.post("/save_linkman",this.linkman)
+              .then((v)=>{
+                this.initData()
+                this.$message("操作成功")
+                this.dialogVisible=false;
+              })
+        }else{
+          return false
+        }
+      })
     },
     //回显弹出框
     editTherapy(row){
       this.linkman = Object.assign({}, row)
+      this.disabled=true
       this.dialogVisible=true;
     },
     //清空弹框
     ClearFrom(){
-      this.$refs['form'].resetFields()
+      this.$refs['linkman'].resetFields()
       this.linkman = this.$options.data().linkman
+      this.disabled=false
       this.dialogVisible=false;
     },
     handleClick(tab, event) {

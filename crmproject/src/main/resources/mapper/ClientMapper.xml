@@ -44,11 +44,16 @@
     
 <!--    根据客户生命周期查询-->
     <select id="findClientPeriod" resultMap="BaseResultMap">
-        select * from client where client_period=#{clientPeriod}
+        select * from client where client_period like concat('%',#{clientPeriod},'%')
     </select>
 <!--    根据客户名称查询-->
     <select id="findClientName" resultMap="BaseResultMap">
-        select * from client where client_name=#{clientName}
+        select * from client
+        <where>
+            <if test="clientName != null and clientName != ''">
+                client_name like '%${clientName}%'
+            </if>
+        </where>
     </select>
 <!--    高级查询（创建时间、预计签约金额、所有者、备注没上）-->
     <select id="selectClient" resultMap="BaseResultMap">
@@ -58,7 +63,7 @@
                 and client_id=#{clientId}
             </if>
             <if test="clientName !=null and clientName !=''">
-                and client_name=#{clientName}
+                and client_name like concat('%',#{clientName},'%')
             </if>
             <if test="clientPhone !=null and clientPhone !=''">
                 and client_phone=#{clientPhone}
@@ -129,6 +134,11 @@
 
 <!--    转公海-->
     <update id="updateClientSeas">
-        update client set client_seas = #{clientSeas} where client_id=#{clientId}
+        update client set client_seas = 1 where client_id=#{clientId}
+    </update>
+
+    <!--    转普通-->
+    <update id="updateClientSeas1">
+        update client set client_seas = 0 where client_id=#{clientId}
     </update>
 </mapper>

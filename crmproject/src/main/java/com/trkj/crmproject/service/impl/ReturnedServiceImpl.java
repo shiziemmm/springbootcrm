@@ -1,6 +1,7 @@
 package com.trkj.crmproject.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.trkj.crmproject.dao.EmpMapper;
 import com.trkj.crmproject.dao.OrderFromMapper;
 import com.trkj.crmproject.entity.Emp;
@@ -113,5 +114,16 @@ public class ReturnedServiceImpl extends ServiceImpl<ReturnedMapper, Returned> i
     }
     public int delete(Integer reId){
         return returnedMapper.deleteById(reId);
+    }
+
+    /**
+     * 模糊查询
+     */
+    public MyResult myResult(String name){
+        Returned r=new Returned();
+        r.setPrincipal(name);
+        QueryWrapper<Returned> queryWrapper=new QueryWrapper<>();
+        queryWrapper.like(StringUtils.isNotBlank(r.getPrincipal()),"principal",r.getPrincipal());
+        return MyResult.SUCCESS_DATA(returnedMapper.selectList(queryWrapper));
     }
 }

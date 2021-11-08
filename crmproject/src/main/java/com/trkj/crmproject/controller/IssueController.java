@@ -25,8 +25,8 @@ public class IssueController {
     @Autowired
     IssueService issueService;
 
-    @GetMapping("/issuelist")
-    public MyResult issuelist(){
+    @GetMapping("/issueList")
+    public MyResult issueList(){
         return issueService.issuelist();
     }
 
