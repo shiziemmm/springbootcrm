@@ -18,5 +18,116 @@
         <result column="client_id" property="clientId" />
         <result column="qu_no" property="quNo" />
     </resultMap>
+    <resultMap id="selectAll" type="com.trkj.crmproject.entity.Quotation" extends="BaseResultMap">
+        <association property="opportunity" javaType="com.trkj.crmproject.entity.Opportunity">
+            <id column="op_id" property="opId" />
+            <result column="client_id" property="clientId" />
+            <result column="op_theme" property="opTheme" />
+            <result column="op_date" property="opDate" />
+            <result column="op_state" property="opState" />
+            <result column="op_type" property="opType" />
+            <result column="op_findtime" property="opFindtime" />
+            <result column="op_cu_source" property="opCuSource" />
+            <result column="op_provider" property="opProvider" />
+            <result column="op_cu_demand" property="opCuDemand" />
+            <result column="op_expected_signing_date" property="opExpectedSigningDate" />
+            <result column="op_possibility" property="opPossibility" />
+            <result column="op_expected_amount" property="opExpectedAmount" />
+            <result column="op_priority" property="opPriority" />
+            <result column="op_stage" property="opStage" />
+            <result column="op_stage_remarks" property="opStageRemarks" />
+            <result column="op_timeliness" property="opTimeliness" />
+            <result column="linkman_id" property="linkmanId" />
+            <result column="emp_id" property="empId" />
+            <result column="op_phase_stay" property="opPhaseStay" />
+        </association>
+        <association property="client" javaType="com.trkj.crmproject.entity.Client">
+            <id column="client_id" property="clientId" />
+            <result column="client_name" property="clientName" />
+            <result column="client_phone" property="clientPhone" />
+            <result column="client_time" property="clientTime" />
+            <result column="client_seas" property="clientSeas" />
+            <result column="client_kind" property="clientKind" />
+            <result column="client_period" property="clientPeriod" />
+            <result column="client_qualitative" property="clientQualitative" />
+            <result column="client_rank" property="clientRank" />
+            <result column="client_signing_date" property="clientSigningDate" />
+            <result column="client_contract_amount" property="clientContractAmount" />
+            <result column="client_source" property="clientSource" />
+            <result column="client_site" property="clientSite" />
+            <result column="client_remark" property="clientRemark" />
+            <result column="client_transfer" property="clientTransfer" />
+        </association>
+        <association property="emp" javaType="com.trkj.crmproject.entity.Emp">
+            <id column="emp_id" property="empId" />
+            <result column="emp_name" property="empName" />
+            <result column="emp_tel" property="empTel" />
+            <result column="emp_position" property="empPosition" />
+        </association>
+    </resultMap>
+    <select id="selectAll" resultMap="selectAll">
+        select * from selectquo quo
+        <where>
+            <if test="quotation">
+                <if test="quotation.quNo!=null and quotation.quNo!=''">
+                    and quo.qu_no like concat('%',#{quotation.quNo},'%')
+                </if>
+                <if test="quotation.client.clientName!=null and quotation.client.clientName!=''">
+                    and quo.client_name like concat('%',#{quotation.client.clientName},'%')
+                </if>
+                <if test="quotation.opportunity.opTheme!=null and quotation.opportunity.opTheme!=''">
+                    and quo.op_theme like concat('%',#{quotation.opportunity.opTheme},'%')
+                </if>
+                <if test="quotation.quTheme">
+                    and quo.qu_theme like concat('%',#{quotation.quTheme},'%')
+                </if>
+                <if test="quotation.startTime!=null">
+                    and quo.qu_data &gt;= #{quotation.startTime}
+                </if>
+                <if test="quotation.endTime!=null">
+                    and quo.qu_data &lt;= #{quotation.endTime}
+                </if>
+            </if>
+            and quo.qu_timeliness IS NULL
+        </where>
+        order by quo.qu_id desc
+    </select>
+
+    <resultMap id="idMap" type="com.trkj.crmproject.entity.Quotation" extends="BaseResultMap">
+        <collection property="quotationDetails" ofType="com.trkj.crmproject.entity.QuotationDetails">
+            <id column="qd_id" property="qdId" />
+            <result column="pr_id" property="prId" />
+            <result column="qu_id" property="quId" />
+            <result column="qd_quantity" property="qdQuantity" />
+            <result column="qd_pro_total_amount" property="qdProTotalAmount" />
+            <result column="qd_creation_time" property="qdCreationTime" />
+            <result column="qd_timeliness" property="qdTimeliness" />
+            <result column="emp_id" property="empId" />
+            <association property="product" javaType="com.trkj.crmproject.entity.Product">
+                <id column="pr_id" jdbcType="INTEGER" property="prId" />
+                <result column="pr_pc_id" jdbcType="INTEGER" property="prPcId" />
+                <result column="pr_name" jdbcType="VARCHAR" property="prName" />
+                <result column="pr_coding" jdbcType="VARCHAR" property="prCoding" />
+                <result column="pr_state" jdbcType="INTEGER" property="prState" />
+                <result column="pr_unit" jdbcType="VARCHAR" property="prUnit" />
+                <result column="pr_price" jdbcType="DOUBLE" property="prPrice" />
+                <result column="pr_cost_price" jdbcType="DOUBLE" property="prCostPrice" />
+                <result column="pr_model" jdbcType="VARCHAR" property="prModel" />
+                <result column="pr_weight" jdbcType="INTEGER" property="prWeight" />
+                <result column="pr_outline" jdbcType="VARCHAR" property="prOutline" />
+                <result column="pr_description" jdbcType="VARCHAR" property="prDescription" />
+                <result column="pr_remark" jdbcType="VARCHAR" property="prRemark" />
+                <result column="pr_timeliness" jdbcType="BOOLEAN" property="prTimeliness" />
+            </association>
+        </collection>
+    </resultMap>
+    <select id="selectByQuId" resultMap="idMap">
+        select * from selectqu qu
+        <where>
+            <if test="quId!=null and quId!=''">
+                and qu.qu_id=#{quId}
+            </if>
+        </where>
+    </select>
 
 </mapper>

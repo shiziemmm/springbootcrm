@@ -12,5 +12,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2021-11-06
  */
 public interface ProgrammeService extends IService<Programme> {
-
+    Boolean addProgramme(Programme programme);
+    Boolean del(Integer proid);
 }

@@ -67,7 +67,75 @@
                     </choose>
                 </if>
             </if>
+            and opp.op_timeliness IS NULL
         </where>
+        order by opp.op_id desc
+    </select>
+
+    <resultMap id="selectid" type="com.trkj.crmproject.entity.Opportunity">
+        <id column="op_id" property="opId" />
+        <association property="client">
+            <id column="client_id" property="clientId" />
+            <result column="client_name" property="clientName" />
+            <collection property="linkmen" ofType="com.trkj.crmproject.entity.Linkman"
+                        select="com.trkj.crmproject.dao.LinkmanMapper.selectByClientId"
+                        column="client_id"/>
+        </association>
+        <association property="linkman">
+            <id column="linkman_id" property="linkmanId" />
+            <result column="client_id" property="clientId" />
+            <result column="linkman_name" property="linkmanName" />
+            <result column="linkman_phone" property="linkmanPhone" />
+        </association>
+        <collection property="demands" ofType="com.trkj.crmproject.entity.Demand">
+            <id column="de_id" property="deId" />
+            <result column="de_theme" property="deTheme" />
+            <result column="de_content" property="deContent" />
+            <result column="de_record_time" property="deRecordTime" />
+            <result column="de_provider" property="deProvider" />
+        </collection>
+        <collection property="programmes" ofType="com.trkj.crmproject.entity.Programme">
+            <id column="pro_id" property="proId" />
+            <result column="pro_theme" property="proTheme" />
+            <result column="pro_content" property="proContent" />
+            <result column="pro_customer_feedback" property="proCustomerFeedback" />
+            <result column="pro_record_time" property="proRecordTime" />
+        </collection>
+        <collection property="quotations" ofType="com.trkj.crmproject.entity.Quotation">
+            <id column="qu_id" property="quId" />
+            <result column="qu_theme" property="quTheme" />
+            <result column="qu_state" property="quState" />
+            <result column="qu_total_amount" property="quTotalAmount" />
+            <result column="qu_no" property="quNo" />
+            <collection property="quotationDetails" ofType="com.trkj.crmproject.entity.QuotationDetails">
+                <id column="qd_id" property="qdId" />
+                <result column="qd_quantity" property="qdQuantity" />
+                <result column="qd_pro_total_amount" property="qdProTotalAmount" />
+                <association property="product" javaType="com.trkj.crmproject.entity.Product">
+                    <id column="pr_id" jdbcType="INTEGER" property="prId" />
+                    <result column="pr_name" jdbcType="VARCHAR" property="prName" />
+                    <result column="pr_price" jdbcType="DOUBLE" property="prPrice" />
+                    <result column="pr_cost_price" jdbcType="DOUBLE" property="prCostPrice" />
+                </association>
+            </collection>
+        </collection>
+    </resultMap>
+    <select id="selectByOpId" resultMap="selectid">
+          SELECT
+        opp.op_id, cl.client_id,cl.client_name,qu.qu_id,qu.qu_no,qu.qu_theme,qu.qu_state,qu.qu_total_amount,
+        quo.qd_id,qd_quantity,quo.qd_pro_total_amount,p.pr_id,p.pr_name,p.pr_price,p.pr_cost_price,
+        l.linkman_id,l.linkman_name,l.linkman_phone,de_id,de_theme,de_content,pro_id,
+        pro_theme,pro_content,pro_customer_feedback,pro_record_time,de_record_time,de_provider
+        FROM opportunity opp LEFT JOIN quotation qu ON opp.op_id=qu.op_id
+         INNER JOIN `client` cl ON opp.client_id=cl.client_id LEFT JOIN quotation_details quo
+         ON quo.qu_id=qu.qu_id LEFT JOIN product p ON p.pr_id=quo.pr_id
+         LEFT JOIN linkman l ON l.linkman_id =opp.linkman_id
+         left join demand de on opp.op_id=de.op_id and de.de_timeliness is null
+         left join programme pr on opp.op_id=pr.op_id and pr.pro_timeliness is null
+        where opp.op_id=#{opid}
+    </select>
+    <select id="selectAll" resultType="com.trkj.crmproject.entity.Opportunity">
+        select op_id,op_theme from opportunity
     </select>
 
 

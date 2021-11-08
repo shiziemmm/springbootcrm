@@ -1,6 +1,7 @@
 package com.trkj.crmproject.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 
 import java.sql.Timestamp;
@@ -63,6 +64,24 @@ public class QuotationDetails implements Serializable {
      * 添加人
      */
     private Integer empId;
+
+    /**
+     * 报价（总）
+     */
+    @TableField(exist = false)
+    private Double sum;
+
+    /**
+     * 毛利
+     */
+    @TableField(exist = false)
+    private Double mao;
+
+    /**
+     * 对应商品
+     */
+    @TableField(exist = false)
+    private Product product;
 
 
 }

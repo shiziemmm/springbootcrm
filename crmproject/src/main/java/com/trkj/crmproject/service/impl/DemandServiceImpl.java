@@ -5,6 +5,7 @@ import com.trkj.crmproject.dao.DemandMapper;
 import com.trkj.crmproject.service.DemandService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <p>
@@ -15,6 +16,26 @@ import org.springframework.stereotype.Service;
  * @since 2021-11-06
  */
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> implements DemandService {
 
+    @Override
+    public Boolean addDemand(Demand demand) {
+        if(demand.getClientId()!=null && demand.getEmpId()!=null && demand.getOpId()!=null){
+            return saveOrUpdate(demand);
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean del(Integer deid) {
+        if(deid!=null){
+            Demand demand=getById(deid);
+            if(demand!=null){
+                demand.setDeTimeliness(true);
+                return updateById(demand);
+            }
+        }
+        return false;
+    }
 }

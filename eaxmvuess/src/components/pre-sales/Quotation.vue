@@ -1,7 +1,7 @@
 <template>
 	<div>报价</div>
 	<div v-if="!todo">
-		<el-form :inline="true" ref="maxsearch" :model="addPriceSheet" class="demo-form-inline">
+		<el-form :inline="true" ref="addPriceSheet" :model="addPriceSheet" class="demo-form-inline" :rules="addPriceSheetrules">
 				<el-row>
 					<el-col :span="5" style="padding: 20px 10px 0px">
 						<h2>报价/预下单</h2>
@@ -11,7 +11,7 @@
 					<el-col :span="4" style="padding: 20px 10px 0px">
 						<el-row v-if="isshow">
 							<el-col :span="24">
-								 <el-button @click="addPriceSheetSubmit()"><i class="el-icon-check"></i>保存</el-button>
+								 <el-button @click="addPriceSheetSubmit('addPriceSheet')"><i class="el-icon-check"></i>保存</el-button>
 							</el-col>
 						</el-row>
 					</el-col>
@@ -23,7 +23,7 @@
 					<el-col :span="18">
 						<el-row>
 							<el-col :span="12">
-								<el-form-item label="主题" size="medium" label-width="130px">
+								<el-form-item label="主题" size="medium" label-width="130px" prop="quTheme">
 									<el-input  placeholder="请输入主题：" v-model="addPriceSheet.quTheme" clearable></el-input>
 								</el-form-item>
 								<el-form-item label="客户" size="medium" label-width="130px">
@@ -36,11 +36,32 @@
 							</el-col>
 							<el-col :span="12">
 								<el-form-item label="状态" size="medium" label-width="130px">
-									<el-radio-group v-model="addPriceSheet.quState">
+									<el-radio-group v-model="addPriceSheet.quState" :disabled="true">
 										<el-radio label="可见">可见</el-radio>
 										<el-radio label="不可见">不可见</el-radio>
 										<el-radio label="转订单">转成订单</el-radio>
 									</el-radio-group>
+								</el-form-item>
+							</el-col>
+						</el-row>
+					</el-col>
+				</el-row>
+				<el-row v-if="!isshow">
+					<el-col :span="3">
+					</el-col>
+					<el-col :span="18">
+						<el-row>
+							<el-col :span="12">
+								<el-form-item label="主题" size="medium" label-width="130px">
+									<span>{{addPriceSheet.quTheme}}</span>
+								</el-form-item>
+								<el-form-item label="客户" size="medium" label-width="130px">
+									<span>{{addPriceSheet.client.clientName}}</span>
+								</el-form-item>
+							</el-col>
+							<el-col :span="12">
+								<el-form-item label="状态" size="medium" label-width="130px">
+									<span>{{addPriceSheet.quState}}</span>
 								</el-form-item>
 							</el-col>
 						</el-row>
@@ -55,7 +76,7 @@
 								<el-form-item label="报价单号" size="medium" label-width="130px">
 									<el-input  :disabled="true" v-model="addPriceSheet.quNo"></el-input>
 								</el-form-item>
-								<el-form-item label="报价(总)" size="medium" label-width="130px">
+								<el-form-item label="报价(总)" size="medium" label-width="130px" prop="quTotalAmount">
 									<el-input  placeholder="请输入报价(总)：" v-model="addPriceSheet.quTotalAmount" clearable></el-input>
 								</el-form-item>
 							</el-col>
@@ -132,7 +153,7 @@
 					<el-col :span="20">
 					</el-col>
 					<el-col :span="4">
-						<el-button @click="addPriceSheetSubmit()"><i class="el-icon-check"></i>保存</el-button>
+						<el-button @click="addPriceSheetSubmit('addPriceSheet')"><i class="el-icon-check"></i>保存</el-button>
 					</el-col>
 				</el-row>
 			</el-form>
@@ -153,7 +174,7 @@
 					   :cell-style="{ textAlign: 'center' }" show-summary
 					   :data="detailsArr" size="medium">
 					 <el-table-column prop="odrdlProductName"  label="商品名" />
-					 <el-table-column prop="odrdlUnitPrice"   label="进价" />
+					 <el-table-column prop="odrdlMoney"   label="进价" />
 					 <el-table-column prop="odrdlUnitPrice"   label="售价" >
 					   <template #default="obj">
 						 <el-input size="mini" v-model="obj.row.odrdlUnitPrice" onkeyup="value=value.replace(/[^\d^\.]+/g,'').replace('.','$#$').replace(/\./g,'').replace('$#$','.')"  placeholder="售价" type="text" />
@@ -216,35 +237,32 @@
 				   </el-table>
 				 </el-col>
 			   </el-row>
-		 
-		 
 			 </el-drawer>
 		 </div>
 </template>
 
 <script>
 	import dayjs from 'dayjs'
+	import {ElMessage} from "element-plus";
 	// empId:this.$store.state.token.empId,
 	export default{
+		inject:['reload'],//引入无痕刷新方法
 		data(){
 			 return{
 				  addPriceSheet:{
 					  client:JSON.parse(sessionStorage.getItem("cli_opp")).client,
 					  clientId:JSON.parse(sessionStorage.getItem("cli_opp")).client.clientId,
 					  opportunity:JSON.parse(sessionStorage.getItem("cli_opp")),
+					  opId:JSON.parse(sessionStorage.getItem("cli_opp")).opId,
 					  quId:JSON.parse(sessionStorage.getItem("cli_opp")).quId,
 					  quState:"可见",
-					  empId:1,
-					  emp:{
-						  empId:1,
-						  empName:"admin",
-						  empTel:"13332546466"
-					  },
+					  empId:JSON.parse(localStorage.getItem("loginuser")).empId,
+					  emp:JSON.parse(localStorage.getItem("loginuser")),
 					  quData:dayjs(new Date()).format('YYYY-MM-DD'),
 				  },
 				  isshow:true,
 				  outerVisible:false,
-				  todo:true,
+				  todo:false,
 				  //查询条件
 				selectParams:{
 				  keyword:'',
@@ -252,32 +270,80 @@
 				 detailsArr:[],//报价商品明细
 				  isShowAddOrder:false,//是否显示添加产品抽屉
 				  sum:0,
+				  addPriceSheetrules:{
+					  quTheme:[{required: true,message: '请输入报价主题！',trigger: 'blur'}],
+					  quTotalAmount:[{pattern:/^(([1-9]{1}\d*)|(0{1}))(\.{0}|\.{1}\d{1,2})$/,message: '请输入正确金额！',trigger: 'blur'}]
+				  },
+				  datils:[],
 			 }
 		},
 		methods:{
-			addPriceSheetSubmit(){
-				if(this.addPriceSheet.quData){
-					this.addPriceSheet.quData=dayjs(this.addPriceSheet.quData).format("YYYY-MM-DD")
-				}
-				console.log(this.addPriceSheet)
-				this.axios.post("/quotation/addquotation",this.addPriceSheet).then(res=>{
-					  console.log("新增之后",res)
-					  if(res.data.obj>0){
-						  sessionStorage.setItem("quId",res.data.obj)
-						  this.outerVisible=true
-						  this.todo=true;
-					  }else{
-						  ElMessage.error({
-							  message:"保存失败",
-							  type: 'error'
-						  });
+			addPriceSheetSubmit(formname){
+				let $this=this
+				$this.$refs[formname].validate((valid) => {
+				  console.log("表单信息：", $this.addPriceSheet, "一年挣结果：", valid);
+				  if (valid) {
+					  if(this.addPriceSheet.quData){
+						this.addPriceSheet.quData=dayjs(this.addPriceSheet.quData).format("YYYY-MM-DD")
 					  }
-					  if(!this.todo && res.data.obj>0){
-						  setTimeout(function () {
-						    this.todo=true;
-						  },1000);
-					  }
+					  console.log(this.addPriceSheet)
+					  this.axios.post("/quotation/addquotation",this.addPriceSheet).then(res=>{
+						  console.log("新增之后",res)
+						  if(res.data.obj>0){
+							  sessionStorage.setItem("quId",res.data.obj)
+							  this.outerVisible=true
+							  sessionStorage.setItem("todo",true)
+						  }else{
+							  ElMessage.error({
+								  message:"保存失败",
+								  type: 'error'
+							  });
+						  }
+						  if(!this.todo && res.data.obj>0){
+							  setTimeout(function () {
+								sessionStorage.setItem("todo",true);
+							  },1000);
+						  }
+					  })
+				  }
 				})
+				
+			},
+			editToDo(){
+			  var show=sessionStorage.getItem("todo")
+			  var tianjia=sessionStorage.getItem("tianjia")
+			  if(show){
+				  if(show=="true"){
+					this.todo=true
+					if(tianjia){
+						var editData=JSON.parse(sessionStorage.getItem("editData"));
+						if(editData){
+							this.axios.get('quotation/selectbyid',{
+								params:{
+									quid:editData.quId
+								}
+							}).then(res=>{
+								console.log("232",res)
+								if(res.data.obj.quotationDetails && res.data.obj.quotationDetails.length>0){
+									res.data.obj.quotationDetails.forEach(v=>{
+										var details={}
+										details.qdQuantity = v.qdQuantity;//产品数量
+										details.prId = v.prId;//产品编号
+										details.odrdlProductName = v.product.prName;//产品名称
+										details.odrdlMoney = v.product.prCostPrice;//进价
+										details.odrdlUnitPrice = v.product.prPrice;//售价
+										details.qdProTotalAmount = v.prPrice;//小计
+										this.detailsArr.push(details);
+										console.log("datas",this.detailsArr)
+									})
+								}
+							  })
+						}
+					}
+				  }else if(show=="false"){
+					this.todo=false
+				  }
+			  }
 			},
 			createQuNo() {
 				var code ='';
@@ -307,23 +373,45 @@
 				console.log(111111,row)
 				this.sum=row.odrdlUnitPrice*row.qdQuantity
 				this.detailsArr.forEach(v=>{
-					if(v.prid==row.prid){
+					if(v.prId==row.prId){
 						v.qdProTotalAmount=this.sum
 					}
 				})
 			},
 			addQuDetails(){
 				// sessionStorage.getItem("quId")
-				var quId=parseInt(1)
+				var quId=parseInt(sessionStorage.getItem("quId"))
+				console.log("sedrs",quId)
+				var sum=0
+				var jin=0
+				var shou=0
 				if(this.detailsArr.length>0 && quId>0){
 					this.detailsArr.forEach(v=>{
 						v.quId=quId
+						v.empId=JSON.parse(localStorage.getItem("loginuser")).empId
+						console.log("222",v.qdProTotalAmount)
+						sum+=v.qdProTotalAmount
+						jin+=v.odrdlMoney*v.qdQuantity//计算进价
+						shou+=v.odrdlUnitPrice*v.qdQuantity//计算售价
+						v.sum=sum//总报价
+						v.mao=shou-jin//毛利
 					})
 				}
-				console.log(this.detailsArr)
-				// this.axios.post('quotationDetails/adddetails',this.detailsArr).then(res=>{
-				//   this.productArr=res.data.data.records
-				// })
+				console.log(this.detailsArr,sum)
+				this.axios.post('quotationDetails/adddetails',this.detailsArr).then(res=>{
+					console.log(res)
+					ElMessage.success({
+						  message: res.data.obj>0?"保存成功":"保存失败",
+						  type: 'success'
+					});
+					if(res.data.obj>0){
+						if(sessionStorage.getItem("todo")){
+							sessionStorage.removeItem("todo")
+							// this.reload()
+							this.$router.push("/salesOpportunitiesDetails");
+						}
+					}
+				})
 			},
 			addProductFun(obj){
 			  let orderDetailsDx = {};
@@ -333,6 +421,7 @@
 				  return;
 				}
 			  }
+			  console.log(obj.prCostPrice)
 			  orderDetailsDx.qdQuantity = 1;//产品数量
 			  orderDetailsDx.odrOn = this.odrOn;//订单号
 			  orderDetailsDx.prId = obj.prId;//产品编号
@@ -350,6 +439,7 @@
 		},
 		created(){
 			this.createQuNo()
+			this.editToDo()
 			this.initProduct();//初始化
 		}
 		

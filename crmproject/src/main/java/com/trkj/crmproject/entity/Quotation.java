@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -111,6 +112,35 @@ public class Quotation implements Serializable {
     @TableField(exist = false)
     private Opportunity opportunity;
 
+    /**
+     * 对应商品
+     */
+    @TableField(exist = false)
+    private List<QuotationDetails> quotationDetails;
 
+    /**
+     * 临时字段，存储当前页码数
+     */
+    @TableField(exist = false)
+    private Integer pageNo;
+
+    /**
+     * 临时字段，存储当前页的条数
+     */
+    @TableField(exist = false)
+    private Integer pageSize;
+
+    /**
+     * 临时字段，范围查询开始时间
+     */
+    @TableField(exist = false)
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+    private Timestamp startTime;
+    /**
+     * 临时字段，范围查询结束时间
+     */
+    @TableField(exist = false)
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+    private Timestamp endTime;
 
 }

@@ -85,8 +85,8 @@ const routes = [
                 meta: { title: '解决方案', icon: 'dashboard' }
             },
             {
-                path: '/PriceSheet',
-                name: 'PriceSheet',
+                path: '/priceSheets',
+                name: 'PriceSheets',
                 component: () => import('/src/components/pre-sales/PriceSheet.vue'),
                 meta: { title: '报价', icon: 'dashboard' }
             },

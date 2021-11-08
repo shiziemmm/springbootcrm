@@ -17,7 +17,7 @@ import com.trkj.crmproject.util.MyResult;
  * @since 2021-11-06
  */
 @RestController
-//@RequestMapping("/client")
+@RequestMapping("/client")
 public class ClientController {
     @Resource
     ClientService clientService;
