@@ -1,200 +1,225 @@
 <template>
-<div>
-    <el-row :gutter="15">
-  <el-col :span="12" :offset="11">
-    <b>发货单</b>
-  </el-col>    
-  <el-divider></el-divider>
-    <el-form ref="rule" :rules="rule" :model="formData" size="medium" label-width="100px">
-       <el-col :span="12">
-            <el-form-item label="对应客户" prop="customerName">
-             <el-input v-model="formData.customerName" :disabled="true"
-                       :style="{width: '300px'}"></el-input>
-            </el-form-item>
-       </el-col>
-       <el-col :span="12">
-            <el-form-item label="订单编号" prop="indentId">
-              <el-input v-model="formData.indentId"  :disabled="true"
-                       :style="{width: '300px'}"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="发货日期" prop="shdate">
-              <el-date-picker v-model="formData.shdate" type="date" value-format="yyyy-MM-dd" 
-              :style="{width: '300px'}" placeholder="请选择发货日期" clearable></el-date-picker>
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="收货人/地址">
-            <el-divider></el-divider>
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="收货人">
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="姓名" prop="addressee">
-              <el-input v-model="formData.addressee" 
-                        clearable style="width:220px"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="7" >
-            <el-form-item label="电话" prop="addresseeTelephone">
-              <el-input v-model="formData.addresseeTelephone"
-                        clearable style="width:220px"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8" >
-            <el-form-item label="移动电话" prop="addresseePhone">
-              <el-input v-model="formData.addresseePhone" 
-                        clearable :style="{width: '240px'}"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="24" >
-            <el-form-item label="地址">
-            </el-form-item>
-          </el-col>
-          <el-col :span="6" >
-            <el-form-item label="省" prop="province">
-              <el-input v-model="formData.province" 
-                        clearable style="width:220px"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="7">
-            <el-form-item label="城市" prop="city">
-              <el-input v-model="formData.city" 
-                        clearable style="width:220px"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="邮编" prop="postcode">
-              <el-input v-model="formData.postcode" 
-                        clearable style="width:240px"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="详细地址" prop="addresseeSite">
-              <el-input v-model="formData.addresseeSite" 
-                        clearable style="width:600px"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="24" >
-            <el-form-item label="明细">
-            <el-divider></el-divider>  
-            </el-form-item>
-          </el-col>
-          <el-col :span="24" >
-            <el-form-item label="">
-            <el-table :data="formData.indentDetail" border  style="width: 1000px">
-            <el-table-column prop="productName" label="品名"> </el-table-column>
-            <el-table-column prop="model" label="型号"> </el-table-column>
-            <el-table-column prop="quantity" label="数量"> </el-table-column>
-            <el-table-column prop="unitPrice" label="单价"> </el-table-column>
-            <el-table-column prop="money" label="金额"> </el-table-column>
-            <el-table-column prop="remark" label="备注"> </el-table-column>
-          </el-table>
-            </el-form-item>
-          </el-col>
-          
-          <el-col :span="12">
-            <el-form-item label="打包件数" prop="packets">
-              <el-input v-model="formData.packets" 
-                       :style="{width: '300px'}"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="重量(Kg)" prop="weight">
-              <el-input v-model="formData.weight" show-word-limit
-                        clearable :style="{width: '300px'}"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="物流公司" prop="logisticsCompany">
-              <el-input v-model="formData.logisticsCompany" show-word-limit
-                        clearable :style="{width: '300px'}"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="物流单号" prop="trackingNumber">
-              <el-input v-model="formData.trackingNumber" show-word-limit
-                        clearable :style="{width: '300px'}"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="运费" prop="freight">
-              <el-input v-model="formData.freight" show-word-limit
-                        clearable :style="{width: '300px'}"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="备注">
-              <el-input type="textarea" v-model="formData.remark" show-word-limit
-                        clearable :style="{width: '500px'}"></el-input>
-            </el-form-item>
-          </el-col>
-    </el-form>        
-    </el-row>  
-<div class="app-buttonx"><el-button @click="add('rule')" icon="el-icon-truck" type="primary"  size="small">发货:点此确认发货</el-button></div> 
-</div>
+
+  <div class="div-class" v-if="odrOn != undefined">
+
+    <div class="div-one">
+
+      <el-row>
+        <el-col style="margin-left:30px;font-size: 20px;height: 60px;line-height: 60px" :offset="1" :span="2">发货单</el-col>
+      </el-row>
+
+      <el-divider>
+        信息
+      </el-divider>
+
+      <el-row style="margin-top: 50px; ">
+        <el-col style="margin-left: 200px" :span="6">
+          主题：{{orderObj.odrName}}
+        </el-col>
+        <el-col style="margin-left: 250px" :span="6">
+          对应客户：{{orderObj.customerName}}
+        </el-col>
+      </el-row>
+
+      <el-row style="margin-top: 50px;">
+        <el-col style="margin-left: 200px" :span="6">
+          订单号：{{orderObj.odrOn}}
+        </el-col>
+        <el-col style="margin-left: 250px" :span="6">
+          对应报价：{{orderObj.quotation == null ? '无': orderObj.quotation.quTheme}}
+        </el-col>
+      </el-row>
+
+      <el-row style="margin-top: 50px;">
+        <el-col style="margin-left: 200px" :span="6">
+          总金额：{{orderObj.odrPrice}}
+        </el-col>
+        <el-col style="margin-left: 250px" :span="6">
+          产品数量：{{orderObj.odrCount}}
+        </el-col>
+      </el-row>
+
+      <el-row style="margin-top: 50px;">
+        <el-col style="margin-left: 200px" :span="6">
+          创建订单时间：{{orderObj.odrDate}}
+        </el-col>
+        <el-col style="margin-left: 250px" :span="6">
+          最晚发货时间：{{orderObj.odrOutDate}}
+        </el-col>
+      </el-row>
+
+
+      <el-row style="margin-top: 50px;">
+        <el-col style="margin-left: 200px" :span="6">
+          收货人名称：{{orderObj.odrCity}}
+        </el-col>
+        <el-col style="margin-left: 250px" :span="6">
+          收货人电话：{{orderObj.odrAddresseePhone}}
+        </el-col>
+      </el-row>
+
+      <el-row style="margin-top: 50px;">
+        <el-col style="margin-left: 200px" :span="6">
+          收货人地址：{{orderObj.odrProvince}}
+        </el-col>
+        <el-col style="margin-left: 250px" :span="6">
+          收货人详情地址：{{orderObj.odrCity}}
+        </el-col>
+      </el-row>
+
+      <el-row style="margin-top: 50px;">
+        <el-col style="margin-left: 200px" :span="18">
+          订单备注：{{orderObj.odrRemark}}
+        </el-col>
+      </el-row>
+
+      <el-divider style="margin: 50px 0px">
+        产品信息
+      </el-divider>
+
+
+      <el-row>
+        <el-col style="margin-top: 40px;margin-bottom: 10px;margin-left: 1200px" :span="2">
+          <el-button  v-if="orderObj.odrState == 1 && orderObj.odrShipmentsState == '未发货'" @click.stop="addProduct()"  type="primary" size="mini">编辑明细</el-button>
+        </el-col>
+      </el-row>
+      <el-table
+          :header-cell-style="{textAlign: 'center'}"
+          :cell-style="{ textAlign: 'center' }"
+          :data="orderObj.orderFromDetail" size="medium">
+        <el-table-column prop="odrdlProductName"  label="商品名" />
+        <el-table-column prop="odrdlMoney"   label="进价" />
+        <el-table-column prop="odrdlUnitPrice"   label="售价" >
+        </el-table-column>
+        <el-table-column prop="odrdlCount"   label="数量" >
+        </el-table-column>
+        <el-table-column prop="odrdlRemark"  label="备注" >
+        </el-table-column>
+      </el-table>
+
+      <el-row>
+        <el-col :span="3" style="margin-top: 40px;margin-bottom: 10px;margin-left: 1100px">
+          合计：{{orderObj.odrPrice}}
+        </el-col>
+      </el-row>
+
+      <el-divider style="margin: 50px 0px">
+        发货信息
+      </el-divider>
+
+      <el-row style="margin-top: 50px;">
+        <el-col style="margin-left: 200px" :span="6">
+          发货单号：<el-input disabled  style="width: 230px" v-model="shipmentObj.sptOn" placeholder="物流单号"/>
+        </el-col>
+
+
+        <el-col style="margin-left: 250px" :span="6">
+          物流公司：
+          <el-select style="width: 230px" placeholder="物流公司" v-model="shipmentObj.sptLogisticsCompany">
+            <el-option value="顺丰快递"></el-option>
+            <el-option value="圆通快递"></el-option>
+            <el-option value="申通快递"></el-option>
+            <el-option value="邮政快递"></el-option>
+            <el-option value="中通快递"></el-option>
+          </el-select>
+        </el-col>
+      </el-row>
+
+      <el-row style="margin-top: 50px;">
+        <el-col style="margin-left: 200px" :span="6">
+           &nbsp;&nbsp;&nbsp;&nbsp; 运费 &nbsp;：<el-input style="width: 230px" v-model="shipmentObj.sptSfPrice" onkeyup="value=value.replace(/[^\d^\.]+/g,'').replace('.','$#$').replace(/\./g,'').replace('$#$','.')" placeholder="运费" />
+        </el-col>
+
+        <el-col style="margin-left: 250px" :span="6">
+          物流单号：<el-input style="width: 230px" v-model="shipmentObj.sptLogistics" placeholder="物流单号"/>
+        </el-col>
+      </el-row>
+
+
+
+      <el-row>
+        <el-col :span="6" style="margin-top: 40px;margin-bottom: 40px;margin-left: 600px">
+          <el-button type="primary" @click="addShipment" size="medium">发货</el-button>
+        </el-col>
+
+
+      </el-row>
+
+
+
+    </div>
+
+  </div>
+
+  <div class="div-class" style="position: absolute;width: 100%;height: 100%" v-if="odrOn == undefined">
+    错误！！！！！！！！
+    <el-button @click="this.$router.push('/order');">返回</el-button>
+  </div>
+
 
 </template>
 
 <script>
+import {ElMessage} from "element-plus";
+
 export default {
   name: 'shipments',
   data() {
     return{
-      formData:{},
+      orderObj:{},
+      odrOn:sessionStorage.getItem("odrOn"),//订单号
+      shipmentObj:{
+        odrOn:'',//订单号
+        sptOn:'',//发货单号
+        sptLogisticsCompany:'',//物流公司
+        sptLogistics:'',//物流编号
+        clientId:'',//客户编号
+        sptSfPrice:'',//运费
+      },
     }
   },
-  //methods: {
-    // init(){
-    //   findIndentAnddetaile(this.$route.params.id).then(res=>{
-    //     this.formData =res.data
-    //     this.formData.indentId = this.$route.params.id
-    //     this.formData.id = null
-    //   })
-    // },
-  //   add(rule){
-  //     this.$refs[rule].validate((valid) => {
-  //       if (valid) {
-  //         this.$confirm('确认发货后，订单不可修改', '提示', {
-  //             confirmButtonText: '确定',
-  //             cancelButtonText: '取消',
-  //             type: 'warning',
-  //           })
-  //             .then(() => {
-  //               addShipments(this.formData).then(res=>{
-  //               this.$message({
-  //                     message: res.message,
-  //                     type: res.success?'success':'error'
-  //                 });
-  //                 if(res.success){
-  //                     this.$router.push({path:'/indent/viewIndex/'+this.$route.params.id})
-  //                 } 
-  //               })
-  //             })
-  //             .catch(() => {
-  //               this.$message({
-  //                 type: 'info',
-  //                 message: '已取消删除',
-  //               })
-  //             })
-  //       }else{
-  //         return false
-  //       }
-  //     })        
-  //   },
-  // },
-  // created(){
-  //   this.init();  
-  // }
+  methods: {
+    initOrderShipment(){
+      this.axios({url:"orderFrom/selectOrderByOdrId",params:{odrOn:this.odrOn}}).then((v)=>{
+        console.log(v.data.obj);
+        this.orderObj = v.data.obj;
+      })
+    },
+    addShipment(){
+      this.shipmentObj.clientId = this.orderObj.clientId;//客户编号
+      this.shipmentObj.odrOn = this.orderObj.odrOn;//订单号
+
+      this.axios.post("shipmentsFrom/addShipment",this.shipmentObj).then((v)=>{
+        ElMessage.success({
+          message: "发货成功！",
+          type: 'success'
+        });
+        sessionStorage.clear("odrOn")//清空订单号
+        this.$router.push('/order');
+      })
+    }
+  },
+  created(){
+    this.shipmentObj.sptOn = "fh"+Math.round(Math.random()*99999999999);//随机生成数
+    this.initOrderShipment();
+  }
 }
 </script>
 
 <style>
-.app-buttonx{
-  text-align: center;
+*{
+  margin: 0px;
+}
+.div-class{
+  /*padding: 8px;*/
+  background: #DDDDDD;
+  padding-left: 120px;
+  padding-top: 20px;
+  padding-bottom:20px ;
+}
+.div-one{
+  font-size: 14px;
+  background-color: white;
+  width: 1300px;
 }
 </style>

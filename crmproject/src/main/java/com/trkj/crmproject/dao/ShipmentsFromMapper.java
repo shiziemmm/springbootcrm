@@ -2,6 +2,9 @@ package com.trkj.crmproject.dao;
 
 import com.trkj.crmproject.entity.ShipmentsFrom;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.trkj.crmproject.entity.Vo.SelectWhere;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +15,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2021-11-06
  */
 public interface ShipmentsFromMapper extends BaseMapper<ShipmentsFrom> {
+
+    List<ShipmentsFrom> selectShipmentByWhere(SelectWhere selectWhere);
 
 }

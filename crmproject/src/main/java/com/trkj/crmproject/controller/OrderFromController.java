@@ -63,5 +63,13 @@ public class OrderFromController {
         System.err.println(selectWhere);
         return MyResult.SUCCESS_DATA(orderFromService.selectOrderByTj(selectWhere));
     }
+
+    /**
+     * 根据订单编号查询订单
+     */
+    @RequestMapping("selectOrderByOdrId")
+    public MyResult selectOrderByOdrId(String odrOn){
+        return MyResult.SUCCESS_Object(orderFromService.selectOrderByOdrId(odrOn));
+    }
 }
 

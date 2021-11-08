@@ -23,4 +23,7 @@ public interface OrderFromService extends IService<OrderFrom> {
     boolean addOrder(OrderFrom orderFrom);
 
     List<OrderFrom> selectOrderByTj(SelectWhere selectWhere);
+
+    OrderFrom selectOrderByOdrId(String odrOn);
+
 }

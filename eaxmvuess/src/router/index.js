@@ -19,6 +19,25 @@ const routes = [
         meta:'添加产品'
     },
     {
+        name:'OrderParticulars',
+        path:'/orderParticulars',
+        component:()=>import("/src/components/in-sale/OrderParticulars.vue"),
+        meta:'查看订单详情'
+    },
+    {
+        name:'ShipmentsPage',
+        path:'/shipmentsPage',
+        component:()=>import("/src/components/in-sale/ShipmentsPage.vue"),
+        meta:'订单发货'
+    },
+    {
+        path: '/shipmentsDetails',
+        name: 'ShipmentsDetails',
+        hidden: true,
+        component: () => import('/src/components/in-sale/ShipmentsDetalis.vue'),
+        meta: { title: '发货明细', icon: 'dashboard' }
+    },
+    {
         name: 'Home',
         path: '/home',//默认路径，登入就进来
         component: () => import("/src/components/main.vue"),
@@ -126,12 +145,6 @@ const routes = [
                 meta: { title: '发货', icon: 'dashboard' }
             },
             {
-                path: '/shipmentsDetails',
-                name: 'ShipmentsDetails',
-                hidden: true,
-                component: () => import('/src/components/in-sale/ShipmentsDetalis.vue'),
-                meta: { title: '发货明细', icon: 'dashboard' }
-            },{
                 path: '/planArrangement',
                 name: 'PlanArrangement',
                 component: () => import('/src/components/in-sale/PlanArrangement.vue'),

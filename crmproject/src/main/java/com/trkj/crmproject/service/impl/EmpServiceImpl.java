@@ -50,4 +50,11 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp> implements EmpSe
         return empMapper.selectList(null);
     }
 
+    /**
+     * 查询所有负责订单员工
+     */
+    public List<Emp> empSelectAll(){
+        return empMapper.empSelectAll();
+    }
+
 }

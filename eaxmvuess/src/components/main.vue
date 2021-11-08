@@ -70,7 +70,6 @@
               <el-menu-item @click="pushUrl('/order')" index="3-1">订单</el-menu-item>
               <el-menu-item @click="pushUrl('/orderDetails')" index="3-6">订单明细</el-menu-item>
               <el-menu-item @click="pushUrl('/shipments')" index="3-2">发货</el-menu-item>
-              <el-menu-item @click="pushUrl('/shipmentsDetails')" index="3-7">发货明细</el-menu-item>
               <el-menu-item @click="pushUrl('/planArrangement')" index="3-3">计划回款</el-menu-item>
               <el-menu-item @click="pushUrl('/plan')" index="3-4">回款</el-menu-item>
               <el-menu-item @click="pushUrl('/makeOutAnInvoice')" index="3-5">开票</el-menu-item>

@@ -1,7 +1,7 @@
 <template>
 
   <!--新增订单弹框-->
-  <el-dialog width="55%" title="新建订单信息" @close="closeOrder" v-model="isShowOrder">
+  <el-dialog top="20px" width="55%" :title="addOrUpdateTitle" @close="closeOrder" v-model="isShowOrder">
       <el-form ref="orderRef" :rules="orderRules" :model="orderObj"  >
         <el-row>
           <el-col :offset="1" :span="22">
@@ -131,7 +131,7 @@
           </el-col>
           <el-col :span="1"></el-col>
           <el-col :span="2">
-            <el-button @click="" type="danger">取消</el-button>
+            <el-button @click="closeOrder" type="danger">取消</el-button>
           </el-col>
           <el-col :span="1"></el-col>
         </el-row>
@@ -145,19 +145,24 @@
   </el-row>
 
   <el-row style="padding: 15px 0px">
-
-    <el-col :offset="2" :span="4">
-      <el-input @blur="initChangeBedRecord" size="mini" v-model="SelectWhere.searchLike"  placeholder="根据客户名称或者负责人搜索"></el-input>
-    </el-col>
-    <el-col :span="1" >
-      <el-button  size="mini" @click="initOrder"  type="primary" >搜索</el-button>
+    <el-col :offset="1" :span="4">
+      <span style="font-size: 12px;"> 搜索：</span>
+      <el-input @blur="initOrder" size="mini" v-model="SelectWhere.searchLike" style="width: 130px"  placeholder="客户名称或者负责人"></el-input>
     </el-col>
 
+    <el-col :offset="1" :span="4">
+     <span style="font-size: 12px;"> 订单状态：</span>&nbsp;
+      <el-select @change="initOrder" style="width: 120px" size="mini" placeholder="状态" v-model="SelectWhere.type">
+        <el-option label="执行中" :value="1"></el-option>
+        <el-option :value="2" label="结束"></el-option>
+        <el-option :value="3" label="意外终止"></el-option>
+      </el-select>
+    </el-col>
 
-    <el-col :offset="1"  :span="10">
+    <el-col :offset="1"  :span="8">
       &nbsp;<span style="font-size: 12px;">最晚发货日期：</span>&nbsp;
 
-      <el-date-picker @change="initOrder" style="width: 160px"
+      <el-date-picker @change="initOrder" style="width: 130px"
                       type="date"
                       size="mini"
                       value-format="YYYY-MM-DD"
@@ -165,7 +170,7 @@
                       placeholder="日期">
       </el-date-picker>
       &nbsp;<span style="font-size: 12px;">至</span>&nbsp;
-      <el-date-picker @change="initChangeBedRecord" style="width: 160px"
+      <el-date-picker @change="initOrder" style="width: 130px"
                       type="date"
                       size="mini"
                       value-format="YYYY-MM-DD"
@@ -174,7 +179,7 @@
       </el-date-picker>
     </el-col>
 
-    <el-col :offset="4" :span="2">
+    <el-col :offset="2" :span="2">
         <el-button @click="openOrder" size="mini" >创建订单</el-button>
     </el-col>
   </el-row>
@@ -182,16 +187,14 @@
 
 
 
-  <!--查看病历表格-->
   <el-row>
     <el-col>
-      <el-table :data="orderArr.slice((orderCurrent-1)*orderSize,orderCurrent*orderSize)" height="460" size="mini">
+      <el-table @cell-click="lookProductText" :data="orderArr.slice((orderCurrent-1)*orderSize,orderCurrent*orderSize)" height="520px" size="mini">
         <el-table-column prop="odrOn" width="100px"  label="订单号" />
         <el-table-column prop="odrName" label="订单主题" />
         <el-table-column prop="odrCount" label="产品数量" />
         <el-table-column prop="customerName" label="对应客户" />
         <el-table-column prop="odrPrice" label="订单总额" />
-        <el-table-column prop="odrOutPrice"  label="发货金额" />
         <el-table-column prop="odrReturnPrice" label="回款金额"/> >
         <el-table-column label="订单状态" >
           <template #default="obj">
@@ -204,8 +207,9 @@
         <el-table-column prop="odrOutDate" width="100px" label="最晚发货日期" />
         <el-table-column width="150px" label="操作">
           <template #default="obj">
-            <el-button size="mini" @click="addProduct(obj.row)" type="text">添加产品</el-button>
-            <el-button type="text" size="mini">取消订单</el-button>
+            <el-button size="mini" v-if="obj.row.odrState == 1 && obj.row.odrShipmentsState == '未发货'" @click.stop="addProduct(obj.row)" type="text">添加产品</el-button>
+            <el-button type="text" v-if="obj.row.odrShipmentsState != '已签收'" @click.stop="updateProduct(obj.row)" size="mini">修改</el-button>
+            <el-button  v-if="obj.row.odrShipmentsState == '待发货'" type="text"  @click.stop="openShipmentProductPage(obj.row)" size="mini">发货</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -217,8 +221,8 @@
           @current-change="orderCurrentChange"
           :current-page="orderCurrent"
           :page-sizes="[2,4,6,8,10]"
-          :page-size="orderSize"
           layout="total, sizes, prev, pager, next, jumper"
+          :page-size="orderSize"
           :total="orderArr.length">
       </el-pagination>
     </el-col>
@@ -231,18 +235,19 @@ import {
   CodeToText,
   TextToCode
 } from 'element-china-area-data'
+import {ElMessage} from "element-plus";
 export default {
 
   data() {
     return {
       orderRules: {//非空校验
-        odrName:[{required:true,message:"主题不能为空",trigger:'change'}],//主题名称
+        odrName:[{required:true,message:"主题不能为空",trigger:'blur'}],//主题名称
         customerName:[{required:true,message:"客户名称不能空！",trigger:'change'}],//对应客户名称
-        odrOutDate:[{required:true,message:"请选择最晚发货日期",trigger:'change'}],//订单最晚发货时间
-        odrAddressee:[{required:true,message:"收件人姓名不能为空",trigger:'change'}],//收件人姓名
-        odrAddresseePhone:[{required:true,message:"收货人电话不能为空",trigger:'change'}],//收件人电话
+        odrOutDate:[{required:true,message:"请选择最晚发货日期",trigger:'blur'}],//订单最晚发货时间
+        odrAddressee:[{required:true,message:"收件人姓名不能为空",trigger:'blur'}],//收件人姓名
+        odrAddresseePhone:[{required:true,message:"收货人电话不能为空",trigger:'blur'}],//收件人电话
         odrProvince:[{required:true,message:"地址不能为空",trigger:'change'}],//省区
-        odrCity:[{required:true,message:"详细地址不能为空",trigger:'change'}],//城市
+        odrCity:[{required:true,message:"详细地址不能为空",trigger:'blur'}],//城市
       },
 
       //======================查询条件数据
@@ -250,11 +255,12 @@ export default {
         startDate:'',//开始日期
         endDate:'',//结束日期
         searchLike:'',//模糊搜索
-        doctorType:2,//类型
+        type:'',//类型
       },
 
       //显示添加订单弹框
       isShowOrder:false,
+      addOrUpdateTitle:'',//新增修改订单title
 
       //订单实体类
       orderObj:{
@@ -292,6 +298,8 @@ export default {
       citys:regionData,
       selectedOptions: ["", "", ""],
 
+      empObj:{},//员工集合
+
       empArr:[],//员工集合
 
 
@@ -308,15 +316,50 @@ export default {
           this.orderArr = v.data.data;
       })
     },
+    //打开发货页面的方法
+    openShipmentProductPage(obj){
+      sessionStorage.setItem("odrOn",obj.odrOn);
+      this.$router.push('/shipmentsPage');
+    },
+    //修改订单
+    updateProduct(obj){
+        this.clientArrFun();
+        this.empArrFun();
+        this.initOrder();
+        this.isShowOrder = true;
+        this.addOrUpdateTitle = "修改订单";
+        console.log(obj);
+        this.orderObj.odrId = obj.odrId;//订单编号
+        this.orderObj.odrName = obj.odrName;//
+        this.orderObj.customerName = obj.customerName;//
+        this.orderObj.odrOn = obj.odrOn;//
+        this.orderObj.odrUsId = obj.odrUsId;//
+        this.orderObj.odrOutDate = obj.odrOutDate;//
+        this.orderObj.odrState = obj.odrState;//
+        this.orderObj.odrAddressee = obj.odrAddressee;//收货人名称
+        this.orderObj.odrAddresseePhone = obj.odrAddresseePhone;//收货人电话
+        this.orderObj.odrShipmentsState = obj.odrShipmentsState;
+        this.orderObj.odrCity = obj.odrCity;//
+        this.orderObj.odrRemark = obj.odrRemark;//
+        this.orderObj.odrProvince = obj.odrProvince;//
+    },
     addProduct(obj){
-        sessionStorage.setItem('oederObj',JSON.stringify(obj))
+        sessionStorage.setItem('orderObj',JSON.stringify(obj));
         // sessionStorage.setItem('odrOn',obj);
         this.$router.push('/addProduct');
     },
-
+    lookProductText(obj){
+      console.log(obj)
+      sessionStorage.setItem('odrOn',obj.odrOn);
+      // sessionStorage.setItem('odrOn',obj);
+      this.$router.push('/orderParticulars');
+    },
     //打开添加订单弹框
     openOrder(){
+      console.log(this.orderObj)
+      this.orderObj.odrUsId = this.empObj.empId;
       this.isShowOrder = true;
+      this.addOrUpdateTitle = "添加订单";
       this.orderObj.odrOn = Math.round(Math.random()*99999999999);//随机生成数
       this.clientArrFun();
       this.empArrFun();
@@ -324,32 +367,33 @@ export default {
     //关闭添加订单弹框
     closeOrder(){
       this.isShowOrder = false;
+      this.$refs['orderRef'].resetFields();
       this.selectedOptions =  ["", "", ""];
       this.orderObj = {
         odrId:'',//订单编号
-            odrOn:'',//订单号
-            odrName:'',//主题名称
-            odrPrice:'',//订单总额
-            odrOutPrice:'',//订单发货总额
-            customerName:'',//对应客户名称
-            chanceName:'',//机会名称
-            odrDate:'',//订单生成日期
-            odrOutDate:'',//订单最晚发货时间
-            odrAddressee:'',//收件人姓名
-            odrAddresseeTelephone:'',//收件人电话
-            odrAddresseePhone:'',//收件人移动电话
-            odrProvince:'',//省区
-            odrShipmentsState:'',//订单发货状态
-            odrCity:'',//城市
-            odrAddressType:'',//地址类型
-            odrPostcode:'',//邮编
-            odrState:1,//状态(实行中、结束、意外终止)
-            odrFreight:'',//运费
-            odrRemark:'',//订单备注
-            clientId:'',//外连接 连接客户表
-            opId:'',//外连接  连接会机编号
-            linkmanId:'',//外连接 连接联系人编号
-            odrUsId:'',//订单签约人
+        odrOn:'',//订单号
+        odrName:'',//主题名称
+        odrPrice:'',//订单总额
+        odrOutPrice:'',//订单发货总额
+        customerName:'',//对应客户名称
+        chanceName:'',//机会名称
+        odrDate:'',//订单生成日期
+        odrOutDate:'',//订单最晚发货时间
+        odrAddressee:'',//收件人姓名
+        odrAddresseeTelephone:'',//收件人电话
+        odrAddresseePhone:'',//收件人移动电话
+        odrProvince:'',//省区
+        odrShipmentsState:'',//订单发货状态
+        odrCity:'',//城市
+        odrAddressType:'',//地址类型
+        odrPostcode:'',//邮编
+        odrState:1,//状态(实行中、结束、意外终止)
+        odrFreight:'',//运费
+        odrRemark:'',//订单备注
+        clientId:'',//外连接 连接客户表
+        opId:'',//外连接  连接会机编号
+        linkmanId:'',//外连接 连接联系人编号
+        odrUsId:'',//订单签约人
       };
     },
     //添加订单弹框
@@ -358,6 +402,10 @@ export default {
         if(valid){
           this.axios.post("/orderFrom/addOrder",this.orderObj).then((v)=>{
             if(v.data){
+              ElMessage.success({
+                message: "操作成功",
+                type: 'success'
+              });
               this.closeOrder();//关闭弹框
               this.initOrder();
             }
@@ -404,11 +452,9 @@ export default {
 
 
     //========================分页方法
-    // 住院登记size变了调用
     orderSizeChange: function(size) {
       this.orderSize = size;
     },
-    //住院登记Current变了调用
     orderCurrentChange: function(currentPage) {
       this.orderCurrent = currentPage;
     },
@@ -417,6 +463,7 @@ export default {
 
   created() {
     this.initOrder();//初始化
+    this.empObj = JSON.parse(localStorage.getItem("loginuser"))//获取员工对象
   }
 }
 </script>

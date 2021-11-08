@@ -18,4 +18,7 @@ public interface OrderFromMapper extends BaseMapper<OrderFrom> {
 
     List<OrderFrom> selectOrderByTj(SelectWhere selectWhere);
 
+    OrderFrom selectOrderByOdrId(String odrOn);
+
+
 }
