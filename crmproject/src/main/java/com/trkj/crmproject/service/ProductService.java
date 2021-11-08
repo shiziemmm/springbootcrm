@@ -17,5 +17,5 @@ import java.util.List;
  */
 public interface ProductService extends IService<Product> {
     IPage<Product> findList(SearchListVo vo);
-    List<Product> findAll();
+    List<Product> findAll(SearchListVo vo);
 }
