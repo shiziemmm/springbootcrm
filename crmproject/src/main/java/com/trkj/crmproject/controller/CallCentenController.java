@@ -4,6 +4,7 @@ package com.trkj.crmproject.controller;
 import com.trkj.crmproject.entity.CallCenten;
 import com.trkj.crmproject.service.CallCentenService;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
@@ -41,8 +42,13 @@ public class CallCentenController {
     }
 
     @PostMapping("/save_call_centen")
-    public void saveCallCenten(CallCenten callCenten){
+    public void saveCallCenten(@RequestBody CallCenten callCenten){
         callCentenService.saveCallCenten(callCenten);
+    }
+
+    @PostMapping("/add_call_centen_qa")
+    public void addCallCentenQa(@RequestBody CallCenten callCenten){
+        callCentenService.addCallCentenQa(callCenten);
     }
 }
 

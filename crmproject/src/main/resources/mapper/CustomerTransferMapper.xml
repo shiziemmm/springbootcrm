@@ -19,15 +19,36 @@
             <result column="emp_name" property="empName"/>
         </association>
     </resultMap>
+
+    <resultMap id="findByCustomer" type="com.trkj.crmproject.entity.CustomerTransfer" extends="BaseResultMap">
+        <association property="client" javaType="com.trkj.crmproject.entity.Client">
+            <id column="client_id" property="clientId"/>
+            <result column="client_name" property="clientName"/>
+        </association>
+    </resultMap>
 <!--查询客户转移-->
     <select id="findByClient" resultMap="findByClient">
         select * from client left join emp on client.client_transfer = emp.emp_name
+    </select>
+
+<!--    模糊查询-->
+    <select id="findByClientName" resultMap="findByClient">
+        select * from client left join emp on client.client_transfer = emp.emp_name where client.client_name like '%${clientName}%'
     </select>
 
     <resultMap id="findByEmpName" type="com.trkj.crmproject.entity.Emp" extends="com.trkj.crmproject.dao.EmpMapper.BaseResultMap"></resultMap>
 <!--    查询用户-->
     <select id="findByEmpName" resultMap="findByEmpName">
         select * from emp
+    </select>
+
+<!--    查询转出客户-->
+    <select id="findOld" resultMap="findByCustomer">
+        select * from customer_transfer left join client on customer_transfer.client_id = client.client_id where customer_transfer_old=#{customerTransferOld}
+    </select>
+<!--    查询转入客户-->
+    <select id="findNew" resultMap="findByCustomer">
+        select * from customer_transfer left join client on customer_transfer.client_id = client.client_id where customer_transfer_new=#{customerTransferNew}
     </select>
 
 <!--    转移客户-->

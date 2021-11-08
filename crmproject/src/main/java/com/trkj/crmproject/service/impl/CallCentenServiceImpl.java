@@ -36,10 +36,15 @@ public class CallCentenServiceImpl extends ServiceImpl<CallCentenMapper, CallCen
 
     public void saveCallCenten(CallCenten callCenten){
         if (callCenten.getCallCentenId()==null || callCenten.getCallCentenId().equals("")){
+            System.err.println(callCenten);
             callCentenMapper.addCallCenten(callCenten);
         }else{
             callCentenMapper.updateCallCenten(callCenten);
         }
+    }
+
+    public void addCallCentenQa(CallCenten callCenten){
+        callCentenMapper.addCallCentenQa(callCenten);
     }
 
 }
