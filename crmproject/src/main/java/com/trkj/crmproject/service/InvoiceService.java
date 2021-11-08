@@ -14,4 +14,10 @@ import com.trkj.crmproject.util.MyResult;
  */
 public interface InvoiceService extends IService<Invoice> {
     MyResult select();
+    int addinvo(Invoice invoice);
+    int edit(Invoice invoice);
+    int delete(Integer invId);
+    public MyResult state(String value);
+    MyResult myResult(String name);
+
 }

@@ -14,7 +14,7 @@
           </el-option>
         </el-option-group>
       </el-select>
-      <el-input placeholder="请输入内容" style="width: 150px;margin-left: 100px" v-model="content"></el-input>
+      <el-input placeholder="请输入负责人" style="width: 150px;margin-left: 100px" v-model="content"></el-input>
       <el-button class="el-button el-button--default is-circle"  @click="cs()">
         <!--        <i class="el-icon-search"></i>-->
         查找
@@ -33,7 +33,7 @@
     <el-row style="margin-top: 20px">
       <el-col>
         <el-table
-            :data="tableData"
+            :data="tableData.slice((page-1)*size,page*size)"
             border
             show-summary
             :header-cell-style="{textAlign: 'center'}"
@@ -74,10 +74,21 @@
               <!--        <el-button type="danger" @click="open(r.row)">删除</el-button>-->
               <el-button type="primary" size="small" @click="opens(r.row)">视图</el-button>
               <el-button type="primary" size="small" @click="edit(r.row)">编辑</el-button>
-              <el-button type="primary" size="small" @click="deletes(r.row.plaId)">删除</el-button>
+              <el-button type="primary" size="small" @click="deletes(r.row.plaId,r.row.odrId,r.row.plaPrice)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
+        <!-- 分页插件 -->
+        <el-pagination
+            style="text-align: center;margin-top: 10px"
+            @size-change="HandleSizeChange"
+            @current-change="HandleCurrentChange"
+            :current-page="page"
+            :page-sizes="[2,4,6,8,10]"
+            :page-size="size"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="tableData.length">
+        </el-pagination>
       </el-col>
     </el-row>
     <el-dialog
@@ -86,7 +97,7 @@
         width="60%"
     >
       <el-divider></el-divider>
-      <el-form :model="ret">
+      <el-form >
         <el-row>
           <el-col :offset="1" :span="22">
             <el-form-item  label="订单：" style="width: 200px" >
@@ -317,12 +328,22 @@ export default {
           label: '新顾客付款',
         },
 
-      ],
+      ], //分页
+      size:4,
+      page:1,
+
     }
   },
   methods:{
+    HandleSizeChange: function(size) {
+      this.size = size;
+    },
+    //初始页page
+    HandleCurrentChange: function(currentPage) {
+      this.page = currentPage;
+    },
     getData(){
-      this.axios.get("/plan/planlist").then((v)=>{
+      this.axios.get("/plan/planList").then((v)=>{
         this.tableData=v.data.data
         for (let i = 0; i < this.tableData.length ; i++) {
           console.log(this.tableData[i].plaTime)
@@ -336,7 +357,7 @@ export default {
         }
         console.log(this.tableData)
       }).catch()
-      this.axios.get('/issue/issuelist').then((v)=>{
+      this.axios.get('/issue/issueList').then((v)=>{
         this.option=v.data.data
       }).catch()
       this.axios.get("/returned/principal").then((v)=>{
@@ -374,7 +395,25 @@ export default {
       }
     },
     cs(){
-      console.log(this.content,"222")
+      if(this.content==null||this.content==undefined){
+        this.getData()
+      }
+      this.axios({
+        url:"/plan/likeName",
+        params:{name:this.content}
+      }).then((v)=>{
+        this.tableData=v.data.data
+        for (let i = 0; i < this.tableData.length ; i++) {
+          console.log(this.tableData[i].plaTime)
+          const date = new Date(this.tableData[i].plaTime)
+          const y = date.getFullYear()// 年
+          let MM = date.getMonth() + 1 // 月
+          MM = MM < 10 ? ('0' + MM) : MM
+          let d = date.getDate() // 日
+          d = d < 10 ? ('0' + d) : d
+          this.tableData[i].plaTime=y + '-' + MM + '-' + d
+        }
+      }).catch();
       this.relieve=true
     },
     cs1(){
@@ -397,7 +436,7 @@ export default {
     },
     onSubmit(formName){
       console.log(this.plan)
-      this.axios.post("/plan/addplan",this.plan).then((v)=>{
+      this.axios.post("/plan/addPlan",this.plan).then((v)=>{
         if(v.data===1){
           this.dialogVisible=false
           this.getData()
@@ -426,16 +465,14 @@ export default {
       this.plan.beizhu=row.beizhu
       this.plan.payment=row.payment
     },
-    deletes(plaId){
+    deletes(plaId,odrId,plaPrice){
       console.log(plaId)
       // this.axios.get('/returned/deleteid',reId).then().catch()
       this.axios({
-        url:"/plan/deletid",
-        params:{plaId:plaId}
+        url:"/plan/deletId",
+        params:{plaId:plaId,odrId:odrId,plaPrice:plaPrice}
       }).then((v)=>{
-        if(v.data>0){
           this.getData()
-        }
       }).catch();
     }
   },

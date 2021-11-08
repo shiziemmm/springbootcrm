@@ -14,7 +14,7 @@
           </el-option>
         </el-option-group>
       </el-select>
-      <el-input placeholder="请输入内容" style="width: 150px;margin-left: 100px" v-model="content"></el-input>
+      <el-input placeholder="请输入经办人" style="width: 150px;margin-left: 100px" v-model="content"></el-input>
       <el-button class="el-button el-button--default is-circle"  @click="cs()">
 <!--        <i class="el-icon-search"></i>-->
         查找
@@ -33,7 +33,7 @@
     <el-row style="margin-top: 20px">
       <el-col>
         <el-table
-          :data="tableData"
+          :data="tableData.slice((page-1)*size,page*size)"
           border
           show-summary
           :header-cell-style="{textAlign: 'center'}"
@@ -82,6 +82,18 @@
             </template>
           </el-table-column>
         </el-table>
+
+        <!-- 分页插件 -->
+        <el-pagination
+            style="text-align: center;margin-top: 10px"
+            @size-change="HandleSizeChange"
+            @current-change="HandleCurrentChange"
+            :current-page="page"
+            :page-sizes="[2,4,6,8,10]"
+            :page-size="size"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="tableData.length">
+        </el-pagination>
       </el-col>
     </el-row>
     <el-dialog
@@ -292,7 +304,7 @@ export default {
       relieve:false,
       tableData: [],
       ret:{
-        retId:'',//计划回款编号
+        retId:0,//计划回款编号
         customerName:'',//客户名称
         orderNumber:'',//订单编号
         futuresName:'',//期次名称
@@ -313,12 +325,23 @@ export default {
       //第几期
       opstion:[],
       order:[],
-      shitu:[]
+      shitu:[],
+      //分页
+      size:4,
+      page:1,
     }
   },
   methods:{
+    //初始每页数据数size和数据data
+    HandleSizeChange: function(size) {
+      this.size = size;
+    },
+    //初始页page
+    HandleCurrentChange: function(currentPage) {
+      this.page = currentPage;
+    },
     getData(){
-      this.axios.post("/returned/returnlist").then((v)=>{
+      this.axios.post("/returned/returnList").then((v)=>{
         this.tableData=v.data.data
         for (let i = 0; i < this.tableData.length ; i++) {
           console.log(this.tableData[i].retTime)
@@ -332,7 +355,7 @@ export default {
         }
         console.log(this.tableData)
       }).catch()
-      this.axios.get('/issue/issuelist').then((v)=>{
+      this.axios.get('/issue/issueList').then((v)=>{
         this.option=v.data.data
       }).catch()
       this.axios.get("/returned/principal").then((v)=>{
@@ -367,7 +390,25 @@ export default {
     }
     },
     cs(){
-      console.log(this.content,"222")
+      if(this.content==null||this.content==undefined){
+        this.getData()
+      }
+      this.axios({
+        url:"/returned/likeName",
+        params:{name:this.content}
+      }).then((v)=>{
+        this.tableData=v.data.data
+        for (let i = 0; i < this.tableData.length ; i++) {
+          console.log(this.tableData[i].retTime)
+           const date = new Date(this.tableData[i].retTime)
+          const y = date.getFullYear()// 年
+          let MM = date.getMonth() + 1 // 月
+          MM = MM < 10 ? ('0' + MM) : MM
+          let d = date.getDate() // 日
+          d = d < 10 ? ('0' + d) : d
+          this.tableData[i].retTime=y + '-' + MM + '-' + d
+        }
+      }).catch();
       this.relieve=true
     },
     cs1(){
@@ -388,14 +429,15 @@ export default {
       }
     },
     onSubmit(formName){
-      this.axios.post("/returned/insertreturn",this.ret).then((v)=>{
-       if(v.data===1){
-         this.dialogVisible=false
-         this.getData()
-       }else{
-         alert("新增失败")
-       }
-      }).catch()
+        this.axios.post("/returned/insertReturn",this.ret).then((v)=>{
+          if(v.data===1){
+            this.dialogVisible=false
+            this.getData()
+          }else{
+            alert("新增失败")
+          }
+        }).catch()
+
     },
     opens(row){
       this.dialogVisible1=true
@@ -415,12 +457,13 @@ export default {
       this.ret.retWhether=row.retWhether
       this.ret.invoice=row.invoice
       this.ret.beizhu=row.beizhu
+      this.ret.principal=row.principal
     },
     deletes(reId){
       console.log(reId)
       // this.axios.get('/returned/deleteid',reId).then().catch()
       this.axios({
-        url:"/returned/deleteid",
+        url:"/returned/deleteId",
         params:{reId:reId}
       }).then((v)=>{
         if(v.data>0){

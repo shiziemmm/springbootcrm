@@ -4,6 +4,7 @@ package com.trkj.crmproject.controller;
 import com.trkj.crmproject.entity.Emp;
 import com.trkj.crmproject.entity.OrderFrom;
 import com.trkj.crmproject.entity.Returned;
+import com.trkj.crmproject.service.OrderFromService;
 import com.trkj.crmproject.service.ReturnedService;
 import com.trkj.crmproject.util.MyResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +28,15 @@ public class ReturnedController {
     @Autowired
     ReturnedService service;
 
+    @Autowired
+    OrderFromService order;
+
     /**
      * 查询计划回款单
      * @return
      */
-    @PostMapping(value = "/returnlist")
-    public MyResult returnlist(){
+    @PostMapping(value = "/returnList")
+    public MyResult returnList(){
 //        System.err.println(service.returneds());
         return service.returneds();
     }
@@ -44,22 +48,33 @@ public class ReturnedController {
      */
     @GetMapping(value = "/state")
     public MyResult state(String value){
-        System.err.println(value);
-        System.err.println(service.state(value));
        return service.state(value);
     }
 
-
+    /**
+     * 查询客户
+     * @return
+     */
     @GetMapping(value = "/principal")
     public List<Emp> emp(){
         return  service.emp();
     }
 
+//    /**
+//     * 查询订单
+//     * @return
+//     */
     @GetMapping(value = "/oder")
     public List<OrderFrom> order(){
         return service.select();
     }
-    @PostMapping(value = "/insertreturn")
+
+    /**
+     * 新增/修改计划回款信息
+     * @param returned
+     * @return
+     */
+    @PostMapping(value = "/insertReturn")
     public int insert(@RequestBody Returned returned){
         if(returned.getRetId()==0){
             int insert = service.insert(returned);
@@ -77,9 +92,19 @@ public class ReturnedController {
             }
         }
     }
-    @GetMapping(value = "/deleteid")
+    @GetMapping(value = "/deleteId")
     public int delete(Integer reId){
       return service.delete(reId);
+    }
+
+    /**
+     * 模糊查询
+     */
+    @GetMapping(value = "likeName")
+    public MyResult myResults(String name){
+        MyResult myResult = service.myResult(name);
+        System.err.println(myResult);
+        return myResult;
     }
 
 }

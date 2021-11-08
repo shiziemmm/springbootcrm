@@ -128,6 +128,10 @@ export default {
     pushUrl(path){
       this.$router.push(path);
     },
+    signout(){
+      window.localStorage.clear()
+      this.$router.push('/')
+    }
   },
   created(){
     this.token=JSON.parse(localStorage.getItem("loginuser"))
