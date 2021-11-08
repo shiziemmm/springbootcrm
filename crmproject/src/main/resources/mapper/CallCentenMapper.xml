@@ -19,21 +19,24 @@
     </resultMap>
 
     <resultMap id="findByClient" type="com.trkj.crmproject.entity.CallCenten" extends="BaseResultMap">
-        <association property="client" javaType="com.trkj.crmproject.entity.Client"></association>
+        <association property="client" javaType="com.trkj.crmproject.entity.Client">
+            <id column="client_id" property="clientId"/>
+            <result column="client_name" property="clientName"/>
+        </association>
     </resultMap>
 
 <!--    查询所有客户服务-->
-    <select id="findCallCenten" resultMap="BaseResultMap">
-        select * from call_centen
+    <select id="findCallCenten" resultMap="findByClient">
+        select * from call_centen left join client on call_centen.client_id = client.client_id
     </select>
 <!--    根据服务主题查询-->
-    <select id="findCallCentenTheme" resultMap="BaseResultMap">
-        select * from call_centen left join client call_centen.client_id = client.client_id
-        where call_centen.call_centen_theme=#{callCentenTheme}
+    <select id="findCallCentenTheme" resultMap="findByClient">
+        select * from call_centen left join client on call_centen.client_id = client.client_id
+        where call_centen.call_centen_theme like '%${callCentenTheme}%'
     </select>
 <!--    高级查询（id、对应客户、主题、服务类型、服务方式、花费时间、执行人、状态、时间）-->
     <select id="selectCallCenten" resultMap="BaseResultMap">
-        select * from call_centne left join client call_centen.client_id = client.client_id
+        select * from call_centne left join client on call_centen.client_id = client.client_id
         <where>
             <if test="callCentenTheme != null and callCentenTheme != ''">
                 and call_centen_theme=#{callCentenTheme}
@@ -52,6 +55,19 @@
                                   #{callCentenWay},#{callCentenStartTime},#{callCentenTime},
                                   #{callCentenState},#{callCentenExecutor},#{callCentenContent},
                                   #{callCentenFeedback},#{callCentenRemark})
+    </insert>
+
+    <!--    新增客户服务(加QA库id)-->
+    <insert id="addCallCentenQa">
+        insert into call_centen (client_id,call_centen_theme,call_centen_type,
+                                 call_centen_way,call_centen_start_time,call_centen_time,
+                                 call_centen_state,call_centen_executor,call_centen_content,
+                                 call_centen_feedback,call_centen_remark,qa_problem)
+        values
+        (#{clientId},#{callCentenTheme},#{callCentenType},
+         #{callCentenWay},#{callCentenStartTime},#{callCentenTime},
+         #{callCentenState},#{callCentenExecutor},#{callCentenContent},
+         #{callCentenFeedback},#{callCentenRemark},#{qaProblem})
     </insert>
 
 <!--    修改客户服务-->

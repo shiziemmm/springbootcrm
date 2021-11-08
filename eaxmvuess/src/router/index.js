@@ -8,7 +8,7 @@ const routes = [
     //登录一级路由
     {
         name:'login',
-        path:'/',
+        path:'/login',
         component:()=>import("/src/components/login/index.vue"),
         meta:'登入'
     },
@@ -104,8 +104,8 @@ const routes = [
                 meta: { title: '解决方案', icon: 'dashboard' }
             },
             {
-                path: '/PriceSheet',
-                name: 'PriceSheet',
+                path: '/priceSheets',
+                name: 'PriceSheets',
                 component: () => import('/src/components/pre-sales/PriceSheet.vue'),
                 meta: { title: '报价', icon: 'dashboard' }
             },
@@ -243,9 +243,14 @@ const router = createRouter({
     history:createWebHistory(),
     routes //这里是把上面的routes赋到这里来
 })
-// router.beforeEach(function (to,from,next){
-// 	const  state=JSON.parse(sessionStorage.getItem("state"))
-// 	if(to.name!=="/"&& state==null || to.name!=="/"&& !state.token.isValidate){}
-// })
+router.beforeEach((to,from,next)=>{
+    if(to.path=='/login' || window.localStorage.getItem('loginuser')){
+        console.log("123")
+        next()
+    }else{
+        console.log("456")
+        next('/login');
+    }
+})
 //给路由定义一个对外的引用（注入路由）就是起别名一样
 export default router

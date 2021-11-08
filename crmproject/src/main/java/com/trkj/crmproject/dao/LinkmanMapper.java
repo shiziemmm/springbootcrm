@@ -18,7 +18,7 @@ public interface LinkmanMapper extends BaseMapper<Linkman> {
 
     public List<Linkman> findLinkman();
 
-    public List<Linkman> findLinkmanSex(String linkmanSex);
+    public List<Linkman> findLinkmanName(String linkmanName);
 
     public List<Linkman> selectLinkman(Linkman linkman);
 

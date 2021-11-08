@@ -66,6 +66,16 @@ public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom
    public List<OrderFrom> selectOrderByTj(SelectWhere selectWhere){
         return orderFromMapper.selectOrderByTj(selectWhere);
     }
+    /**
+     * 修改回款金额
+     */
+
+    public int updateprice(double moeny,String odrOn){
+        return orderFromMapper.updateprice(moeny,odrOn);
+    }
+    public int updateprices(double moeny,String odrOn){
+        return orderFromMapper.updateprices(moeny,odrOn);
+    }
 
     /**
      * 根据订单号查询订单数据

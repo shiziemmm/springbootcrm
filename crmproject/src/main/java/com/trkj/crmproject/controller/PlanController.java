@@ -6,6 +6,7 @@ import com.trkj.crmproject.dao.OrderFromMapper;
 import com.trkj.crmproject.entity.OrderFrom;
 import com.trkj.crmproject.entity.Plan;
 import com.trkj.crmproject.entity.Returned;
+import com.trkj.crmproject.service.OrderFromService;
 import com.trkj.crmproject.service.PlanService;
 import com.trkj.crmproject.util.MyResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,18 +28,30 @@ public class PlanController {
     @Autowired
     PlanService planService;
     @Autowired
-    OrderFromMapper orderFromMapper;
+    OrderFromService order;
 
-    @GetMapping(value = "/planlist")
-    public MyResult planlist(){
+    /**
+     * 查询回款信息
+     * @return
+     */
+    @GetMapping(value = "/planList")
+    public MyResult planList(){
         return planService.planlist();
     }
 
-    @PostMapping(value = "/addplan")
-    public int addplan(@RequestBody Plan plan){
+    /**
+     * 新增/修改回款信息
+     * @param plan
+     * @return
+     */
+    @PostMapping(value = "/addPlan")
+    public int addPlan(@RequestBody Plan plan){
         System.err.println(plan);
         if(plan.getPlaId()==0 || plan.getPlaId()==null){
             int insert = planService.addplan(plan);
+           if(plan.getPlaWhether().equals("已回")){
+               order.updateprice(plan.getPlaPrice(),plan.getOdrId());
+           }
             if(insert>0){
                 return 1;
             }else{
@@ -54,10 +67,22 @@ public class PlanController {
         }
 
     }
-    @GetMapping(value = "deletid")
-    public int delete(Integer plaId){
-        return planService.delet(plaId);
+
+    /**
+     * 删除回款信息
+     * @param plaId
+     * @return
+     */
+    @GetMapping(value = "deletId")
+    public void delete(Integer plaId,String odrId,Double plaPrice){
+        planService.delet(plaId,odrId,plaPrice);
     }
+
+    /**
+     * 条件查询回款信息
+     * @param value
+     * @return
+     */
     @GetMapping(value = "state")
     public MyResult state(String value){
         System.err.println(value);
@@ -65,12 +90,11 @@ public class PlanController {
         return planService.state(value);
     }
 
-//    //修改订单表回款信息
-//
-//    @GetMapping("/upaodrpirce")
-//    public void upaodrpirce(@RequestBody Plan plan){
-//
-//    }
+
+    @GetMapping("/likeName")
+    public MyResult likeName(String name){
+    return planService.myResult(name);
+    }
 
 }
 

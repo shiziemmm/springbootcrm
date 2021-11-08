@@ -86,8 +86,19 @@ public class CallCenten implements Serializable {
     private String callCentenRemark;
 
     /**
+     * QA库问题
+     */
+    private String qaProblem;
+
+    /**
      * 客户的所有者
      */
     @TableField(exist = false)
     private Client client;
+
+    /**
+     * QA库
+     */
+    @TableField(exist = false)
+    private Qa qa;
 }

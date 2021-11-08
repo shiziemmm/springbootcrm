@@ -88,10 +88,11 @@ export default{
   },
   created() {
     //清空sessionStorage
-    this.$store.state.token = ''
     sessionStorage.removeItem("token")
+    window.localStorage.removeItem("loginuser")
+
     this.axios.interceptors.request.use((config)=>{
-      if(this.$store.state.token.empId===null||this.$store.state.token.empId===undefined){
+      if(localStorage.getItem("loginuser")===null||localStorage.getItem("loginuser")===undefined){
         this.$router.push('/')
       }else{
         this.$router.push('/home')

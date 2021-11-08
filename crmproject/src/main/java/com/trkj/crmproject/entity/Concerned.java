@@ -2,6 +2,8 @@ package com.trkj.crmproject.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 import lombok.Data;
@@ -50,7 +52,7 @@ public class Concerned implements Serializable {
      * 日期
 
      */
-    private LocalDateTime conTconTime;
+    private Timestamp conTconTime;
 
     /**
      * 执行人
@@ -85,7 +87,8 @@ public class Concerned implements Serializable {
      * 是否删除（0：删除1：未删）
 
      */
-    private Boolean conAgree;
+    private String conAgree;
+
 
 
 }

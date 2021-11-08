@@ -31,9 +31,9 @@ public class LinkmanController {
         return linkmanService.findLinkman();
     }
 
-    @RequestMapping("/find_linkman_sex")
-    public List<Linkman> findLinkmanSex(String linkmanSex){
-        return linkmanService.findLinkmanSex(linkmanSex);
+    @RequestMapping("/find_linkman_name")
+    public List<Linkman> findLinkmanName(String linkmanName){
+        return linkmanService.findLinkmanName(linkmanName);
     }
 
     @RequestMapping("/select_linkman")

@@ -22,7 +22,7 @@
           </el-select>
           <i class="el-icon-search" style="margin-left: 10px;font-size: 20px"></i>
           <el-input v-model="inputs" placeholder="请根据客户名称查询" style="width: 200px"></el-input>
-          <el-button icon="el-icon-search" circle style="margin-left: 10px"></el-button>
+          <el-button style="margin-left: 10px" @click="findByClientName(inputs)">搜索</el-button>
         </el-col>
         <el-col>
           <el-button @click="dialogVisible = true" type="info" plain style="width:160px;color: #2c3e50;float: right"><i class="el-icon-circle-plus-outline"></i>转移客户</el-button>
@@ -47,9 +47,7 @@
 
         <el-table-column  label="操作">
           <template  #default="scope">
-            <el-tooltip content="转移" placement="top">
-              <el-button @click="editTherapy(scope.row)" size="mini"></el-button>
-            </el-tooltip>
+              <el-button @click="editTherapy(scope.row)" size="mini">转移</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -246,21 +244,27 @@ export default {
           ]
         },
       ],
-      value: ''
+      value: '',
+      inputs:''
     }
   },
   methods: {
     initData(){
       this.axios.get("/find_by_client").then((v)=>{
         this.tableData=v.data
-        console.log(v.data)
       })
     },
     initData1(){
       this.axios.get("/find_by_empName").then((v)=>{
         this.empTableData=v.data
-        console.log(v.data)
       })
+    },
+    //模糊查询
+    findByClientName(inputs){
+      this.axios.get("/find_by_client_name",{params:{clientName:inputs}})
+          .then((v)=>{
+            this.tableData=v.data
+          })
     },
     //回显弹出框
     editTherapy(row){
@@ -274,12 +278,12 @@ export default {
     },
     saveClient(){
       console.log(this.client)
-      // this.axios.post("/save_client",this.client)
-      //     .then((v)=>{
-      //       this.dialogVisible = false
-      //       console.log(v.data)
-      //       this.initData()
-      //     })
+      this.axios.post("/update_old",this.client)
+          .then((v)=>{
+            this.dialogVisible = false
+            this.$message("转移成功")
+            this.initData()
+          })
     },
     handleSelectionChange(row){
       this.client = row

@@ -1,5 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.trkj.crmproject.dao.WarehouseLeaveDao">
-
+    <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.WarehouseLeave">
+        <id column="wl_id" jdbcType="INTEGER" property="wlId" />
+        <result column="wl_wa_id" jdbcType="INTEGER" property="wlWaId" />
+        <result column="wl_in_id" jdbcType="INTEGER" property="wlInId" />
+        <result column="wl_theme" jdbcType="VARCHAR" property="wlTheme" />
+        <result column="wl_state" jdbcType="INTEGER" property="wlState" />
+        <result column="wl_execute" jdbcType="VARCHAR" property="wlExecute" />
+        <result column="wl_leavetime" jdbcType="TIMESTAMP" property="wlLeavetime" />
+        <result column="wl_remark" jdbcType="VARCHAR" property="wlRemark" />
+        <result column="wl_timeliness" jdbcType="BOOLEAN" property="wlTimeliness" />
+        <result column="odr_on" jdbcType="VARCHAR" property="odrOn" />
+        <collection property="warehouseLeaveGoods" ofType="com.trkj.crmproject.entity.WarehouseLeaveGoods">
+            <id column="wlg_id" jdbcType="INTEGER" property="wlgId" />
+            <result column="wlg_pr_id" jdbcType="INTEGER" property="wlgPrId" />
+            <result column="wlg_wl_id" jdbcType="INTEGER" property="wlgWlId" />
+            <result column="wlg_prname" jdbcType="VARCHAR" property="wlgPrname" />
+            <result column="wlg_count" jdbcType="INTEGER" property="wlgCount" />
+            <result column="wlg_remark" jdbcType="VARCHAR" property="wlgRemark" />
+            <result column="wlg_timeliness" jdbcType="BOOLEAN" property="wlgTimeliness" />
+            <association property="product" javaType="com.trkj.crmproject.entity.Product">
+                <id column="pr_id" jdbcType="INTEGER" property="prId" />
+                <result column="pr_pc_id" jdbcType="INTEGER" property="prPcId" />
+                <result column="pr_name" jdbcType="VARCHAR" property="prName" />
+                <result column="pr_coding" jdbcType="VARCHAR" property="prCoding" />
+                <result column="pr_state" jdbcType="INTEGER" property="prState" />
+                <result column="pr_unit" jdbcType="VARCHAR" property="prUnit" />
+                <result column="pr_price" jdbcType="DOUBLE" property="prPrice" />
+                <result column="pr_cost_price" jdbcType="DOUBLE" property="prCostPrice" />
+                <result column="pr_model" jdbcType="VARCHAR" property="prModel" />
+                <result column="pr_weight" jdbcType="INTEGER" property="prWeight" />
+                <result column="pr_outline" jdbcType="VARCHAR" property="prOutline" />
+                <result column="pr_description" jdbcType="VARCHAR" property="prDescription" />
+                <result column="pr_remark" jdbcType="VARCHAR" property="prRemark" />
+                <result column="pr_timeliness" jdbcType="BOOLEAN" property="prTimeliness" />
+            </association>
+        </collection>
+    </resultMap>
+    <sql id="Base_Column_List">
+    wl_id, wl_wa_id, wl_in_id, wl_theme, wl_state, wl_execute, wl_leavetime, wl_remark,
+    wl_timeliness,odr_on
+    </sql>
+    <sql id="Base_Column_List2">
+    wlg_id, wlg_pr_id, wlg_wl_id, wlg_prname, wlg_count, wlg_remark, wlg_timeliness
+    </sql>
+    <sql id="Base_Column_List3">
+    t.pr_id, t.pr_pc_id, t.pr_name, t.pr_coding, t.pr_state, t.pr_unit, t.pr_price, t.pr_cost_price,
+    t.pr_model, t.pr_weight, t.pr_outline, t.pr_description, t.pr_remark, t.pr_timeliness
+  </sql>
+    <select id="selectList" resultType="map">
+        select e.wl_id eId,e.wl_theme eTheme, e.wl_state eState,e.wl_execute eExecute,e.wl_leavetime eLeavetime,
+        l.odr_id lId,l.odr_on lOn,l.customer_name lName,t.wa_name tName
+        from warehouse_leave e left join order_from l on e.wl_in_id=l.odr_id
+        left join warehouse t on e.wl_wa_id=t.wa_id
+        ${ew.customSqlSegment}
+    </select>
+    <select id="findByIde" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"></include>,<include refid="Base_Column_List2"></include>,
+        <include refid="Base_Column_List3"></include>
+        from warehouse_leave e left join warehouse_leave_goods l on e.wl_id=l.wlg_wl_id
+        left join product t on l.wlg_pr_id=t.pr_id left join order_from o on e.wl_in_id=o.odr_id
+        where e.wl_id=#{id}
+    </select>
 </mapper>

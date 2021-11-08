@@ -1,7 +1,11 @@
 package com.trkj.crmproject.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.trkj.crmproject.entity.WarehouseLeave;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.trkj.crmproject.vo.SearchListVo;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -12,5 +16,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2021-11-06
  */
 public interface WarehouseLeaveService extends IService<WarehouseLeave> {
-
+    IPage<Map> findList(SearchListVo vo);
+    WarehouseLeave findByIde(int id);
+    Boolean updateAll(int id);
+    Boolean update(WarehouseLeave warehouseLeave);
 }

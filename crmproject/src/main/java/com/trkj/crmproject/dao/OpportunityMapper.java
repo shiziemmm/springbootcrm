@@ -17,4 +17,6 @@ import java.util.List;
  */
 public interface OpportunityMapper extends BaseMapper<Opportunity> {
     List<Opportunity> selectMore(@Param("opportunity") Opportunity opportunity, Page<Opportunity> page);
+    Opportunity selectByOpId(@Param("opid") Integer opid);
+    List<Opportunity> selectAll();
 }

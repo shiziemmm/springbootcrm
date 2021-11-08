@@ -17,7 +17,7 @@ import com.trkj.crmproject.util.MyResult;
  * @since 2021-11-06
  */
 @RestController
-//@RequestMapping("/client")
+@RequestMapping("/client")
 public class ClientController {
     @Resource
     ClientService clientService;
@@ -38,8 +38,8 @@ public class ClientController {
         return clientService.findClientName(clientName);
     }
 
-    @RequestMapping("/select_client")
-    public List<Client> selectClient(Client client){
+    @PostMapping("/select_client")
+    public List<Client> selectClient(@RequestBody Client client){
         System.out.println(client);
         return clientService.selectClient(client);
     }
@@ -50,8 +50,13 @@ public class ClientController {
     }
 
     @RequestMapping("/update_client_seas")
-    public void updateClientSeas(Integer clientId,String clientSeas) {
-        clientService.updateClientSeas(clientId, clientSeas);
+    public void updateClientSeas(Integer clientId) {
+        clientService.updateClientSeas(clientId);
+    }
+
+    @RequestMapping("/update_client_seas1")
+    public void updateClientSeas1(Integer clientId) {
+        clientService.updateClientSeas1(clientId);
     }
 
     @PostMapping("/selectbyname")

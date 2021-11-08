@@ -24,6 +24,11 @@ public interface OrderFromService extends IService<OrderFrom> {
 
     List<OrderFrom> selectOrderByTj(SelectWhere selectWhere);
 
+
     OrderFrom selectOrderByOdrId(String odrOn);
+
+
+    int updateprice(double moeny,String odrOn);
+    int updateprices(double moeny,String odrOn);
 
 }

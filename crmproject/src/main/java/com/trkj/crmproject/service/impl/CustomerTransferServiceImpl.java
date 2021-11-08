@@ -30,8 +30,20 @@ public class CustomerTransferServiceImpl extends ServiceImpl<CustomerTransferMap
         return customerTransferMapper.findByClient();
     }
 
+    public List<CustomerTransfer> findByClientName(String clientName){
+        return customerTransferMapper.findByClientName(clientName);
+    }
+
     public List<Emp> findByEmpName(){
         return customerTransferMapper.findByEmpName();
+    }
+
+    public List<CustomerTransfer> findOld(String customerTransferOld){
+        return customerTransferMapper.findOld(customerTransferOld);
+    }
+
+    public List<CustomerTransfer> findNew(String customerTransferNew){
+        return customerTransferMapper.findNew(customerTransferNew);
     }
 
     public void updateOld(Client client){

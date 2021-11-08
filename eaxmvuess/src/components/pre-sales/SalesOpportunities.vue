@@ -109,13 +109,13 @@
 				  </el-col>
 				  <el-col :span="8">
 				    <!-- <i class="el-icon-edit"></i> -->
-					  <el-time  @click="toRouter('/')">
+					  <el-time  @click="toRouter('/salesOpportunitiesDetails','editData',scope.row)">
 						  <svg t="1636263015629" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5172" width="16" height="16"><path d="M851.8 927.9H172.2c-42 0-76.1-34.1-76.1-76.1V172.2c0-42 34.1-76.1 76.1-76.1h341.4c42 0 76.1 34.1 76.1 76.1s-34.1 76.1-76.1 76.1H248.3v527.5h527.5V507.3c0-42 34.1-76.1 76.1-76.1s76.1 34.1 76.1 76.1v344.5c-0.1 42-34.2 76.1-76.2 76.1z" fill="#666777" p-id="5173"></path><path d="M489.9 607c-19.5 0-38.9-7.4-53.8-22.3-29.7-29.7-29.7-77.9 0-107.6L793.3 120c29.7-29.7 77.9-29.7 107.6 0 29.7 29.7 29.7 77.9 0 107.6L543.7 584.8c-14.9 14.8-34.4 22.2-53.8 22.2z" fill="#666666" p-id="5174"></path></svg>
 					  </el-time>
 				  </el-col>
 				  <el-col :span="8">
 				    <!-- <i class="el-icon-delete"></i> -->
-					  <el-time  @click="toRouter('/')">
+					  <el-time  @click="del(scope.row)">
 						  <svg t="1636262937851" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3303" width="16" height="16"><path d="M457.772 718.3v-324.188c0-18.848-15.337-34.168-34.168-34.168-18.863 0-34.199 15.321-34.199 34.168v324.188c0 18.848 15.337 34.168 34.199 34.168 18.833 0 34.168-15.32 34.168-34.168z" p-id="3304"></path><path d="M777.342 360.711c-18.863 0-34.199 15.321-34.199 34.168v441.293c0 13.649-11.073 24.752-24.722 24.752h-412.66c-13.649 0-24.722-11.104-24.722-24.752v-442.49c0-18.848-15.337-34.183-34.199-34.183-18.863 0-34.199 15.337-34.199 34.183v442.49c0 51.345 41.775 93.12 93.12 93.12h412.66c51.345 0 93.12-41.775 93.12-93.12v-441.293c-0.001-18.847-15.337-34.168-34.201-34.168z" p-id="3305"></path><path d="M634.595 718.3v-324.188c0-18.848-15.337-34.168-34.199-34.168-18.833 0-34.168 15.321-34.168 34.168v324.188c0 18.848 15.337 34.168 34.168 34.168 18.863 0 34.199-15.32 34.199-34.168z" p-id="3306"></path><path d="M895.123 242.070h-142.625v-54.244c0-51.345-41.499-93.12-92.476-93.12h-295.372c-51.345 0-93.12 41.775-93.12 93.12v54.244h-142.625c-18.863 0-34.199 15.321-34.199 34.168s15.337 34.183 34.199 34.183h766.216c18.833 0 34.168-15.337 34.168-34.183s-15.336-34.168-34.168-34.168zM684.101 242.070h-344.201v-54.244c0-13.649 11.104-24.768 24.752-24.768h295.372c13.496 0 24.078 10.873 24.078 24.768v54.244z" p-id="3307"></path></svg>
 					  </el-time>
 				  </el-col>
@@ -139,6 +139,7 @@
 </template>
 
 <script>
+	import {ElMessage} from "element-plus";
 	export default{
      name: 'salesOpportunities',
 		data(){
@@ -198,9 +199,28 @@
 				  this.total=res.data.total
 				})
 			},
-			//新建销售机会
-			newSales(){
-				
+			//删除所有
+			del(row){
+				 this.$confirm('确定删除改机会的信息包括详细的子数据吗？', '提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning',
+				}).then(() => {
+					this.axios.get("/opportunity/delete",{
+						params:{
+							opid:row.opId
+						}
+					}).then(res=>{
+					  console.log("删除后的结果",res)
+					  ElMessage.success({
+					    message: res.data.obj?"删除成功":"删除失败",
+					    type: 'success'
+					  });
+					 this.selectList()
+					})
+				}).catch(() => {
+					console.log("5555555555555")
+				});
 			},
 			//跳转页面
 			toRouter(path,type,row){
@@ -212,7 +232,21 @@
 							sessionStorage.setItem('editData',JSON.stringify(row))
 						}
 					}
+				}else if(type=='editData'){
+					if(path=='/salesOpportunitiesDetails'){
+						sessionStorage.setItem('isshow',true)
+						if(row){
+							sessionStorage.setItem('bianji','bianji')
+							sessionStorage.setItem('editData',JSON.stringify(row))
+						}
+					}
 				}else{
+					var data=JSON.parse(sessionStorage.getItem('editData'))
+					var bianji=sessionStorage.getItem("bianji")
+					if(data && bianji){
+						sessionStorage.removeItem("editData")
+						sessionStorage.removeItem("bianji")
+					}
 					if(path=='/salesOpportunitiesDetails'){
 						sessionStorage.setItem('isshow',true)
 					}

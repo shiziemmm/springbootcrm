@@ -75,4 +75,13 @@
     <select id="selectOrderByOdrId" resultMap="ordMap">
         select * from selectorder where odr_on = #{odrOn}
     </select>
+
+
+    <!-- 修改回款金额 -->
+    <update id="updateprice">
+        update order_from  set odr_return_price=odr_return_price+#{odrReturnPrice} WHERE odr_on=#{odrOn}
+    </update>
+    <update id="updateprices">
+        update order_from  set odr_return_price=odr_return_price-#{odrReturnPrice} WHERE odr_on=#{odrOn}
+    </update>
 </mapper>

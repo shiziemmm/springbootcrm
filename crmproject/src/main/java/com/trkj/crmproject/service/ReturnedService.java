@@ -24,4 +24,5 @@ public interface ReturnedService extends IService<Returned> {
     int insert(Returned returned);
     int upa(Returned returned);
     int delete(Integer reId);
+    MyResult myResult(String name);
 }

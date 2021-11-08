@@ -36,6 +36,9 @@ public class ClientServiceImpl extends ServiceImpl<ClientMapper, Client> impleme
     }
 
     public List<Client> findClientPeriod(String clientPeriod){
+        if (clientPeriod == null){
+            clientMapper.findClient();
+        }
         return clientMapper.findClientPeriod(clientPeriod);
     }
 
@@ -60,8 +63,13 @@ public class ClientServiceImpl extends ServiceImpl<ClientMapper, Client> impleme
     }
 
 
-    public void updateClientSeas(Integer clientId,String clientSeas) {
-        clientMapper.updateClientSeas(clientId, clientSeas);
+    public void updateClientSeas(Integer clientId) {
+        clientMapper.updateClientSeas(clientId);
+
+    }
+
+    public void updateClientSeas1(Integer clientId) {
+        clientMapper.updateClientSeas1(clientId);
 
     }
 
