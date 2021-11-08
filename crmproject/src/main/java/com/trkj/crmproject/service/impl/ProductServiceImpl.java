@@ -55,4 +55,12 @@ public class ProductServiceImpl extends ServiceImpl<ProductDao, Product> impleme
         List<Product> list = list(wrapper);
         return list;
     }
+
+    @Override
+    public List<Product> finds() {
+        QueryWrapper<Product> wrapper =new QueryWrapper<>();
+        wrapper.eq("pr_state",0);
+        List<Product> list = list(wrapper);
+        return list;
+    }
 }

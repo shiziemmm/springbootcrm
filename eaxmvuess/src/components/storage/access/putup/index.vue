@@ -60,7 +60,7 @@
        </el-col>
        <el-col :span="12">
             <el-form-item label="状态" prop="wlState">
-               <el-radio-group v-model="formData.wlState">
+               <el-radio-group v-model="formData.wlState" :disabled="true">
                   <el-radio :label= 0 >未出库</el-radio>
                   <el-radio :label= 1 >已出库</el-radio>
                 </el-radio-group>
@@ -182,15 +182,28 @@ export default {
             })
         this.dialogFormVisible=true;
         },
-        //删除产品
+        //删除出库单
         handDelete(id){
-          this.axios.delete('http://localhost:8188/product/delete/'+id).then(res=>{
+           this.$confirm('此操作将永久删除该出库单, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+        })
+        .then(()=>{
+          this.axios.delete('http://localhost:8188/warehouse-leave/delete/'+id).then(res=>{
                 this.$message({
-                    message: res.data.obj?'成功':'失败',
-                    type: res.data.obj?'success':'error'
+                    message: res.data.message,
+                    type: res.data.success?'success':'error'
                });
                this.init();
             })
+            })
+        .catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消删除',
+            })
+          })
         },
         //出库
         update(){
