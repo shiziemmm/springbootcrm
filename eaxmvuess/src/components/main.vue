@@ -134,12 +134,19 @@ export default {
     pushUrl(path){
       this.$router.push(path);
     },
+
 	reload(){
 		this.isRouterAlive=false
 		this.$nextTick(()=>{
 			this.isRouterAlive=true
 		})
 	},
+
+    signout(){
+      window.localStorage.clear()
+      this.$router.push('/')
+    }
+
   },
   created(){
     this.token=JSON.parse(localStorage.getItem("loginuser"))

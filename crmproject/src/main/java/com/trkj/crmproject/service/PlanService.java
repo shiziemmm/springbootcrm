@@ -15,8 +15,9 @@ import com.trkj.crmproject.util.MyResult;
 public interface PlanService extends IService<Plan> {
     MyResult planlist();
     int addplan(Plan plan);
-    int delet(Integer id);
+    void delet(Integer id,String odrId,Double plaPrice);
     int upd(Plan plan);
     MyResult state(String value);
+    MyResult myResult(String name);
 
 }

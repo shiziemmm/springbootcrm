@@ -4,7 +4,6 @@ import com.trkj.crmproject.entity.Linkman;
 import com.trkj.crmproject.dao.LinkmanMapper;
 import com.trkj.crmproject.service.LinkmanService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -27,8 +26,8 @@ public class LinkmanServiceImpl extends ServiceImpl<LinkmanMapper, Linkman> impl
         return linkmanMapper.findLinkman();
     }
 
-    public List<Linkman> findLinkmanSex(String linkmanSex){
-        return linkmanMapper.findLinkmanSex(linkmanSex);
+    public List<Linkman> findLinkmanName(String linkmanName){
+        return linkmanMapper.findLinkmanName(linkmanName);
     }
 
     public List<Linkman> selectLinkman(Linkman linkman){

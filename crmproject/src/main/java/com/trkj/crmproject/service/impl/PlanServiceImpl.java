@@ -1,9 +1,11 @@
 package com.trkj.crmproject.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.trkj.crmproject.entity.Plan;
 import com.trkj.crmproject.dao.PlanMapper;
 import com.trkj.crmproject.entity.Returned;
+import com.trkj.crmproject.service.OrderFromService;
 import com.trkj.crmproject.service.PlanService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.trkj.crmproject.util.MyResult;
@@ -24,6 +26,8 @@ import java.util.List;
 public class PlanServiceImpl extends ServiceImpl<PlanMapper, Plan> implements PlanService {
         @Autowired
         PlanMapper planMapper;
+        @Autowired
+        OrderFromService order;
 
         public MyResult planlist(){
             return MyResult.SUCCESS_DATA(planMapper.selectList(null));
@@ -32,8 +36,9 @@ public class PlanServiceImpl extends ServiceImpl<PlanMapper, Plan> implements Pl
         public int addplan(Plan plan){
             return planMapper.insert(plan);
         }
-        public int delet(Integer id){
-            return planMapper.deleteById(id);
+        public void delet(Integer id,String odrId,Double plaPrice){
+            planMapper.deleteById(id);
+            order.updateprices(plaPrice,odrId);
         }
 
         public int upd(Plan plan){
@@ -76,5 +81,14 @@ public class PlanServiceImpl extends ServiceImpl<PlanMapper, Plan> implements Pl
             }
             return m;
         }
+    }
+
+    public MyResult myResult(String name){
+            Plan p=new Plan();
+            p.setPrincipal(name);
+        QueryWrapper<Plan> queryWrapper=new QueryWrapper<>();
+        queryWrapper.like(StringUtils.isNotBlank(p.getPrincipal()),"principal",p.getPrincipal());
+        return MyResult.SUCCESS_DATA(planMapper.selectList(queryWrapper));
+
     }
 }

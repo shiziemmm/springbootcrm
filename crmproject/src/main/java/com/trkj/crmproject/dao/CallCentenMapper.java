@@ -23,6 +23,8 @@ public interface CallCentenMapper extends BaseMapper<CallCenten> {
 
     public void addCallCenten(CallCenten callCenten);
 
+    public void addCallCentenQa(CallCenten callCenten);
+
     public void updateCallCenten(CallCenten callCenten);
 
 }
