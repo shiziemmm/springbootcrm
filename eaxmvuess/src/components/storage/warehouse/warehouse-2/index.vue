@@ -11,7 +11,7 @@
       </div>
     <div class="app-container">
       <div class="app-button">
-          <el-button icon="el-icon-circle-plus" @click="handDelete()" size="small">数据整理</el-button>
+          <!-- <el-button  @click="handDelete()" size="small">数据整理</el-button> -->
       </div>
       <div class="cont-bod-box">
         <el-table :data="tableData" style="width: 100%">

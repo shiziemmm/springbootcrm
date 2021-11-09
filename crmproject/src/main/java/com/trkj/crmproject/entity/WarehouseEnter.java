@@ -1,9 +1,15 @@
 package com.trkj.crmproject.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -50,7 +56,8 @@ public class WarehouseEnter implements Serializable {
     /**
      * 入库时间
      */
-    private LocalDateTime weEntertime;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
+    private Timestamp weEntertime;
 
     /**
      * 备注
@@ -61,6 +68,6 @@ public class WarehouseEnter implements Serializable {
      * 时效性
      */
     private Boolean weTimeliness;
-
-
+    @TableField(exist = false)
+    private List<WarehouseEnterGoods> enterGoods;
 }

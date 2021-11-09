@@ -11,22 +11,22 @@
       </div>
     <div class="app-container">
       <div class="app-button">
-          <el-button icon="el-icon-circle-plus" @click="handAdd()" size="small">新建</el-button>
+          <el-button  @click="handAdd()" size="small">新建</el-button>
       </div>
       <div class="cont-bod-box">
         <el-table :data="tableData" style="width: 100%">
           <el-table-column type="index" width="50" label="序号"></el-table-column>
           <el-table-column prop="weTheme" label="主题"  sortable></el-table-column>
-          <el-table-column prop="prCoding" label="仓库" sortable></el-table-column>
           <el-table-column prop="weEntertime" label="入库日期"  sortable></el-table-column>
           <el-table-column prop="weName" label="填单人"  sortable></el-table-column>
           <el-table-column prop="weState" label="状态"  sortable>
             <template #default="scope">
-               <el-tag :type="scope.row.prState == 0? 'success':'danger'">{{scope.row.prState == 0? '已入库':'未入库'}}</el-tag>
+               <el-tag :type="scope.row.weState == 0? 'success':'danger'">{{scope.row.weState == 0? '未入库':'已入库'}}</el-tag>
             </template>
           </el-table-column>
-          <el-table-column fixed="right" label="操作" align="center" width="100">
+          <el-table-column fixed="right" label="操作" align="center" width="150">
             <template #default="scope">
+              <el-button @click="enter(scope.row)" v-show="scope.row.weState == 0? true:false" size="small" type="text">入库</el-button>
                <el-button @click="handUpdate(scope.row.weId)" size="small" type="text">查看</el-button>
                <el-button @click="handDelete(scope.row.weId)" size="small" type="text">删除</el-button>
             </template>
@@ -44,86 +44,82 @@
         </div>
       </div>
     </div>
-    <el-dialog title="产品信息" @close="closeck()" :close-on-click-modal="false" :close-on-press-escape="false" v-model="dialogFormVisible" width="900px">
+    <el-dialog title="入库单" @close="closeck()" :close-on-click-modal="false" :close-on-press-escape="false" v-model="dialogFormVisible" width="600px">
     <el-divider></el-divider>
     <el-row :gutter="15">
-    <el-form ref="elForm" :model="formData" size="medium" label-width="100px">
-       <el-col :span="12">
-            <el-form-item label="产品名字" prop="prName">
-              <el-input v-model="formData.prName"  show-word-limit
-                        clearable :style="{width: '260px'}"></el-input>
+    <el-form ref="elForm" :model="formData" size="medium" label-width="80px">
+       <el-col :span="24">
+            <el-form-item label="主题" prop="weTheme">
+              <el-input v-model="formData.weTheme"  show-word-limit
+                        clearable :style="{width: '450px'}"></el-input>
             </el-form-item>
        </el-col>
-       <el-col :span="12">
-            <el-form-item label="型号" prop="prModel">
-              <el-input v-model="formData.prModel" show-word-limit
-                        clearable :style="{width: '260px'}"></el-input>
-            </el-form-item>
-       </el-col>
-       <el-col :span="12">
-            <el-form-item label="编码" prop="prCoding">
-              <el-input v-model="formData.prCoding" show-word-limit
-                        clearable placeholder="自动生成" :disabled="true" :style="{width: '260px'}"></el-input>
-            </el-form-item>
-       </el-col>
-       <el-col :span="12">
-            <el-form-item label="分类" prop="prPcId">
-            <el-select v-model="formData.prPcId" filterable :style="{width: '260px'}" placeholder="请选择">
-             <el-option v-for="item in options" :key="item.pcId" :label="item.pcName" :value="item.pcId"></el-option>
+        <el-col :span="12">
+            <el-form-item label="仓库">
+            <el-select v-model="formData.weWaId" filterable :style="{width: '100%'}" placeholder="请选择">
+             <el-option v-for="item in options" :key="item.id" :label="item.name" :value="item.id"></el-option>
             </el-select>
             </el-form-item>
         </el-col>
        <el-col :span="12">
-            <el-form-item label="价格" prop="prPrice">
-              <el-input v-model="formData.prPrice" show-word-limit
-                        clearable :style="{width: '260px'}"></el-input>
-            </el-form-item>
-       </el-col>
-       <el-col :span="12">
-            <el-form-item label="成本价格" prop="prCostPrice">
-              <el-input v-model="formData.prCostPrice" show-word-limit
-                        clearable :style="{width: '260px'}"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="重量(kg)" prop="prWeight">
-              <el-input v-model="formData.prWeight"
-                         :style="{width: '260px'}"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="状态" prop="prState">
-               <el-radio-group v-model="formData.prState">
-                  <el-radio :label= 0 >正常</el-radio>
-                  <el-radio :label= 1 >停售</el-radio>
+            <el-form-item label="状态" prop="weState">
+               <el-radio-group v-model="formData.weState" :disabled="true">
+                  <el-radio :label= 0 >未入库</el-radio>
+                  <el-radio :label= 1 >已入库</el-radio>
                 </el-radio-group>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="单位" prop="prUnit">
-              <el-input v-model="formData.prUnit" show-word-limit
-                        clearable :style="{width: '260px'}"></el-input>
+            <el-form-item label="填单人" prop="weName">
+            <el-select v-model="formData.weName" filterable :style="{width: '150px'}" placeholder="请选择">
+             <el-option v-for="item in options2" :key="item.id" :label="item.name" :value="item.name"></el-option>
+            </el-select>
             </el-form-item>
-          </el-col>
+        </el-col>
+       <el-col :span="12">
+            <el-form-item label="入库时间" prop="weEntertime">
+              <el-input v-model="formData.weEntertime" :disabled="true" show-word-limit
+                        clearable :style="{width: '100%'}"></el-input>
+            </el-form-item>
+       </el-col>
           <el-col :span="24">
-            <el-form-item label="明细概要" prop="prOutline">
-              <el-input type="textarea" :style="{width: '600px'}" placeholder="请输入内容" v-model="formData.prOutline">
+            <el-form-item label="备注" prop="weRemark">
+              <el-input type="textarea" :style="{width: '450px'}"  placeholder="请输入内容" v-model="formData.weRemark">
               </el-input>
             </el-form-item>  
           </el-col>
-          <el-col :span="24">
-            <el-form-item label="产品说明" prop="prDescription">
-              <el-input type="textarea" :style="{width: '600px'}"  placeholder="请输入内容" v-model="formData.prDescription">
-              </el-input>
-            </el-form-item>  
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="备注" prop="prRemark">
-              <el-input type="textarea" :style="{width: '600px'}"  placeholder="请输入内容" v-model="formData.prRemark">
-              </el-input>
-            </el-form-item>  
-          </el-col>            
-        <el-col :span="6" :offset="21">
+          <el-table  ref="table" border :data="formData.enterGoods">
+        <el-table-column label="产品名称">
+          <template slot-scope="scope">
+            <el-form-item>
+             <el-select v-model="scope.row.wegPrId" @change="selectck(scope.$index)" filterable placeholder="品名型号">
+              <el-option v-for="item in prData" :key="item.prId" :label="item.prName+'/'+item.prModel" :value="item.prId"></el-option>
+             </el-select>
+            </el-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column label="数量">
+          <template slot-scope="scope">
+            <el-form-item >
+              <el-input v-model="scope.row.wegCount"  placeholder="数量" ></el-input>
+            </el-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column label="备注">
+          <template slot-scope="scope">
+            <el-form-item >
+              <el-input v-model="scope.row.wegRemark" :style="{height: '50px'}" placeholder="备注" type="textarea"></el-input>
+            </el-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column  label="操作">
+          <template slot-scope="scope">
+            <el-button type="danger" size="mini" @click="del(scope.$index)" icon='el-icon-delete'></el-button>
+            <el-button type="primary" size="mini" @click="add()" icon='el-icon-plus'></el-button>
+          </template>
+        </el-table-column>
+          </el-table>            
+        <el-col :span="6" :offset="18">
         <el-button type="primary" plain size="medium" @click="save()">保存</el-button>
         </el-col>
     </el-form>        
@@ -139,23 +135,29 @@ export default {
         return{
             input:'',
             tableData:[],
+            prData:[],
             selectParams:{},
             dialogFormVisible:false,
             formData:{
-              prState:0
+              weState:0,
+              enterGoods:[]
             },
-            options:[],
+            options:[
+              {id:1,name:'全国仓库'}
+            ],
+            options2:[
+              {id:1,name:'admin'}
+            ]
         }
     },
     methods: {
       init(){
-          this.axios.post('http://localhost:8188/product/findAll',this.selectParams).then(res=>{
+          this.axios.post('http://localhost:8188/warehouse-enter/findAll',this.selectParams).then(res=>{
                 this.tableData=res.data.data.records
           });
-           this.axios.get('http://localhost:8188/product-class/findAll').then(res=>{
-                this.options=res.data.data
-                
-            })
+          this.axios.get('http://localhost:8188/product/finds').then(res=>{
+                this.prData=res.data.data
+          });
       },
       checkChange(keyword){
         this.selectParams.keyword=keyword;
@@ -169,20 +171,29 @@ export default {
         this.selectParams.pageNum=page
         this.init()
       },
-        // 新建产品
+        // 新建入库单
         handAdd(){
           this.dialogFormVisible=true;
         },
         // 查看产品
         handUpdate(id){
-          this.axios.get('http://localhost:8188/product/find/'+id).then(res=>{
+          this.axios.get('http://localhost:8188/warehouse-enter/find/'+id).then(res=>{
                 this.formData=res.data.obj
                 this.dialogFormVisible=true;
             })
         },
         //删除产品
         handDelete(id){
-          this.axios.delete('http://localhost:8188/product/delete/'+id).then(res=>{
+          this.axios.delete('http://localhost:8188/warehouse-enter/delete/'+id).then(res=>{
+                this.$message({
+                    message: res.data.obj?'成功':'失败',
+                    type: res.data.obj?'success':'error'
+               });
+               this.init();
+            })
+        },
+        enter(row){
+          this.axios.put('http://localhost:8188/warehouse-enter/updateState',row).then(res=>{
                 this.$message({
                     message: res.data.obj?'成功':'失败',
                     type: res.data.obj?'success':'error'
@@ -192,26 +203,36 @@ export default {
         },
         //保存
         save(){
-          if(this.formData.prId == null){
-            this.axios.post('http://localhost:8188/product/add',this.formData).then(res=>{
+          if(this.formData.WeId == null){
+            this.axios.post('http://localhost:8188/warehouse-enter/add',this.formData).then(res=>{
                 this.$message({
                     message: res.data.obj?'成功':'失败',
                     type: res.data.obj?'success':'error'
                });
+               this.init();
             })
           }else{
-            this.axios.put('http://localhost:8188/product/update/'+this.formData.prId,this.formData).then(res=>{
+            this.axios.put('http://localhost:8188/warehouse-enter/update/',this.formData).then(res=>{
                 this.$message({
                     message: res.data.obj?'成功':'失败',
                     type: res.data.obj?'success':'error'
                });
+               this.init();
             })
           }
-             this.dialogFormVisible=false;
-             this.init();  
+             this.dialogFormVisible=false;  
         },
+        add(){
+        this.formData.tableData.push({
+          
+        })
+      },
+      del(index){
+        this.formData.enterGoods.splice(index,1);
+      },
         closeck(){
           this.formData = this.$options.data.call(this).formData
+          this.init();
         },
     },
     created(){

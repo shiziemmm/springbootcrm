@@ -84,5 +84,14 @@ public class ProductController {
         List<Product> all = productService.findAll(vo);
         return ResultVoUtil.success(all);
     }
+    /**
+     * 查询所以在售产品
+     * @return
+     */
+    @GetMapping("/finds")
+    public ResultVo findSale(){
+        List<Product> all = productService.finds();
+        return ResultVoUtil.success(all);
+    }
 
 }
