@@ -30,7 +30,8 @@
         select <include refid="Base_Column_List"></include>,<include refid="Base_Column_List2"></include>
         from warehouse_enter e left join warehouse_enter_goods l on e.we_id=l.weg_we_id where we_id = #{id}
     </select>
-    <select id="findList" parameterType="com.trkj.crmproject.vo.SearchListVo" resultType="com.trkj.crmproject.entity.WarehouseEnter">
-        select <include refid="Base_Column_List"></include> from warehouse_enter ${ew.customSqlSegment}
+    <select id="findList" parameterType="com.trkj.crmproject.vo.SearchListVo" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"></include>,<include refid="Base_Column_List2"></include>
+        from warehouse_enter e left join warehouse_enter_goods l on e.we_id=l.weg_we_id ${ew.customSqlSegment}
     </select>
 </mapper>

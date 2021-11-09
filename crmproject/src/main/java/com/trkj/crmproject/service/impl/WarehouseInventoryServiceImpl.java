@@ -36,23 +36,22 @@ public class WarehouseInventoryServiceImpl extends ServiceImpl<WarehouseInventor
     @Override
     public Boolean add(List<WarehouseInventory> inventory) {
         boolean bl = false;
-        System.out.println("1111111111"+inventory);
+        System.out.println("------------"+inventory);
         for (int i=0;i<inventory.size();i++){
-            System.out.println("---------------"+inventory.get(i));
+            System.out.println("111111111"+inventory.get(i));
             QueryWrapper<WarehouseInventory> wrapper=new QueryWrapper<>();
             wrapper.eq("wi_pr_id",inventory.get(i).getWiPrId());
             WarehouseInventory one = getOne(wrapper);
-            System.out.println("=================="+one);
+            System.out.println("222222222"+one);
             if (one !=null){
+                System.out.println("3333333333"+inventory.get(i));
                 one.setWiCount(one.getWiCount()+inventory.get(i).getWiCount());
-                System.out.println("22222222222"+one);
                 bl= saveOrUpdate(one);
             }else {
-                System.out.println("3333333333333"+inventory.get(i));
+                System.out.println("444444444444"+inventory.get(i));
                 inventory.get(i).setWiTimeliness(true);
                 bl = save(inventory.get(i));
             }
-            System.out.println("44444444");
         };
         return bl;
     }

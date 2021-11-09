@@ -36,8 +36,7 @@ public class WarehouseEnterController {
      */
     @PostMapping("/add")
     public MyResult add(@RequestBody WarehouseEnter enter){
-        enter.setWeTimeliness(true);
-        return MyResult.SUCCESS_Object(enterService.save(enter));
+        return MyResult.SUCCESS_Object(enterService.addfind(enter));
     }
     /**
      * 根据id删除入库单
@@ -54,7 +53,7 @@ public class WarehouseEnterController {
      */
     @PutMapping("/update")
     public MyResult update(@RequestBody WarehouseEnter enter){
-        return MyResult.SUCCESS_Object(enterService.saveOrUpdate(enter));
+        return MyResult.SUCCESS_Object(enterService.updatel(enter));
     }
     /**
      * 确认入库
@@ -62,9 +61,7 @@ public class WarehouseEnterController {
      */
     @PutMapping("/updateState")
     public MyResult updateState(@RequestBody WarehouseEnter enter){
-        enter.setWeState(1);
-        enter.setWeEntertime(new Timestamp(new Date().getTime()));
-        return MyResult.SUCCESS_Object(enterService.saveOrUpdate(enter));
+        return MyResult.SUCCESS_Object(enterService.updateState(enter));
     }
     /**
      * 根据id查询入库
