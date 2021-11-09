@@ -18,4 +18,7 @@ public interface WarehouseEnterService extends IService<WarehouseEnter> {
    boolean deleteAll(int id);
    WarehouseEnter findById(int id);
    IPage<WarehouseEnter> findList(SearchListVo vo);
+   boolean addfind(WarehouseEnter enter);
+   boolean updatel(WarehouseEnter enter);
+   boolean updateState(WarehouseEnter enter);
 }

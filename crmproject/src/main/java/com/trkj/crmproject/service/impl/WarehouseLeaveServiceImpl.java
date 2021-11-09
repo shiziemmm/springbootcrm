@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.trkj.crmproject.controller.WarehouseInventoryController;
 import com.trkj.crmproject.dao.OrderFromMapper;
+import com.trkj.crmproject.dao.WarehouseInventoryDao;
 import com.trkj.crmproject.dao.WarehouseLeaveGoodsDao;
 import com.trkj.crmproject.entity.OrderFrom;
 import com.trkj.crmproject.entity.WarehouseInventory;
@@ -43,6 +44,8 @@ public class WarehouseLeaveServiceImpl extends ServiceImpl<WarehouseLeaveDao, Wa
     private OrderFromMapper orderFromMapper;
     @Resource
     private WarehouseInventoryService inventoryService;
+    @Resource
+    private WarehouseInventoryDao inventoryDao;
     @Override
     public IPage<Map> findList(SearchListVo vo) {
         if (vo.getPageSize()==null){
@@ -83,6 +86,15 @@ public class WarehouseLeaveServiceImpl extends ServiceImpl<WarehouseLeaveDao, Wa
 
     @Override
     public Boolean update(WarehouseLeave warehouseLeave) {
+        for (int i=0;i<warehouseLeave.getWarehouseLeaveGoods().size();i++){
+            QueryWrapper<WarehouseInventory> wrapper=new QueryWrapper<>();
+            wrapper.eq("wi_pr_id",warehouseLeave.getWarehouseLeaveGoods().get(i).getWlgPrId())
+                    .ge("wi_count",warehouseLeave.getWarehouseLeaveGoods().get(i).getWlgCount());
+            int in = inventoryDao.selectCount(wrapper);
+            if (in==0){
+                return false;
+            }
+        }
         QueryWrapper<WarehouseLeaveGoods> wrapper=new QueryWrapper<>();
         wrapper.eq("wlg_wl_id",warehouseLeave.getWlId());
         OrderFrom orderFrom = new OrderFrom();
