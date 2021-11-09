@@ -1,7 +1,12 @@
 <template>
+
+  <el-row style="padding: 10px 0px">
+    <el-col :offset="11" :span="4"><span style="font-weight: 900;font-size: 18px">客户管理</span></el-col>
+  </el-row>
+
   <div>
     <el-tabs v-model="activeName" @tab-click="handleClick" style="margin-left: 20px">
-      <el-tab-pane label="全部客户" name="">
+      <el-tab-pane label="全部客户"  name="全部">
         <el-card>
           <el-row>
             <el-col>
@@ -503,7 +508,7 @@ export default {
       dialogVisible: false,
       currentPage:1, //初始页
       pagesize:10,    //    每页的数据
-      activeName:"",
+      activeName:"全部",
       tableData: [],
       multipleSelection: [],
       options: [
@@ -764,12 +769,10 @@ export default {
     //  表单校验
       rules: {
         clientName: [
-          { required: true, message: '请输入活动名称', trigger: 'blur' },
-          {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur',},
+          { required: true, message: '请输入客户名称', trigger: 'blur' },
         ],
         clientPhone: [
-          { required: true, message: '请输入活动名称', trigger: 'blur' },
-          {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur',},
+          { required: true, message: '请输入电话号码', trigger: 'blur' },
         ],
         clientKind: [
           { required: true, message: '请选择种类', trigger: 'change' },

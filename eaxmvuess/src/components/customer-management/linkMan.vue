@@ -1,4 +1,10 @@
 <template>
+
+
+  <el-row style="padding: 10px 0px">
+    <el-col :offset="11" :span="4"><span style="font-weight: 900;font-size: 18px">联系人管理</span></el-col>
+  </el-row>
+
   <div>
     <el-card>
     <el-row>
@@ -190,12 +196,6 @@ export default {
       rules: {
         linkmanName: [
           { required: true, message: '请输入联系人名称', trigger: 'blur' },
-          {
-            min: 3,
-            max: 5,
-            message: '长度在 3 到 5 个字符',
-            trigger: 'blur',
-          },
         ],
         linkmanPhone: [
           { required: true, message: '请输入联系人电话', trigger: 'blur' },
@@ -208,21 +208,9 @@ export default {
         ],
         clientId: [
           { required: true, message: '请输入对应客户', trigger: 'blur' },
-          {
-            min: 3,
-            max: 5,
-            message: '长度在 3 到 5 个字符',
-            trigger: 'blur',
-          },
         ],
         linkmanPosition: [
           { required: true, message: '请输入职位', trigger: 'blur' },
-          {
-            min: 2,
-            max: 5,
-            message: '长度在 2 到 5 个字符',
-            trigger: 'blur',
-          },
         ],
         linkmanSex: [
           { required: true, message: '请选择性别', trigger: 'change' },

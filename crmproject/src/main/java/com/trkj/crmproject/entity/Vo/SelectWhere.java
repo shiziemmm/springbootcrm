@@ -22,4 +22,5 @@ public class SelectWhere {
     private Double startPrice;//起始金额
     private Double endPrice;//结束金额
     private List<Long> empArr;//员工集合
+    private List<Long> cliIdArr;//客户集合
 }

@@ -1,4 +1,9 @@
 <template>
+
+
+  <el-row style="padding: 10px 0px">
+    <el-col :offset="11" :span="4"><span style="font-weight: 900;font-size: 18px">客户转移</span></el-col>
+  </el-row>
   <div>
     <el-card>
       <el-row>
@@ -23,9 +28,6 @@
           <i class="el-icon-search" style="margin-left: 10px;font-size: 20px"></i>
           <el-input v-model="inputs" placeholder="请根据客户名称查询" style="width: 200px"></el-input>
           <el-button style="margin-left: 10px" @click="findByClientName(inputs)">搜索</el-button>
-        </el-col>
-        <el-col>
-          <el-button @click="dialogVisible = true" type="info" plain style="width:160px;color: #2c3e50;float: right"><i class="el-icon-circle-plus-outline"></i>转移客户</el-button>
         </el-col>
       </el-row>
 

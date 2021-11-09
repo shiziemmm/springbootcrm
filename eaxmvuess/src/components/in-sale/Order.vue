@@ -141,7 +141,7 @@
     </el-dialog>
 
   <el-row style="padding: 10px 0px">
-    <el-col :offset="12" :span="4"><span style="font-weight: 900;font-size: 18px">订单管理</span></el-col>
+    <el-col :offset="11" :span="4"><span style="font-weight: 900;font-size: 18px">订单管理</span></el-col>
   </el-row>
 
   <el-row style="padding: 15px 0px">
@@ -153,6 +153,7 @@
     <el-col :offset="1" :span="4">
      <span style="font-size: 12px;"> 订单状态：</span>&nbsp;
       <el-select @change="initOrder" style="width: 120px" size="mini" placeholder="状态" v-model="SelectWhere.type">
+        <el-option label="全部" :value="0"></el-option>
         <el-option label="执行中" :value="1"></el-option>
         <el-option :value="2" label="结束"></el-option>
         <el-option :value="3" label="意外终止"></el-option>
@@ -255,7 +256,7 @@ export default {
         startDate:'',//开始日期
         endDate:'',//结束日期
         searchLike:'',//模糊搜索
-        type:'',//类型
+        type:0,//类型
       },
 
       //显示添加订单弹框
@@ -441,6 +442,8 @@ export default {
     clientObjChange(){
         console.log(this.clientObj)
         this.orderObj.customerName = this.clientObj.clientName;
+        this.orderObj.clientId = this.clientObj.clientId;
+        alert(this.clientObj.clientId)
     },
 
     empArrFun(){

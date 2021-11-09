@@ -63,7 +63,7 @@
                 and emp_name like '%${searchLike}%' or odr_name like '%${searchLike}%'
             </if>
             
-            <if test="type != null and type != ''">
+            <if test="type != null and type != '' and type != '0 '">
                 and odr_state like #{type}
             </if>
 

@@ -1,9 +1,14 @@
 <template>
+
+  <el-row style="padding: 10px 0px">
+    <el-col :offset="11" :span="4"><span style="font-weight: 900;font-size: 18px">客户转移日志</span></el-col>
+  </el-row>
+
   <div>
-    <el-card style="width: 490px;height: 100%">
+    <el-card style="width: 490px;margin-top: 50px;height: 100%">
       <!--表头-->
       <el-row>
-        <el-table :data="qaAuthor" style="margin-top: 20px">
+        <el-table height="500px" :data="qaAuthor" style="margin-top: 20px">
           <el-table-column
               prop="empName"
               width="130px">
@@ -18,16 +23,16 @@
               <el-button size="mini" @click="findNew(scope.row.empName)">转入</el-button>
             </template>
           </el-table-column>
-
         </el-table>
       </el-row>
     </el-card>
 
 
-    <el-card style="width: 60%;height: 100%;margin-left: 500px;margin-top: -160px">
+    <el-card style="width: 60%;margin-left: 500px;margin-top: -560px">
       <!--表头-->
       <el-table
           :data="tableData"
+          height="500px"
           stripe
           style="width: 100%">
         <el-table-column

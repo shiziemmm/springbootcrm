@@ -29,33 +29,33 @@
 
     <select id="selectOrderDetailById" resultMap="odrdMap">
         SELECT
-order_from_detail.odrdl_id,
-order_from_detail.odr_on,
-order_from_detail.odr_id,
-order_from_detail.pr_id,
-order_from_detail.odrdl_product_name,
-order_from_detail.odrdl_unit_price,
-order_from_detail.odrdl_money,
-order_from_detail.odrdl_count,
-order_from_detail.odrdl_discount,
-order_from_detail.odrdl_remark,
-product.pr_pc_id,
-product.pr_name,
-product.pr_coding,
-product.pr_state,
-product.pr_unit,
-product.pr_price,
-product.pr_cost_price,
-product.pr_model,
-product.pr_weight,
-product.pr_outline,
-product.pr_description,
-product.pr_remark,
-product.pr_timeliness
-FROM
-order_from_detail
-INNER JOIN product ON order_from_detail.pr_id = product.pr_id
-where odr_on = #{odrOn}
+        order_from_detail.odrdl_id,
+        order_from_detail.odr_on,
+        order_from_detail.odr_id,
+        order_from_detail.pr_id,
+        order_from_detail.odrdl_product_name,
+        order_from_detail.odrdl_unit_price,
+        order_from_detail.odrdl_money,
+        order_from_detail.odrdl_count,
+        order_from_detail.odrdl_discount,
+        order_from_detail.odrdl_remark,
+        product.pr_pc_id,
+        product.pr_name,
+        product.pr_coding,
+        product.pr_state,
+        product.pr_unit,
+        product.pr_price,
+        product.pr_cost_price,
+        product.pr_model,
+        product.pr_weight,
+        product.pr_outline,
+        product.pr_description,
+        product.pr_remark,
+        product.pr_timeliness
+        FROM
+        order_from_detail
+        INNER JOIN product ON order_from_detail.pr_id = product.pr_id
+        where odr_on = #{odrOn}
     </select>
 
     <!--多条件查询订单详情-->
