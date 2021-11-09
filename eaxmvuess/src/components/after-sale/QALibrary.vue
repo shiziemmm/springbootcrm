@@ -1,4 +1,8 @@
 <template>
+  <el-row style="padding: 10px 0px">
+    <el-col :offset="11" :span="4"><span style="font-weight: 900;font-size: 18px">QA库</span></el-col>
+  </el-row>
+
   <div>
     <el-card>
       <el-row>

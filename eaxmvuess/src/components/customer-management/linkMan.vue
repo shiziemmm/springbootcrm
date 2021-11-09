@@ -206,9 +206,6 @@ export default {
             trigger: 'blur',
           },
         ],
-        clientId: [
-          { required: true, message: '请输入对应客户', trigger: 'blur' },
-        ],
         linkmanPosition: [
           { required: true, message: '请输入职位', trigger: 'blur' },
         ],

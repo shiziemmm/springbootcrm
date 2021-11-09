@@ -1,4 +1,7 @@
 <template>
+  <el-row style="padding: 10px 0px">
+    <el-col :offset="11" :span="4"><span style="font-weight: 900;font-size: 18px">客户关怀</span></el-col>
+  </el-row>
   <el-card style="height: 600px">
     <el-row :span="8">
       <el-select v-model="value"  placeholder="请选择" style="width: 150px" @change="dome()">
@@ -22,7 +25,7 @@
     </el-row>
     <el-row style="margin-top: 20px;margin-left: 15px">
       <el-col >
-        <span style="font-size: 12px">客户关怀 共{{tableData.length}}条</span>
+<!--        <span style="font-size: 12px">客户关怀 共{{tableData.length}}条</span>-->
         <el-button  size="small" type="danger" v-show="relieve" @click="cs1()">
           解除搜索
         </el-button>
@@ -429,6 +432,7 @@ export default {
     },
     onSubmit(formName){
       console.log(this.plan.conId)
+      console.log(this.plan)
       this.axios.post("/concerned/addCon",this.plan).then((v)=>{
         if(v.data===1){
           this.dialogVisible=false

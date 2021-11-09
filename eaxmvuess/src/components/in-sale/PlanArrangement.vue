@@ -1,4 +1,7 @@
 <template>
+  <el-row style="padding: 10px 0px">
+    <el-col :offset="11" :span="4"><span style="font-weight: 900;font-size: 18px">计划回款管理</span></el-col>
+  </el-row>
   <el-card style="height: 600px">
     <el-row :span="8">
       <el-select v-model="value"  placeholder="请选择" style="width: 150px" @change="dome()">
@@ -22,7 +25,7 @@
     </el-row>
     <el-row style="margin-top: 20px;margin-left: 15px">
       <el-col >
-        <span style="font-size: 12px">计划回款 共{{tableData.length}}条</span>
+<!--        <span style="font-size: 12px">计划回款 共{{tableData.length}}条</span>-->
         <el-button  size="small" type="danger" v-show="relieve" @click="cs1()">
           解除搜索
         </el-button>
@@ -34,7 +37,6 @@
       <el-col>
         <el-table
           :data="tableData.slice((page-1)*size,page*size)"
-          border
           show-summary
           :header-cell-style="{textAlign: 'center'}"
           :cell-style="{ textAlign: 'center' }"

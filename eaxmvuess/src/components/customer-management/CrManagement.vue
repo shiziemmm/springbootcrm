@@ -48,7 +48,7 @@
 
             <el-table-column prop="clientName" label="名称" sortable/>
 
-            <el-table-column prop="clientSite" label="地址" show-overflow-tooltip sortable/>
+<!--            <el-table-column prop="clientSite" label="地址" show-overflow-tooltip sortable/>-->
             <el-table-column prop="clientSource" label="客户来源" sortable/>
             <el-table-column prop="clientRank" label="定级" sortable/>
 
@@ -122,7 +122,7 @@
 
             <el-table-column prop="clientName" label="名称" sortable/>
 
-            <el-table-column prop="clientSite" label="地址" show-overflow-tooltip sortable/>
+<!--            <el-table-column prop="clientSite" label="地址" show-overflow-tooltip sortable/>-->
             <el-table-column prop="clientSource" label="客户来源" sortable/>
             <el-table-column prop="clientRank" label="定级" sortable/>
 
@@ -195,7 +195,7 @@
 
             <el-table-column prop="clientName" label="名称" sortable/>
 
-            <el-table-column prop="clientSite" label="地址" show-overflow-tooltip sortable/>
+<!--            <el-table-column prop="clientSite" label="地址" show-overflow-tooltip sortable/>-->
             <el-table-column prop="clientSource" label="客户来源" sortable/>
             <el-table-column prop="clientRank" label="定级" sortable/>
 
@@ -268,7 +268,7 @@
 
             <el-table-column prop="clientName" label="名称" sortable/>
 
-            <el-table-column prop="clientSite" label="地址" show-overflow-tooltip sortable/>
+<!--            <el-table-column prop="clientSite" label="地址" show-overflow-tooltip sortable/>-->
             <el-table-column prop="clientSource" label="客户来源" sortable/>
             <el-table-column prop="clientRank" label="定级" sortable/>
 
@@ -341,7 +341,7 @@
 
             <el-table-column prop="clientName" label="名称" sortable/>
 
-            <el-table-column prop="clientSite" label="地址" show-overflow-tooltip sortable/>
+<!--            <el-table-column prop="clientSite" label="地址" show-overflow-tooltip sortable/>-->
             <el-table-column prop="clientSource" label="客户来源" sortable/>
             <el-table-column prop="clientRank" label="定级" sortable/>
 
@@ -474,11 +474,11 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="10">
-            <el-form-item label="客户地址" prop="clientSite">
-              <el-input v-model="client.clientSite"></el-input>
-            </el-form-item>
-          </el-col>
+<!--          <el-col :span="10">-->
+<!--            <el-form-item label="客户地址" prop="clientSite">-->
+<!--              <el-input v-model="client.clientSite"></el-input>-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
 
           <el-col :span="10">
             <el-form-item label="备注" prop="clientRemark">

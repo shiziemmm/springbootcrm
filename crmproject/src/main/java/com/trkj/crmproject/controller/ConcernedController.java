@@ -40,7 +40,7 @@ public class ConcernedController {
         return clientService.findClient();
     }
 
-    @PostMapping(value = "addcCon")
+    @RequestMapping(value = "addCon")
     public int  addcCon(@RequestBody Concerned concerned){
         if(concerned.getConId()==0){
             int addcon = service.addcon(concerned);
