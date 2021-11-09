@@ -872,10 +872,12 @@ export default {
 				   }
 			   }).then(res=>{
 					console.log("机会数据：",res)
-					this.quotations=res.data.obj.quotations
-					this.opp=res.data.obj
-					this.demands=res.data.obj.demands
-					this.programmes=res.data.obj.programmes
+					if(res.data.obj){
+						this.quotations=res.data.obj.quotations
+						this.opp=res.data.obj
+						this.demands=res.data.obj.demands
+						this.programmes=res.data.obj.programmes
+					}
 			   })
 		   }
 	  },

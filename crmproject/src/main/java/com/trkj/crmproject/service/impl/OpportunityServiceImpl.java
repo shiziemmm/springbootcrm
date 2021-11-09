@@ -88,6 +88,7 @@ public class OpportunityServiceImpl extends ServiceImpl<OpportunityMapper, Oppor
                                 order.setOdrdlMoney(qu.getQdProTotalAmount());
                                 order.setOdrdlCount(qu.getQdQuantity());
                                 order.setOdrId(addOdrVO.getOdr().getOdrId());
+                                order.setOdrOn(addOdrVO.getOdr().getOdrOn());
                                 list.add(order);
                             }
                             if(list!=null && list.size()>0){
