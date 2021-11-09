@@ -22,18 +22,36 @@ public class CallCentenServiceImpl extends ServiceImpl<CallCentenMapper, CallCen
     @Resource
     CallCentenMapper callCentenMapper;
 
+    /**
+     * 查询所有的客户服务
+     * @return
+     */
     public List<CallCenten> findCallCenten(){
         return callCentenMapper.findCallCenten();
     }
 
+    /**
+     * 根据服务主题查询
+     * @param callCentenTheme
+     * @return
+     */
     public List<CallCenten> findCallCentenTheme(String callCentenTheme){
         return callCentenMapper.findCallCentenTheme(callCentenTheme);
     }
 
+    /**
+     * 客户服务的高级查询
+     * @param callCenten
+     * @return
+     */
     public List<CallCenten> selectCallCenten(CallCenten callCenten){
         return callCentenMapper.selectCallCenten(callCenten);
     }
 
+    /**
+     * 客户服务的新增和修改
+     * @param callCenten
+     */
     public void saveCallCenten(CallCenten callCenten){
         if (callCenten.getCallCentenId()==null || callCenten.getCallCentenId().equals("")){
             System.err.println(callCenten);
@@ -43,6 +61,10 @@ public class CallCentenServiceImpl extends ServiceImpl<CallCentenMapper, CallCen
         }
     }
 
+    /**
+     * 客服控制台中 新增客户服务（加上QA库）
+     * @param callCenten
+     */
     public void addCallCentenQa(CallCenten callCenten){
         callCentenMapper.addCallCentenQa(callCenten);
     }

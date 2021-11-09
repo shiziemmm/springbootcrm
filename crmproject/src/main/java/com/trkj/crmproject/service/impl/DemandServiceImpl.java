@@ -19,6 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(rollbackFor = Exception.class)
 public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> implements DemandService {
 
+    /**
+     * @param demand 添加需求
+     * @return
+     */
     @Override
     public Boolean addDemand(Demand demand) {
         if(demand.getClientId()!=null && demand.getEmpId()!=null && demand.getOpId()!=null){
@@ -27,6 +31,10 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
         return false;
     }
 
+    /**
+     * @param deid 删除需求（修改状态）
+     * @return
+     */
     @Override
     public Boolean del(Integer deid) {
         if(deid!=null){

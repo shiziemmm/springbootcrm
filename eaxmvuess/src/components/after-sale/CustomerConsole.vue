@@ -15,7 +15,7 @@
         </div>
       </template>
       <div v-for="o in clientTableData" :key="o" class="text item" @click="clientClick(o)">
-        <li>{{ o.clientName }}</li>
+        <li v-show="clientLiShow">{{ o.clientName }}</li>
       </div>
 
 <!--      客户表单-->
@@ -150,7 +150,7 @@
         </div>
       </template>
       <div v-for="o in qaTableData" :key="o" class="text item" @click="qaClick(o)">
-        <li>{{o.qaProblem }}</li>
+        <li v-show="qaLiShow">{{o.qaProblem }}</li>
       </div>
 
 <!--      QA库表单-->
@@ -224,6 +224,8 @@ export default {
     return {
       show:false,
       qaShow:false,
+      clientLiShow:false,
+      qaLiShow:false,
       dialogVisible: false,
       clientInputs: '',
       QaInputs:'',
@@ -344,18 +346,21 @@ export default {
     qaClick(o){
       this.qa = o;
       this.qaShow = true
+      this.qaLiShow = false
     },
     clientClick(o){
       this.token = JSON.parse(localStorage.getItem("loginuser"))
       this.callCenten.clientId = o.clientId
       this.callCenten.callCentenExecutor = this.token.empName
       this.show = true
+      this.clientLiShow = false
     },
     findByClientName(clientInputs){
       this.axios.get("client/find_client_name",{params:{clientName:clientInputs}})
           .then((v)=>{
             this.clientTableData = v.data
             this.show = false
+            this.clientLiShow = true
             console.log(v.data)
           })
     },
@@ -364,6 +369,7 @@ export default {
           .then((v)=>{
             this.qaTableData = v.data
             this.qaShow = false
+            this.qaLiShow = true
             console.log(v.data)
           })
     },
@@ -388,6 +394,10 @@ export default {
 </script>
 
 <style scoped>
+li{
+  list-style: none;
+}
+
 .div_top{
   height: 50px;
   line-height: 50px;

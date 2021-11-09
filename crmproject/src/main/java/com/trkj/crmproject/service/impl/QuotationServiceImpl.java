@@ -31,6 +31,11 @@ public class QuotationServiceImpl extends ServiceImpl<QuotationMapper, Quotation
     private QuotationMapper quotationMapper;
     @Autowired
     private QuotationDetailsMapper quotationDetailsMapper;
+
+    /**
+     * @param quotation 添加报价单
+     * @return
+     */
     @Override
     public Integer addQuotation(Quotation quotation) {
         Integer id=-1;
@@ -44,11 +49,20 @@ public class QuotationServiceImpl extends ServiceImpl<QuotationMapper, Quotation
         return id;
     }
 
+    /**
+     * @param page 分页查询所有报价单，通过客户名，机会主题，时间范围等模糊搜索
+     * @param quotation
+     * @return
+     */
     @Override
     public Page<Quotation> selectAll(Page<Quotation> page, Quotation quotation) {
         return page.setRecords(quotationMapper.selectAll(page,quotation));
     }
 
+    /**
+     * @param quid 删除报价单以及报价详情
+     * @return
+     */
     @Override
     public Boolean del(Integer quid) {
         Integer i=-1;
@@ -71,6 +85,10 @@ public class QuotationServiceImpl extends ServiceImpl<QuotationMapper, Quotation
         return false;
     }
 
+    /**
+     * @param quid 通过报价id查询一条报价数据
+     * @return
+     */
     @Override
     public Quotation selectById(Integer quid) {
         return quotationMapper.selectByQuId(quid);

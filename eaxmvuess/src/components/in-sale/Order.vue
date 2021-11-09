@@ -443,7 +443,6 @@ export default {
         console.log(this.clientObj)
         this.orderObj.customerName = this.clientObj.clientName;
         this.orderObj.clientId = this.clientObj.clientId;
-        alert(this.clientObj.clientId)
     },
 
     empArrFun(){

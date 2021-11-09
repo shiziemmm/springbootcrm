@@ -1,7 +1,7 @@
 <template>
 
   <el-row style="padding: 10px 0px">
-    <el-col :offset="11" :span="4"><span style="font-weight: 900;font-size: 18px">订单管理</span></el-col>
+    <el-col :offset="11" :span="4"><span style="font-weight: 900;font-size: 18px">发货订单管理</span></el-col>
   </el-row>
 
   <el-row style="padding: 15px 0px">

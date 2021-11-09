@@ -66,8 +66,8 @@
             <if test="type != null and type != '' and type != '0 '">
                 and odr_state like #{type}
             </if>
-
         </where>
+        order by odr_date desc
     </select>
 
 

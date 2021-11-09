@@ -66,6 +66,11 @@ public class OpportunityServiceImpl extends ServiceImpl<OpportunityMapper, Oppor
         return opportunityMapper.selectByOpId(opid);
     }
 
+    /**
+     * @param addOdrVO  vo对象，订单、报价详情
+     *              将报价和报价详情转为订单、订单详情
+     * @return
+     */
     @Override
     public Boolean addOdr(AddOdrVO addOdrVO) {
         if(addOdrVO.getOdr()!=null){
@@ -104,6 +109,10 @@ public class OpportunityServiceImpl extends ServiceImpl<OpportunityMapper, Oppor
         return false;
     }
 
+    /**
+     * @param opid 删除销售机会，改变状态，包括关联了机会的需求、方案、报价以及报价详表
+     * @return
+     */
     @Override
     public Boolean delete(Integer opid) {
         //通过id查询出所有包含的数据
@@ -159,11 +168,19 @@ public class OpportunityServiceImpl extends ServiceImpl<OpportunityMapper, Oppor
         return false;
     }
 
+    /**
+     * @return 查询所有的销售机会
+     */
     @Override
     public List<Opportunity> selectAll() {
         return opportunityMapper.selectAll();
     }
 
+    /**
+     * @param opportunity 分页查询所有的销售机会，通过主题、状态、阶段模糊搜索
+     * @param page
+     * @return
+     */
     public Page<Opportunity> selectAll(Opportunity opportunity,Page<Opportunity> page) {
         QueryWrapper<Opportunity> qw=new QueryWrapper<Opportunity>();
         if(!"".equals(opportunity.getOpTheme()) && opportunity.getOpTheme()!=null){

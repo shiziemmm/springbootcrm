@@ -32,7 +32,7 @@
               <el-button style="margin-left: 10px" @click="findClientName(inputs)">搜索</el-button>
             </el-col>
             <el-col>
-              <el-button @click="dialogVisible = true" type="info" plain style="width:160px;color: #2c3e50;float: right"><i class="el-icon-circle-plus-outline"></i>添加新客户</el-button>
+              <el-button @click="open()" type="info" plain style="width:160px;color: #2c3e50;float: right"><i class="el-icon-circle-plus-outline"></i>添加新客户</el-button>
             </el-col>
           </el-row>
 
@@ -106,7 +106,7 @@
               <el-button style="margin-left: 10px" @click="findClientName(inputs)">搜索</el-button>
             </el-col>
             <el-col>
-              <el-button @click="dialogVisible = true" type="info" plain style="width:160px;color: #2c3e50;float: right"><i class="el-icon-circle-plus-outline"></i>添加新客户</el-button>
+              <el-button @click="open" type="info" plain style="width:160px;color: #2c3e50;float: right"><i class="el-icon-circle-plus-outline"></i>添加新客户</el-button>
             </el-col>
           </el-row>
 
@@ -179,7 +179,7 @@
               <el-button style="margin-left: 10px" @click="findClientName(inputs)">搜索</el-button>
             </el-col>
             <el-col>
-              <el-button @click="dialogVisible = true" type="info" plain style="width:160px;color: #2c3e50;float: right"><i class="el-icon-circle-plus-outline"></i>添加新客户</el-button>
+              <el-button @click="open" type="info" plain style="width:160px;color: #2c3e50;float: right"><i class="el-icon-circle-plus-outline"></i>添加新客户</el-button>
             </el-col>
           </el-row>
 
@@ -252,7 +252,7 @@
               <el-button style="margin-left: 10px" @click="findClientName(inputs)">搜索</el-button>
             </el-col>
             <el-col>
-              <el-button @click="dialogVisible = true" type="info" plain style="width:160px;color: #2c3e50;float: right"><i class="el-icon-circle-plus-outline"></i>添加新客户</el-button>
+              <el-button @click="open" type="info" plain style="width:160px;color: #2c3e50;float: right"><i class="el-icon-circle-plus-outline"></i>添加新客户</el-button>
             </el-col>
           </el-row>
 
@@ -325,7 +325,7 @@
               <el-button style="margin-left: 10px" @click="findClientName(inputs)">搜索</el-button>
             </el-col>
             <el-col>
-              <el-button @click="dialogVisible = true" type="info" plain style="width:160px;color: #2c3e50;float: right"><i class="el-icon-circle-plus-outline"></i>添加新客户</el-button>
+              <el-button @click="open" type="info" plain style="width:160px;color: #2c3e50;float: right"><i class="el-icon-circle-plus-outline"></i>添加新客户</el-button>
             </el-col>
           </el-row>
 
@@ -761,7 +761,7 @@ export default {
         clientSource:'',
         clientSite:'',
         clientRemark:'',
-        // clientTransfer:'',
+        clientTransfer:'',
         linkmen:[],
         emp:{}
       },
@@ -844,6 +844,11 @@ export default {
             this.initData()
             this.$message("公海客户转为普通客户")
           })
+    },
+    open(){
+      this.token = JSON.parse(localStorage.getItem("loginuser"))
+      this.client.clientTransfer = this.token.empName
+      this.dialogVisible = true
     },
     //回显弹出框
     editTherapy(row){

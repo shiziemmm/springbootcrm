@@ -54,7 +54,6 @@ public class ClientServiceImpl extends ServiceImpl<ClientMapper, Client> impleme
         if (client.getClientId() == null || client.getClientId().equals("")){
             client.setClientTime(new Timestamp(new Date().getTime()));
             client.setClientSeas(0);
-            client.setClientTransfer("nmsl");
             System.out.println(client);
             clientMapper.addClient(client);
         }else{

@@ -30,6 +30,11 @@ public class QuotationDetailsServiceImpl extends ServiceImpl<QuotationDetailsMap
     private QuotationService quotationService;
     @Autowired
     private QuotationDetailsMapper quotationDetailsMapper;
+
+    /**
+     * @param quotationDetails 添加报价详单
+     * @return
+     */
     @Override
     public Boolean addDetails(List<QuotationDetails> quotationDetails) {
         for (QuotationDetails qu : quotationDetails) {
@@ -51,6 +56,11 @@ public class QuotationDetailsServiceImpl extends ServiceImpl<QuotationDetailsMap
         return op;
     }
 
+    /**
+     * @param page 分页查询所有的报价详情
+     * @param quotationDetails
+     * @return
+     */
     @Override
     public Page<QuotationDetails> selectAll(Page<QuotationDetails> page, QuotationDetails quotationDetails) {
         return page.setRecords(quotationDetailsMapper.selectAll(page,quotationDetails));

@@ -20,6 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(rollbackFor = Exception.class)
 public class ProgrammeServiceImpl extends ServiceImpl<ProgrammeMapper, Programme> implements ProgrammeService {
 
+    /**
+     * @param programme 添加解决方案
+     * @return
+     */
     @Override
     public Boolean addProgramme(Programme programme) {
         if(programme.getClientId()!=null && programme.getEmpId()!=null && programme.getOpId()!=null){
@@ -28,6 +32,10 @@ public class ProgrammeServiceImpl extends ServiceImpl<ProgrammeMapper, Programme
         return false;
     }
 
+    /**
+     * @param proid 删除解决方案（修改状态）
+     * @return
+     */
     @Override
     public Boolean del(Integer proid) {
         if(proid!=null){
