@@ -5,11 +5,11 @@
     <div class="div-one">
 
       <el-row>
-        <el-col style="margin-left:30px;font-size: 20px;height: 60px;line-height: 60px" :offset="1" :span="2">订单记录</el-col>
+        <el-col style="margin-left:30px;font-size: 20px;height: 70px;line-height: 70px" :offset="1" :span="2">订单信息</el-col>
       </el-row>
 
       <el-divider>
-        信息
+        详情
       </el-divider>
 
       <el-row style="margin-top: 50px; ">
@@ -48,6 +48,14 @@
         </el-col>
       </el-row>
 
+      <el-row style="margin-top: 50px;">
+        <el-col style="margin-left: 200px" :span="6">
+          执行状态：{{orderObj.odrState == 1 ? '执行中' : orderObj.odrState == 2 ? '结束' : '意外终止'}}
+        </el-col>
+        <el-col style="margin-left: 250px" :span="6">
+          发货状态：{{orderObj.odrShipmentsState}}
+        </el-col>
+      </el-row>
 
       <el-row style="margin-top: 50px;">
         <el-col style="margin-left: 200px" :span="6">
@@ -64,15 +72,6 @@
         </el-col>
         <el-col style="margin-left: 250px" :span="6">
           收货人详情地址：{{orderObj.odrCity}}
-        </el-col>
-      </el-row>
-
-      <el-row style="margin-top: 50px;">
-        <el-col style="margin-left: 200px" :span="6">
-          订单备注：{{orderObj.odrRemark}}
-        </el-col>
-        <el-col style="margin-left: 250px" :span="6">
-          签收时间：{{shipmentObj.sptSignDate}}
         </el-col>
       </el-row>
 
@@ -112,73 +111,66 @@
         </el-col>
       </el-row>
 
-      <el-divider style="margin: 50px 0px">
-        发货信息
-      </el-divider>
-
-      <el-row style="margin-top: 50px;">
-        <el-col style="margin-left: 200px" :span="6">
-          发货单号：<el-input disabled style="width: 230px" v-model="shipmentObj.sptOn" placeholder="物流单号"/>
-        </el-col>
-
-
-        <el-col style="margin-left: 250px" :span="6">
-          物流公司：
-          <el-select disabled style="width: 230px" placeholder="物流公司" v-model="shipmentObj.sptLogisticsCompany">
-            <el-option value="顺丰快递"></el-option>
-            <el-option value="圆通快递"></el-option>
-            <el-option value="申通快递"></el-option>
-            <el-option value="邮政快递"></el-option>
-            <el-option value="中通快递"></el-option>
-          </el-select>
-        </el-col>
-      </el-row>
-
-      <el-row style="margin-top: 50px;">
-        <el-col style="margin-left: 200px" :span="6">
-          &nbsp;&nbsp;&nbsp;&nbsp; 运费 &nbsp;：<el-input disabled style="width: 230px" v-model="shipmentObj.sptSfPrice" onkeyup="value=value.replace(/[^\d^\.]+/g,'').replace('.','$#$').replace(/\./g,'').replace('$#$','.')" placeholder="运费" />
-        </el-col>
-
-        <el-col style="margin-left: 250px" :span="6">
-          物流单号：<el-input style="width: 230px" disabled v-model="shipmentObj.sptLogistics" placeholder="物流单号"/>
-        </el-col>
-      </el-row>
 
       <el-row>
-        <el-col :span="6" style="margin-top: 40px;margin-bottom: 40px;margin-left: 50px">
-          <el-button type="danger" @click="returnHome" size="medium">返回</el-button>
+        <el-col :span="6" style="margin-top: 40px;margin-bottom: 40px;margin-left: 500px">
+          <el-button  type="primary" @click="addCk" :disabled="orderObj.odrCount == 0" v-if="orderObj.odrState == 1 && orderObj.odrShipmentsState == '未发货'" size="medium">点击生成出库单</el-button> <el-button type="danger" @click="returnHome" size="medium">返回</el-button>
         </el-col>
       </el-row>
-
 
     </div>
 
   </div>
+
 </template>
 
 <script>
+import {ElMessage} from "element-plus";
+
 export default {
-  data(){
-    return{
-      shipmentObj:JSON.parse(sessionStorage.getItem('shipmentObj')),//发货订单对象
-      orderObj:{},//订单对象
+  data() {
+    return {
+      orderObj:{},
+      odrOn:sessionStorage.getItem("odrOn"),//订单号
+
     }
   },
   methods:{
-    initShipmentDetalis(){
-      this.axios({url:"orderFrom/selectOrderByOdrId",params:{odrOn:this.shipmentObj.orderFrom.odrOn}}).then((v)=>{
-        console.log(v.data.obj);
-        this.orderObj = v.data.obj;
-      })
+    initOrderParticulars(){
+        this.axios({url:"orderFrom/selectOrderByOdrId",params:{odrOn:this.odrOn}}).then((v)=>{
+          console.log(v.data.obj);
+         this.orderObj = v.data.obj;
+        })
     },
+    addProduct(obj){
+      sessionStorage.setItem('orderObj',JSON.stringify(this.orderObj));
+      // sessionStorage.setItem('odrOn',obj);
+      this.$router.push('/addProduct');
+    },
+
     //返回主页
     returnHome(){
       this.$router.push('/order');
       sessionStorage.clear("odrOn")//清空订单号
     },
+
+    //出库方法
+    addCk(){
+      this.axios.post("orderFromDetail/addwWrehouseLeave",{"orderFromDetail":this.orderObj.orderFromDetail,"odrId":this.orderObj.odrId}).then((v)=>{
+        ElMessage.success({
+          message: "出库成功",
+          type: 'success'
+        });
+        this.$router.push('/order');
+        sessionStorage.clear("odrOn");//清空订单号
+      })
+    }
+
   },
   created() {
-    this.initShipmentDetalis();
+    // this.orderObj = JSON.parse(sessionStorage.getItem('orderObj'));//订单对象
+    this.initOrderParticulars();
+
   }
 }
 </script>
@@ -199,5 +191,4 @@ export default {
   background-color: white;
   width: 1300px;
 }
-
 </style>

@@ -20,5 +20,7 @@ public interface EmpService extends IService<Emp> {
 
  List<Emp> selectList();
 
+ List<Emp> empSelectAll();
+
 
 }

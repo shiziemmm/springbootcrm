@@ -10,4 +10,8 @@
         <result column="emp_position" property="empPosition" />
     </resultMap>
 
+    <select id="empSelectAll" resultMap="BaseResultMap">
+        select * from emp where emp_id in(select odr_us_id from selectdetailsall GROUP BY odr_us_id)
+    </select>
+
 </mapper>

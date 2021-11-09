@@ -22,4 +22,7 @@ public interface OrderFromMapper extends BaseMapper<OrderFrom> {
     int updateprices(@Param("odrReturnPrice") double odrReturnPrice,@Param("odrOn") String odrOn);
 
 
+    OrderFrom selectOrderByOdrId(String odrOn);
+
+
 }

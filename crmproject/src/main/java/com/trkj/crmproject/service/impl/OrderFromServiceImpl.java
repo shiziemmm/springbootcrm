@@ -47,7 +47,13 @@ public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom
      * 新增订单
      */
    public boolean addOrder(OrderFrom orderFrom){
-       int insert = orderFromMapper.insert(orderFrom);
+       int insert = 0;
+       if(orderFrom.getOdrId() == 0){
+           orderFrom.setOdrShipmentsState("未发货");
+           insert = orderFromMapper.insert(orderFrom);
+       }else{
+           insert = orderFromMapper.updateById(orderFrom);
+       }
        if(insert > 0){
            return true;
        }
@@ -71,4 +77,13 @@ public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom
         return orderFromMapper.updateprices(moeny,odrOn);
     }
 
+    /**
+     * 根据订单号查询订单数据
+     * @param odrOn
+     * @return
+     */
+    @Override
+    public OrderFrom selectOrderByOdrId(String odrOn) {
+        return orderFromMapper.selectOrderByOdrId(odrOn);
+    }
 }

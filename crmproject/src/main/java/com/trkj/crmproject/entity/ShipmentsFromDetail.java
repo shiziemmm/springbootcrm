@@ -41,7 +41,7 @@ public class ShipmentsFromDetail implements Serializable {
     /**
      * 单价
      */
-    private Integer unitPrice;
+    private Double unitPrice;
 
     /**
      * 进价

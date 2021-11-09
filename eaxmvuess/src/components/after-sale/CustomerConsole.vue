@@ -352,7 +352,7 @@ export default {
       this.show = true
     },
     findByClientName(clientInputs){
-      this.axios.get("/find_client_name",{params:{clientName:clientInputs}})
+      this.axios.get("client/find_client_name",{params:{clientName:clientInputs}})
           .then((v)=>{
             this.clientTableData = v.data
             this.show = false
@@ -360,7 +360,7 @@ export default {
           })
     },
     findQaProblem(QaInputs){
-      this.axios.get("/find_qa_problem",{params:{qaProblem:QaInputs}})
+      this.axios.get("find_qa_problem",{params:{qaProblem:QaInputs}})
           .then((v)=>{
             this.qaTableData = v.data
             this.qaShow = false
@@ -372,7 +372,7 @@ export default {
       this.callCenten.qa.qaProblem=this.qa.qaProblem
     },
     saveCustomer(){
-      this.axios.post("/add_call_centen_qa",this.callCenten)
+      this.axios.post("add_call_centen_qa",this.callCenten)
           .then((v)=>{
             this.$message("操作成功")
             this.show=false

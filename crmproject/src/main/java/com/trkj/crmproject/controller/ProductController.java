@@ -79,9 +79,18 @@ public class ProductController {
      * 查询所以在售产品
      * @return
      */
-    @GetMapping("/findSale")
+    @PostMapping("/findSale")
+    public ResultVo findSale(@RequestBody SearchListVo vo){
+        List<Product> all = productService.findAll(vo);
+        return ResultVoUtil.success(all);
+    }
+    /**
+     * 查询所以在售产品
+     * @return
+     */
+    @GetMapping("/finds")
     public ResultVo findSale(){
-        List<Product> all = productService.findAll();
+        List<Product> all = productService.finds();
         return ResultVoUtil.success(all);
     }
 

@@ -42,6 +42,7 @@
     </resultMap>
 
 
+    <!--查询所有订单-->
     <select id="selectOrderByTj" resultMap="ordMap">
         select * from selectorder
         <where>
@@ -61,10 +62,18 @@
             <if test="searchLike != null and searchLike != ''">
                 and emp_name like '%${searchLike}%' or odr_name like '%${searchLike}%'
             </if>
+            
+            <if test="type != null and type != '' and type != '0 '">
+                and odr_state like #{type}
+            </if>
 
         </where>
+    </select>
 
 
+
+    <select id="selectOrderByOdrId" resultMap="ordMap">
+        select * from selectorder where odr_on = #{odrOn}
     </select>
 
 

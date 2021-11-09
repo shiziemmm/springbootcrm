@@ -33,5 +33,14 @@ public class EmpController {
          return MyResult.SUCCESS_DATA(empService.selectList());
     }
 
+    /**
+     * 查询所有订单负责人
+     * @return
+     */
+    @RequestMapping("empSelectAllByOrder")
+    public MyResult empSelectAllByOrder(){
+        return  MyResult.SUCCESS_DATA(empService.empSelectAll());
+    }
+
 }
 

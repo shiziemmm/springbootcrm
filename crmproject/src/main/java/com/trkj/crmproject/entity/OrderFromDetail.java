@@ -73,10 +73,13 @@ public class OrderFromDetail implements Serializable {
     private String odrdlRemark;
 
     //关系
-    @TableField
+    @TableField(exist = false)
     private Product product;//商品对象
-    @TableField
+    @TableField(exist = false)
     private OrderFrom orderFrom;//订单对象
-
+    @TableField(exist = false)
+    private Client client;//客户对象
+    @TableField(exist = false)
+    private String empName;//负责人名称
 
 }

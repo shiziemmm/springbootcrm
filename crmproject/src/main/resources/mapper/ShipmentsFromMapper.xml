@@ -12,6 +12,44 @@
         <result column="spt_logistics_company" property="sptLogisticsCompany" />
         <result column="spt_logistics" property="sptLogistics" />
         <result column="client_id" property="clientId" />
+        <result property="sptSfPrice" column="spt_sf_price" />
+        <result property="sptSignDate" column="spt_sign_date"/>
+    </resultMap>
+    
+    <resultMap id="shiMap" type="com.trkj.crmproject.entity.ShipmentsFrom" extends="BaseResultMap">
+        <association property="orderFrom" resultMap="com.trkj.crmproject.dao.OrderFromMapper.BaseResultMap"/>
+        <collection property="shipmentsDetailsList" resultMap="com.trkj.crmproject.dao.ShipmentsFromDetailMapper.BaseResultMap"/>
+
     </resultMap>
 
+    <select id="selectShipmentByWhere" resultMap="shiMap">
+        select * from selectshipment
+
+        <where>
+
+            <if test="cliIdArr != null and cliIdArr != '' and cliIdArr.size() > 0">
+                and client_id in (<foreach collection="cliIdArr" item="cliId" separator=",">
+                #{cliId}
+            </foreach>)
+            </if>
+
+            <if test="(startDate != null) and (endDate != null)">
+                and (DATE_FORMAT(spt_date,'%Y-%m-%d') between DATE_FORMAT(#{startDate},'%Y-%m-%d') and DATE_FORMAT(#{endDate},'%Y-%m-%d') or DATE_FORMAT(spt_date,'%Y-%m-%d') between DATE_FORMAT(#{endDate},'%Y-%m-%d') and  DATE_FORMAT(#{startDate},'%Y-%m-%d'))
+            </if>
+
+            <if test="(startDate != null) and (endDate == null)">
+                and DATE_FORMAT(spt_date,'%Y-%m-%d') = DATE_FORMAT(#{startDate},'%Y-%m-%d')
+            </if>
+
+            <if test="(startDate == null) and (endDate != null)">
+                and DATE_FORMAT(spt_date,'%Y-%m-%d') = DATE_FORMAT(#{endDate},'%Y-%m-%d')
+            </if>
+
+            <if test="searchLike != null and searchLike != ''">
+                and customer_name like '%${searchLike}%' or odr_name like '%${searchLike}%'
+            </if>
+
+        </where>
+
+    </select>
 </mapper>

@@ -20,4 +20,60 @@
 <!--        <association property="product" resultMap="com.trkj.crmproject.dao.ProductDao.BaseResultMap"/>-->
     </resultMap>
 
+    <resultMap id="odrAllMap" type="com.trkj.crmproject.entity.OrderFromDetail" extends="BaseResultMap">
+        <result column="emp_name" property="empName"></result>
+       <association property="client" resultMap="com.trkj.crmproject.dao.ClientMapper.BaseResultMap"/>
+        <association property="orderFrom" resultMap="com.trkj.crmproject.dao.OrderFromMapper.BaseResultMap"/>
+    </resultMap>
+
+
+    <select id="selectOrderDetailById" resultMap="odrdMap">
+        SELECT
+        order_from_detail.odrdl_id,
+        order_from_detail.odr_on,
+        order_from_detail.odr_id,
+        order_from_detail.pr_id,
+        order_from_detail.odrdl_product_name,
+        order_from_detail.odrdl_unit_price,
+        order_from_detail.odrdl_money,
+        order_from_detail.odrdl_count,
+        order_from_detail.odrdl_discount,
+        order_from_detail.odrdl_remark,
+        product.pr_pc_id,
+        product.pr_name,
+        product.pr_coding,
+        product.pr_state,
+        product.pr_unit,
+        product.pr_price,
+        product.pr_cost_price,
+        product.pr_model,
+        product.pr_weight,
+        product.pr_outline,
+        product.pr_description,
+        product.pr_remark,
+        product.pr_timeliness
+        FROM
+        order_from_detail
+        INNER JOIN product ON order_from_detail.pr_id = product.pr_id
+        where odr_on = #{odrOn}
+    </select>
+
+    <!--多条件查询订单详情-->
+    <select id="selectOrderDetailsWhere" resultMap="odrAllMap">
+        select * from selectdetailsall
+        <where>
+            <if test="empArr != null and empArr != '' and empArr.size() > 0">
+                and odr_us_id in (<foreach collection="empArr" item="empId" separator=",">
+                #{empId}
+            </foreach>)
+            </if>
+
+            <if test="searchLike != null and searchLike != ''">
+                and emp_name like '%${searchLike}%' or customer_name like '%${searchLike}%' or odrdl_product_name like '%${searchLike}%'
+            </if>
+        </where>
+    </select>
+
+
+
 </mapper>

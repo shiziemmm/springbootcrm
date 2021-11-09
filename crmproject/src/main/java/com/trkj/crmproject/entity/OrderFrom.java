@@ -32,7 +32,7 @@ public class OrderFrom implements Serializable {
      * 订单编号
      */
     @TableId(value = "odr_id", type = IdType.AUTO)
-    private Integer odrId;
+    private int odrId;
 
     /**
      * 订单号

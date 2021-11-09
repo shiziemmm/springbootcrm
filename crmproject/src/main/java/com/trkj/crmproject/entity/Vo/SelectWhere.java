@@ -18,6 +18,9 @@ public class SelectWhere {
     private Timestamp endDate;//结束日期
 
     private String searchLike;//模糊搜索
-    private Long doctorType;//类型
-    private List usId;//员工编号
+    private Long type;//类型
+    private Double startPrice;//起始金额
+    private Double endPrice;//结束金额
+    private List<Long> empArr;//员工集合
+    private List<Long> cliIdArr;//客户集合
 }

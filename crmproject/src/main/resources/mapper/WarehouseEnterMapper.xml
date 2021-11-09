@@ -1,5 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.trkj.crmproject.dao.WarehouseEnterDao">
-
+    <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.WarehouseEnter">
+        <id column="we_id" jdbcType="INTEGER" property="weId" />
+        <result column="we_wa_id" jdbcType="INTEGER" property="weWaId" />
+        <result column="we_theme" jdbcType="VARCHAR" property="weTheme" />
+        <result column="we_state" jdbcType="INTEGER" property="weState" />
+        <result column="we_name" jdbcType="VARCHAR" property="weName" />
+        <result column="we_entertime" jdbcType="TIMESTAMP" property="weEntertime" />
+        <result column="we_remark" jdbcType="VARCHAR" property="weRemark" />
+        <result column="we_timeliness" jdbcType="BOOLEAN" property="weTimeliness" />
+        <collection property="enterGoods" ofType="com.trkj.crmproject.entity.WarehouseEnterGoods">
+            <id column="weg_id" jdbcType="INTEGER" property="wegId" />
+            <result column="weg_we_id" jdbcType="INTEGER" property="wegWeId" />
+            <result column="weg_pr_id" jdbcType="INTEGER" property="wegPrId" />
+            <result column="weg_prname" jdbcType="VARCHAR" property="wegPrname" />
+            <result column="weg_count" jdbcType="INTEGER" property="wegCount" />
+            <result column="weg_remark" jdbcType="VARCHAR" property="wegRemark" />
+            <result column="weg_timeliness" jdbcType="BOOLEAN" property="wegTimeliness" />
+        </collection>
+    </resultMap>
+    <sql id="Base_Column_List">
+    we_id, we_wa_id, we_theme, we_state, we_name, we_entertime, we_remark, we_timeliness
+  </sql>
+    <sql id="Base_Column_List2">
+    weg_id, weg_we_id, weg_pr_id, weg_prname, weg_count, weg_remark, weg_timeliness
+  </sql>
+    <select id="findById" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"></include>,<include refid="Base_Column_List2"></include>
+        from warehouse_enter e left join warehouse_enter_goods l on e.we_id=l.weg_we_id where we_id = #{id}
+    </select>
+    <select id="findList" parameterType="com.trkj.crmproject.vo.SearchListVo" resultType="com.trkj.crmproject.entity.WarehouseEnter">
+        select <include refid="Base_Column_List"></include> from warehouse_enter ${ew.customSqlSegment}
+    </select>
 </mapper>

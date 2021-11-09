@@ -1,7 +1,12 @@
 <template>
+
+  <el-row style="padding: 10px 0px">
+    <el-col :offset="11" :span="4"><span style="font-weight: 900;font-size: 18px">客户管理</span></el-col>
+  </el-row>
+
   <div>
     <el-tabs v-model="activeName" @tab-click="handleClick" style="margin-left: 20px">
-      <el-tab-pane label="全部客户" name="">
+      <el-tab-pane label="全部客户"  name="全部">
         <el-card>
           <el-row>
             <el-col>
@@ -503,7 +508,7 @@ export default {
       dialogVisible: false,
       currentPage:1, //初始页
       pagesize:10,    //    每页的数据
-      activeName:"",
+      activeName:"全部",
       tableData: [],
       multipleSelection: [],
       options: [
@@ -764,12 +769,10 @@ export default {
     //  表单校验
       rules: {
         clientName: [
-          { required: true, message: '请输入活动名称', trigger: 'blur' },
-          {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur',},
+          { required: true, message: '请输入客户名称', trigger: 'blur' },
         ],
         clientPhone: [
-          { required: true, message: '请输入活动名称', trigger: 'blur' },
-          {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur',},
+          { required: true, message: '请输入电话号码', trigger: 'blur' },
         ],
         clientKind: [
           { required: true, message: '请选择种类', trigger: 'change' },
@@ -816,19 +819,19 @@ export default {
   },
   methods: {
     initData(){
-      this.axios.get("/find_client").then((v)=>{
+      this.axios.get("client/find_client").then((v)=>{
         this.tableData=v.data
       })
     },
     findClientName(inputs){
-      this.axios.get("/find_client_name",{params:{clientName:inputs}})
+      this.axios.get("client/find_client_name",{params:{clientName:inputs}})
           .then((v)=>{
             this.tableData = v.data
           })
     },
     //转公海
     updateState(row){
-      this.axios.get("/update_client_seas",{params:{clientId:row}})
+      this.axios.get("client/update_client_seas",{params:{clientId:row}})
           .then((v)=>{
             this.initData()
             this.$message("客户转为公海客户")
@@ -836,7 +839,7 @@ export default {
     },
     //转普通
     updateState1(row){
-      this.axios.get("/update_client_seas1",{params:{clientId:row}})
+      this.axios.get("client/update_client_seas1",{params:{clientId:row}})
           .then((v)=>{
             this.initData()
             this.$message("公海客户转为普通客户")
@@ -856,7 +859,7 @@ export default {
     saveClient(){
       this.$refs["client"].validate((v)=>{
         if(v){
-          this.axios.post("/save_client",this.client)
+          this.axios.post("client/save_client",this.client)
               .then((v)=>{
                 this.dialogVisible = false
                 this.$message("操作成功")
@@ -869,18 +872,18 @@ export default {
     },
     handleClick() {
       console.log(this.activeName)
-      this.axios.get("/find_client_period",{params:{clientPeriod:this.activeName}})
+      this.axios.get("client/find_client_period",{params:{clientPeriod:this.activeName}})
           .then((v)=>{
             this.tableData = v.data
           })
     },
     selectClient(values){
       if (values == null){
-        this.axios.get("/find_client").then((v)=>{
+        this.axios.get("client/find_client").then((v)=>{
           this.tableData=v.data
         })
       }else{
-        this.axios.get("/select_client",{params:{client:values}})
+        this.axios.get("client/select_client",{params:{client:values}})
             .then((v)=>{
               this.tableData = v.data
             })

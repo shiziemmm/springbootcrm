@@ -44,7 +44,14 @@
     
 <!--    根据客户生命周期查询-->
     <select id="findClientPeriod" resultMap="BaseResultMap">
-        select * from client where client_period like concat('%',#{clientPeriod},'%')
+        select * from client
+
+        <where>
+            <if test="clientPeriod != '全部'">
+                 client_period like '%${clientPeriod}%'
+            </if>
+        </where>
+
     </select>
 <!--    根据客户名称查询-->
     <select id="findClientName" resultMap="BaseResultMap">

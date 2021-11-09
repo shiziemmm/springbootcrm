@@ -46,7 +46,18 @@ public class ProductServiceImpl extends ServiceImpl<ProductDao, Product> impleme
     }
 
     @Override
-    public List<Product> findAll() {
+    public List<Product> findAll(SearchListVo vo) {
+        QueryWrapper<Product> wrapper =new QueryWrapper<>();
+        if (vo.getKeyword()!=null){
+            wrapper.like("pr_name",vo.getKeyword());
+        }
+        wrapper.eq("pr_state",0);
+        List<Product> list = list(wrapper);
+        return list;
+    }
+
+    @Override
+    public List<Product> finds() {
         QueryWrapper<Product> wrapper =new QueryWrapper<>();
         wrapper.eq("pr_state",0);
         List<Product> list = list(wrapper);
