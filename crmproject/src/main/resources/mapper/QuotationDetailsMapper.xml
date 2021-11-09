@@ -13,5 +13,73 @@
         <result column="qd_timeliness" property="qdTimeliness" />
         <result column="emp_id" property="empId" />
     </resultMap>
+    <resultMap id="selectAll" type="com.trkj.crmproject.entity.QuotationDetails" extends="BaseResultMap">
+        <association property="product" javaType="com.trkj.crmproject.entity.Product">
+            <id column="pr_id" jdbcType="INTEGER" property="prId" />
+            <result column="pr_pc_id" jdbcType="INTEGER" property="prPcId" />
+            <result column="pr_name" jdbcType="VARCHAR" property="prName" />
+            <result column="pr_coding" jdbcType="VARCHAR" property="prCoding" />
+            <result column="pr_state" jdbcType="INTEGER" property="prState" />
+            <result column="pr_unit" jdbcType="VARCHAR" property="prUnit" />
+            <result column="pr_price" jdbcType="DOUBLE" property="prPrice" />
+            <result column="pr_cost_price" jdbcType="DOUBLE" property="prCostPrice" />
+            <result column="pr_model" jdbcType="VARCHAR" property="prModel" />
+            <result column="pr_weight" jdbcType="INTEGER" property="prWeight" />
+            <result column="pr_outline" jdbcType="VARCHAR" property="prOutline" />
+            <result column="pr_description" jdbcType="VARCHAR" property="prDescription" />
+            <result column="pr_remark" jdbcType="VARCHAR" property="prRemark" />
+            <result column="pr_timeliness" jdbcType="BOOLEAN" property="prTimeliness" />
+        </association>
+        <association property="quotation" javaType="com.trkj.crmproject.entity.Quotation">
+            <id column="qu_id" property="quId" />
+            <result column="op_id" property="opId" />
+            <result column="qu_theme" property="quTheme" />
+            <result column="qu_state" property="quState" />
+            <result column="qu_data" property="quData" />
+            <result column="qu_total_amount" property="quTotalAmount" />
+            <result column="qu_estimated_gross_profit" property="quEstimatedGrossProfit" />
+            <result column="qu_delivery_instructions" property="quDeliveryInstructions" />
+            <result column="qu_remarks" property="quRemarks" />
+            <result column="qu_timeliness" property="quTimeliness" />
+            <result column="emp_id" property="empId" />
+            <result column="client_id" property="clientId" />
+            <result column="qu_no" property="quNo" />
+            <association property="client" javaType="com.trkj.crmproject.entity.Client">
+                <id column="client_id" property="clientId" />
+                <result column="client_name" property="clientName" />
+                <result column="client_phone" property="clientPhone" />
+                <result column="client_time" property="clientTime" />
+                <result column="client_seas" property="clientSeas" />
+                <result column="client_kind" property="clientKind" />
+                <result column="client_period" property="clientPeriod" />
+                <result column="client_qualitative" property="clientQualitative" />
+                <result column="client_rank" property="clientRank" />
+                <result column="client_signing_date" property="clientSigningDate" />
+                <result column="client_contract_amount" property="clientContractAmount" />
+                <result column="client_source" property="clientSource" />
+                <result column="client_site" property="clientSite" />
+                <result column="client_remark" property="clientRemark" />
+                <result column="client_transfer" property="clientTransfer" />
+            </association>
+        </association>
+        <association property="emp" javaType="com.trkj.crmproject.entity.Emp">
+            <id column="emp_id" property="empId" />
+            <result column="emp_name" property="empName" />
+            <result column="emp_tel" property="empTel" />
+            <result column="emp_position" property="empPosition" />
+        </association>
+    </resultMap>
+    <select id="selectAll" resultMap="selectAll">
+        select * from selectqqoo qo
+        <where>
+            <if test="qd!=null">
+                <if test="qd.prName!=null and qd.prName!=''">
+                    and qo.pr_name like concat('%',#{qd.prName},'%')
+                </if>
+            </if>
+            and qo.qd_timeliness IS NULL
+        </where>
+        order by qo.qd_id desc
+    </select>
 
 </mapper>

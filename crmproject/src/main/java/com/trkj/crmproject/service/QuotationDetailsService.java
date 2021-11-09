@@ -1,5 +1,6 @@
 package com.trkj.crmproject.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.trkj.crmproject.entity.QuotationDetails;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -15,4 +16,5 @@ import java.util.List;
  */
 public interface QuotationDetailsService extends IService<QuotationDetails> {
     Boolean addDetails(List<QuotationDetails> quotationDetails);
+    Page<QuotationDetails> selectAll(Page<QuotationDetails> page,QuotationDetails quotationDetails);
 }

@@ -1,5 +1,6 @@
 package com.trkj.crmproject.service.impl;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.trkj.crmproject.entity.Quotation;
 import com.trkj.crmproject.entity.QuotationDetails;
 import com.trkj.crmproject.dao.QuotationDetailsMapper;
@@ -27,10 +28,13 @@ public class QuotationDetailsServiceImpl extends ServiceImpl<QuotationDetailsMap
 
     @Autowired
     private QuotationService quotationService;
+    @Autowired
+    private QuotationDetailsMapper quotationDetailsMapper;
     @Override
     public Boolean addDetails(List<QuotationDetails> quotationDetails) {
         for (QuotationDetails qu : quotationDetails) {
             qu.setQdCreationTime(new Timestamp(System.currentTimeMillis()));
+            System.out.println(qu);
         }
         Boolean op=false;
         if(quotationDetails.get(0).getQuId()!=null &&
@@ -38,12 +42,17 @@ public class QuotationDetailsServiceImpl extends ServiceImpl<QuotationDetailsMap
                 quotationDetails.get(0).getMao()!=null){
             Quotation quotation=quotationService.getById(quotationDetails.get(0).getQuId());
             if(quotation!=null){
-                quotation.setQuTotalAmount(quotationDetails.get(0).getSum());
-                quotation.setQuEstimatedGrossProfit(quotationDetails.get(0).getMao());
+                quotation.setQuTotalAmount(quotationDetails.get(quotationDetails.size()-1).getSum());
+                quotation.setQuEstimatedGrossProfit(quotationDetails.get(quotationDetails.size()-1).getMao());
                 op=quotationService.updateById(quotation);
                 op=saveOrUpdateBatch(quotationDetails);
             }
         }
         return op;
+    }
+
+    @Override
+    public Page<QuotationDetails> selectAll(Page<QuotationDetails> page, QuotationDetails quotationDetails) {
+        return page.setRecords(quotationDetailsMapper.selectAll(page,quotationDetails));
     }
 }

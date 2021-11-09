@@ -250,11 +250,8 @@
 		data(){
 			 return{
 				  addPriceSheet:{
-					  client:JSON.parse(sessionStorage.getItem("cli_opp")).client,
-					  clientId:JSON.parse(sessionStorage.getItem("cli_opp")).client.clientId,
-					  opportunity:JSON.parse(sessionStorage.getItem("cli_opp")),
-					  opId:JSON.parse(sessionStorage.getItem("cli_opp")).opId,
-					  quId:JSON.parse(sessionStorage.getItem("cli_opp")).quId,
+					  client:{},
+					  opportunity:{},
 					  quState:"可见",
 					  empId:JSON.parse(localStorage.getItem("loginuser")).empId,
 					  emp:JSON.parse(localStorage.getItem("loginuser")),
@@ -278,6 +275,17 @@
 			 }
 		},
 		methods:{
+			init(){
+				var j=JSON.parse(sessionStorage.getItem("cli_opp"))
+				console.log("保存的数据",j)
+				if(j){
+					this.addPriceSheet.client=j.client
+					this.addPriceSheet.clientId=j.client.clientId
+					this.addPriceSheet.opportunity=j
+					this.addPriceSheet.opId=j.opId
+					this.addPriceSheet.quId=j.quId
+				}
+			},
 			addPriceSheetSubmit(formname){
 				let $this=this
 				$this.$refs[formname].validate((valid) => {
@@ -324,18 +332,21 @@
 								}
 							}).then(res=>{
 								console.log("232",res)
-								if(res.data.obj.quotationDetails && res.data.obj.quotationDetails.length>0){
-									res.data.obj.quotationDetails.forEach(v=>{
-										var details={}
-										details.qdQuantity = v.qdQuantity;//产品数量
-										details.prId = v.prId;//产品编号
-										details.odrdlProductName = v.product.prName;//产品名称
-										details.odrdlMoney = v.product.prCostPrice;//进价
-										details.odrdlUnitPrice = v.product.prPrice;//售价
-										details.qdProTotalAmount = v.prPrice;//小计
-										this.detailsArr.push(details);
-										console.log("datas",this.detailsArr)
-									})
+								if(res.data.obj){
+									if(res.data.obj.quotationDetails && res.data.obj.quotationDetails.length>0){
+										res.data.obj.quotationDetails.forEach(v=>{
+											var details={}
+											details.qdQuantity = v.qdQuantity;//产品数量
+											details.prId = v.prId;//产品编号
+											details.odrdlProductName = v.product.prName;//产品名称
+											details.odrdlMoney = v.product.prCostPrice;//进价
+											details.odrdlUnitPrice = v.product.prPrice;//售价
+											details.qdProTotalAmount = v.qdQuantity*v.product.prPrice;//小计
+											details.qdId=v.qdId
+											this.detailsArr.push(details);
+											console.log("datas",this.detailsArr)
+										})
+									}
 								}
 							  })
 						}
@@ -359,7 +370,7 @@
 					code += random[index];
 				}
 				//将拼接好的字符串赋值给展示的code
-				this.addPriceSheet.quNo="qu"+dayjs(new Date()).format('DDHHmmss')+code
+				this.addPriceSheet.quNo=dayjs(new Date()).format('HHmmss')+code
 			},
 			editState(){
 				 this.todo=true;
@@ -385,6 +396,7 @@
 				var sum=0
 				var jin=0
 				var shou=0
+				var tianjia=sessionStorage.getItem("tianjia")
 				if(this.detailsArr.length>0 && quId>0){
 					this.detailsArr.forEach(v=>{
 						v.quId=quId
@@ -397,6 +409,7 @@
 						v.mao=shou-jin//毛利
 					})
 				}
+				
 				console.log(this.detailsArr,sum)
 				this.axios.post('quotationDetails/adddetails',this.detailsArr).then(res=>{
 					console.log(res)
@@ -408,7 +421,11 @@
 						if(sessionStorage.getItem("todo")){
 							sessionStorage.removeItem("todo")
 							// this.reload()
-							this.$router.push("/salesOpportunitiesDetails");
+							if(!tianjia){
+								this.$router.push("/salesOpportunitiesDetails");
+							}else{
+								this.$router.push("/PriceSheet");
+							}
 						}
 					}
 				})
@@ -441,6 +458,7 @@
 			this.createQuNo()
 			this.editToDo()
 			this.initProduct();//初始化
+			this.init()
 		}
 		
 	}

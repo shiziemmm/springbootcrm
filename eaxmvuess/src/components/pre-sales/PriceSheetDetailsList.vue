@@ -201,7 +201,9 @@
 					if(path=='/quotation'){
 						sessionStorage.setItem("todo",true)
 						if(row){
+							console.log("rr",row)
 							sessionStorage.setItem('tianjia','tianjia')
+							sessionStorage.setItem('quId',row.quId)
 							sessionStorage.setItem('editData',JSON.stringify(row))
 						}
 					}
